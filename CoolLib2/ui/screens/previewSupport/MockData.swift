@@ -1,4 +1,32 @@
+struct MockCategories {
 
+    static let list: [Category] = [
+        Category(
+            id: 1,
+            name: "Programming",
+            description: "",
+            coverUrl: "https://picsum.photos/240"
+        ),
+        Category(
+            id: 2,
+            name: "History",
+            description: "",
+            coverUrl: "https://picsum.photos/241"
+        ),
+        Category(
+            id: 3,
+            name: "Science",
+            description: "",
+            coverUrl: "https://picsum.photos/242"
+        ),
+        Category(
+            id: 4,
+            name: "Fantasy",
+            description: "",
+            coverUrl: "https://picsum.photos/243"
+        )
+    ]
+}
 
 struct MockBooks {
 

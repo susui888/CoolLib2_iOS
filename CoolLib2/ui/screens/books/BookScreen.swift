@@ -9,6 +9,7 @@ import SwiftUI
 struct BookScreen: View {
 
     @State var isGrid = true
+    let books: [Book]
 
     var body: some View {
         ZStack {
@@ -19,10 +20,10 @@ struct BookScreen: View {
                             GridItem(.flexible(), spacing: 5),
                             GridItem(.flexible(), spacing: 5),
                         ],
-                        spacing: 14
+                        spacing: 24
                     ) {
 
-                        ForEach(MockBooks.list) { book in
+                        ForEach(books) { book in
                             Button {
 
                             } label: {
@@ -32,7 +33,7 @@ struct BookScreen: View {
                     }
                 }
             } else {
-                List(MockBooks.list) { book in
+                List(books) { book in
                     Button {
 
                     } label: {
@@ -59,7 +60,10 @@ struct BookScreen: View {
 
 #Preview {
     NavigationStack{
-        BookScreen(isGrid: true)
+        BookScreen(
+            isGrid: true,
+            books: MockBooks.list.shuffled()
+        )
     }
 }
 
