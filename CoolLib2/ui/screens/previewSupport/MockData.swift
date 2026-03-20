@@ -177,3 +177,34 @@ struct MockBooks {
         )
     ]
 }
+
+
+
+struct MockCart {
+
+    static let list: [Cart] = MockBooks.list.shuffled().prefix(7).map {
+        Cart(
+            id: $0.id,
+            isbn: $0.isbn,
+            title: $0.title,
+            author: $0.author,
+            publisher: $0.publisher,
+            coverUrl: $0.coverUrl
+        )
+    }
+}
+
+struct MockWishlist {
+
+    static let list: [Wishlist] = MockBooks.list.shuffled().prefix(3).map {
+        Wishlist(
+            id: $0.id,
+            isbn: $0.isbn,
+            title: $0.title,
+            author: $0.author,
+            publisher: $0.publisher,
+            coverUrl: $0.coverUrl
+        )
+    }
+
+}
