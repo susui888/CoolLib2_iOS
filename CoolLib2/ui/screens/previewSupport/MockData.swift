@@ -40,7 +40,7 @@ struct MockBooks {
             publisher: "Vintage",
             year: 2011,
             available: true,
-            description: nil,
+            description: "In Sapiens: A Brief History of Humankind, Yuval Noah Harari takes us on a breathtaking journey through the entire span of human history. He challenges everything we thought we knew about being human: our thoughts, our actions, our power... and our future. Harari explores how the Cognitive Revolution, the Agricultural Revolution, and the Scientific Revolution shaped us and the societies around us. He argues that Homo Sapiens dominates the world because we are the only animal that can cooperate flexibly in large numbers, thanks to our unique ability to believe in things that exist only in our imagination, such as gods, nations, and money.",
             coverUrl: "\(APIConfig.serverURL)/img/cover/9780099590088.webp"
         ),
 
