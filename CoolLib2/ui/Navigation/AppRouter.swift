@@ -1,20 +1,26 @@
-import SwiftUI
 import Combine
+import SwiftUI
 
-final class AppRouter: ObservableObject {   // The global router class managing navigation and tabs
+final class AppRouter: ObservableObject {  // The global router class managing navigation and tabs
+
+    private let container: AppContainer
+
+    init(container: AppContainer) {
+        self.container = container
+    }
 
     // MARK: - Current Selected Tab
-    @Published var selectedTab: Tab = .home   // Tracks the currently selected tab, SwiftUI updates automatically
+    @Published var selectedTab: Tab = .home  // Tracks the currently selected tab, SwiftUI updates automatically
 
     // MARK: - Navigation Paths for Each Tab
-    @Published var homePath: [Screen] = []    // Navigation path for Home tab
-    @Published var bookPath: [Screen] = []    // Navigation path for Book tab
-    @Published var cartPath: [Screen] = []    // Navigation path for Cart tab
-    @Published var statsPath: [Screen] = []   // Navigation path for Stats tab
+    @Published var homePath: [Screen] = []  // Navigation path for Home tab
+    @Published var bookPath: [Screen] = []  // Navigation path for Book tab
+    @Published var cartPath: [Screen] = []  // Navigation path for Cart tab
+    @Published var statsPath: [Screen] = []  // Navigation path for Stats tab
     @Published var searchPath: [Screen] = []  // Navigation path for Search tab
 
     // MARK: - Push Screen to Current Tab
-    func push(_ screen: Screen) {             // Push a Screen to the currently selected tab
+    func push(_ screen: Screen) {  // Push a Screen to the currently selected tab
         switch selectedTab {
         case .home:
             homePath.append(screen)
@@ -30,12 +36,12 @@ final class AppRouter: ObservableObject {   // The global router class managing 
     }
 
     // MARK: - Switch Tab
-    func switchTo(tab: Tab) {                  // Switch to a different tab
+    func switchTo(tab: Tab) {  // Switch to a different tab
         selectedTab = tab
     }
 
     // MARK: - Push Screen to Specific Tab (Cross-Tab Navigation)
-    func push(_ screen: Screen, on tab: Tab) { // Push a Screen to a specific tab
+    func push(_ screen: Screen, on tab: Tab) {  // Push a Screen to a specific tab
         selectedTab = tab
         switch tab {
         case .home:
@@ -58,7 +64,7 @@ final class AppRouter: ObservableObject {   // The global router class managing 
         case .bookDetails(let id):
             BookDetailScreen(bookId: id)
         case .books:
-            BookScreen()
+            BookScreen(container: container)
         }
     }
 }

@@ -11,6 +11,7 @@ enum Tab {
 struct MainTabView: View {
 
     @EnvironmentObject var router: AppRouter
+    @EnvironmentObject var container: AppContainer
 
     var body: some View {
         TabView(selection: $router.selectedTab) {
@@ -29,7 +30,7 @@ struct MainTabView: View {
 
             // MARK: - Book Tab
             NavigationStack(path: $router.bookPath) {
-                BookScreen()
+                BookScreen(container: container)
                     .navigationDestination(for: Screen.self) {
                         router.destination(for: $0)
                     }
@@ -79,6 +80,11 @@ struct MainTabView: View {
 }
 
 #Preview {
-    MainTabView()
-        .environmentObject(AppRouter())
+
+    let container = AppContainer()
+    let router = AppRouter(container: container)
+    
+    return MainTabView()
+        .environmentObject(router)
+        .environmentObject(container)
 }

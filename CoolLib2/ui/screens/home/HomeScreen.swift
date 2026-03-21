@@ -191,11 +191,17 @@ struct BookCard: View {
 }
 
 #Preview {
-    HomeScreenContent(
-        categoryList: MockCategories.list,
-        lastViewBooks: MockBooks.list.shuffled(),
-        wishlist: MockBooks.list.shuffled(),
-        newestBooks: MockBooks.list.shuffled()
-    )
-    .environmentObject(AppRouter())
+
+    let container = AppContainer()
+    let router = AppRouter(container: container)
+    
+    return NavigationStack {
+        HomeScreenContent(
+            categoryList: MockCategories.list,
+            lastViewBooks: MockBooks.list.shuffled(),
+            wishlist: MockBooks.list.shuffled(),
+            newestBooks: MockBooks.list.shuffled()
+        )
+        .environmentObject(router)
+    }
 }

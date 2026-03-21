@@ -23,9 +23,9 @@ struct Book: Identifiable, Sendable {
         self.title = title
         self.author = author
         self.publisher = publisher ?? "Publisher Unavailable"
-        self.year = year ?? 0
-        self.available = available ?? true
-        self.description = description ?? ""
+        self.year = year ?? 1900
+        self.available = available ?? false
+        self.description = description ?? "Description Unavailable"
         self.coverUrl = coverUrl ?? "\(APIConfig.serverURL)/img/cover/\(isbn).webp"
     }
 

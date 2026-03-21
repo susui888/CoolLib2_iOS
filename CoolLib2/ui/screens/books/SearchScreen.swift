@@ -88,8 +88,11 @@ struct SearchScreenContent: View {
 }
 
 #Preview("Search") {
-    NavigationStack{
+    let container = AppContainer()
+    let router = AppRouter(container: container)
+    
+    NavigationStack {
         SearchScreenContent()
-            .environmentObject(AppRouter())
+            .environmentObject(router)
     }
 }

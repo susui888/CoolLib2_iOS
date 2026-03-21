@@ -6,23 +6,34 @@
 //
 import SwiftUI
 
-struct BookScreen:View {
-    
-    var body: some View {
-        BookScreenContent(
-            isGrid: true,
-            books: MockBooks.list.shuffled()
+struct BookScreen: View {
+    @StateObject private var bookViewModel: BookViewModel
+
+    init(container: AppContainer) {
+        _bookViewModel = StateObject(
+            wrappedValue: container.makeBookViewModel()
         )
     }
-}
 
+    var body: some View {
+        BookScreenContent(
+            books: $bookViewModel.books
+        )
+        .onAppear {
+            if bookViewModel.books.isEmpty {
+                bookViewModel.search(query: SearchQuery())
+            }
+        }
+    }
+}
 
 struct BookScreenContent: View {
 
     @EnvironmentObject var router: AppRouter
-    
-    @State var isGrid = true
-    let books: [Book]
+
+    @State private var isGrid = true
+
+    @Binding var books: [Book]
 
     var body: some View {
         ZStack {
@@ -52,11 +63,11 @@ struct BookScreenContent: View {
                     } label: {
                         BookRow(book: book)
                     }
-                    .listStyle(.plain)
+                    .buttonStyle(.plain)
                 }
             }
         }
-        .navigationTitle("Books")
+        .navigationTitle("\(books.count) Books Found")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
@@ -72,12 +83,13 @@ struct BookScreenContent: View {
 }
 
 #Preview {
-    NavigationStack{
-        BookScreenContent(
-            isGrid: true,
-            books: MockBooks.list.shuffled()
-        )
-        .environmentObject(AppRouter())
+    let container = AppContainer()
+    let router = AppRouter(container: container)
+    
+    NavigationStack {
+        BookScreenContent(books: .constant(MockBooks.list))
+            .environmentObject(router)
+            .environmentObject(container)
     }
 }
 
