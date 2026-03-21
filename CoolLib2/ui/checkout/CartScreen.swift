@@ -11,8 +11,20 @@ enum CartTab {
     case cart
 }
 
-struct CartScreen: View {
+struct CartScreen:View {
 
+    
+    var body: some View {
+        CartScreenContent(
+            cart: MockCart.list,
+            wishlist: MockWishlist.list
+        )
+    }
+}
+
+struct CartScreenContent: View {
+    
+    @EnvironmentObject var router: AppRouter
     @State private var selectedTab: CartTab = .cart
 
     let cart: [Cart]
@@ -103,6 +115,9 @@ struct CartScreen: View {
             Spacer()
         }
         .padding(.vertical, 4)
+        .onTapGesture {
+            router.push(.bookDetails(bookId: book.id))
+        }
     }
 
     func emptyView(icon: String, title: String, subtitle: String) -> some View {
@@ -124,16 +139,17 @@ struct CartScreen: View {
 
 #Preview("Cart & Wishlist - Filled") {
     NavigationStack {
-        CartScreen(
+        CartScreenContent(
             cart: MockCart.list,
             wishlist: MockWishlist.list
         )
+        .environmentObject(AppRouter())
     }
 }
 
 #Preview("Cart & Wishlist - Empty") {
     NavigationStack {
-        CartScreen(
+        CartScreenContent(
             cart: [],
             wishlist: []
         )

@@ -7,6 +7,10 @@
 
 enum Screen: Hashable{
     
+    case bookDetails(
+        bookId: Int
+    )
+    
     case books(
         category: Int? = nil,
         author: String? = nil,

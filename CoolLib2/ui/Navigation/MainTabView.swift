@@ -1,10 +1,3 @@
-//
-//  MainTabView.swift
-//  CoolLib2
-//
-//  Created by susui on 2026/3/20.
-//
-
 import SwiftUI
 
 enum Tab {
@@ -17,64 +10,68 @@ enum Tab {
 
 struct MainTabView: View {
 
-    @State private var path: [Screen] = []
-    @State private var selectedTab: Tab = .home
+    @EnvironmentObject var router: AppRouter
 
     var body: some View {
-        TabView(selection: $selectedTab) {
+        TabView(selection: $router.selectedTab) {
 
-            NavigationStack(path: $path) {
-                HomeScreen(
-                    categoryList: MockCategories.list,
-                    lastViewBooks: MockBooks.list.shuffled(),
-                    wishlist: MockBooks.list.shuffled(),
-                    newestBooks: MockBooks.list.shuffled()
-                )
+            // MARK: - Home Tab
+            NavigationStack(path: $router.homePath) {
+                HomeScreen()
+                    .navigationDestination(for: Screen.self) {
+                        router.destination(for: $0)
+                    }
             }
-            .tabItem{
-                Label("Home",systemImage: "house.fill")
+            .tabItem {
+                Label("Home", systemImage: "house.fill")
             }
             .tag(Tab.home)
-            
-            
-            NavigationStack(path: $path){
-                BookScreen(
-                    isGrid: true,
-                    books: MockBooks.list.shuffled()
-                )
+
+            // MARK: - Book Tab
+            NavigationStack(path: $router.bookPath) {
+                BookScreen()
+                    .navigationDestination(for: Screen.self) {
+                        router.destination(for: $0)
+                    }
             }
-            .tabItem{
-                Label("Book",systemImage: "book")
+            .tabItem {
+                Label("Book", systemImage: "book")
             }
             .tag(Tab.book)
-            
-            
-            NavigationStack(path: $path){
-                CartScreen(
-                    cart: MockCart.list,
-                    wishlist: MockWishlist.list
-                )
+
+            // MARK: - Cart Tab
+            NavigationStack(path: $router.cartPath) {
+                CartScreen()
+                    .navigationDestination(for: Screen.self) {
+                        router.destination(for: $0)
+                    }
             }
             .tabItem {
-                Label("Cart",systemImage: "cart.fill")
+                Label("Cart", systemImage: "cart.fill")
             }
             .tag(Tab.cart)
-            
-            
-            NavigationStack(path: $path){
+
+            // MARK: - Stats Tab
+            NavigationStack(path: $router.statsPath) {
                 StatisticsScreen()
+                    .navigationDestination(for: Screen.self) {
+                        router.destination(for: $0)
+                    }
             }
             .tabItem {
-                Label("Stats",systemImage: "chart.bar.fill")
+                Label("Stats", systemImage: "chart.bar.fill")
             }
             .tag(Tab.stats)
-            
-            
-            NavigationStack(path: $path){
+
+            // MARK: - Search Tab
+            NavigationStack(path: $router.searchPath) {
                 SearchScreen()
+                    .navigationDestination(for: Screen.self) {
+                        router.destination(for: $0)
+                    }
             }
             .tabItem {
-                Label("Search",systemImage: "magnifyingglass")
+                Label("Search", systemImage: "magnifyingglass")
             }
             .tag(Tab.search)
         }
@@ -83,4 +80,5 @@ struct MainTabView: View {
 
 #Preview {
     MainTabView()
+        .environmentObject(AppRouter())
 }

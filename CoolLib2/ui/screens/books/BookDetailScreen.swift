@@ -7,7 +7,16 @@
 
 import SwiftUI
 
-struct BookDetailScreen: View {
+struct BookDetailScreen:View {
+    
+    let bookId: Int
+    
+    var body: some View {
+        BookDetailScreenContent(book: MockBooks.list.first.unsafelyUnwrapped)
+    }
+}
+
+struct BookDetailScreenContent: View {
 
     let book: Book
 
@@ -120,5 +129,5 @@ struct BookDetailScreen: View {
 }
 
 #Preview {
-    BookDetailScreen(book: MockBooks.list.first.unsafelyUnwrapped)
+    BookDetailScreenContent(book: MockBooks.list.first.unsafelyUnwrapped)
 }

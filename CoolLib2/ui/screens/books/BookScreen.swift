@@ -6,8 +6,21 @@
 //
 import SwiftUI
 
-struct BookScreen: View {
+struct BookScreen:View {
+    
+    var body: some View {
+        BookScreenContent(
+            isGrid: true,
+            books: MockBooks.list.shuffled()
+        )
+    }
+}
 
+
+struct BookScreenContent: View {
+
+    @EnvironmentObject var router: AppRouter
+    
     @State var isGrid = true
     let books: [Book]
 
@@ -25,7 +38,7 @@ struct BookScreen: View {
 
                         ForEach(books) { book in
                             Button {
-
+                                router.push(.bookDetails(bookId: book.id))
                             } label: {
                                 BookGrid(book: book)
                             }
@@ -35,7 +48,7 @@ struct BookScreen: View {
             } else {
                 List(books) { book in
                     Button {
-
+                        router.push(.bookDetails(bookId: book.id))
                     } label: {
                         BookRow(book: book)
                     }
@@ -60,10 +73,11 @@ struct BookScreen: View {
 
 #Preview {
     NavigationStack{
-        BookScreen(
+        BookScreenContent(
             isGrid: true,
             books: MockBooks.list.shuffled()
         )
+        .environmentObject(AppRouter())
     }
 }
 

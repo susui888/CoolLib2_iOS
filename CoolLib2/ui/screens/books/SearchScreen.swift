@@ -7,8 +7,17 @@
 
 import SwiftUI
 
-struct SearchScreen: View {
+struct SearchScreen:View {
+    
+    var body: some View {
+        SearchScreenContent()
+    }
+}
 
+struct SearchScreenContent: View {
+
+    @EnvironmentObject var router: AppRouter
+    
     @State private var text = ""
     @State private var history: [String] = []
 
@@ -65,6 +74,8 @@ struct SearchScreen: View {
         history = SearchHistoryStore.load()
         
         text.removeAll()
+
+        router.push(.books(searchTerm: query))
     }
     
     func delete(at offset: IndexSet){
@@ -78,6 +89,7 @@ struct SearchScreen: View {
 
 #Preview("Search") {
     NavigationStack{
-        SearchScreen()
+        SearchScreenContent()
+            .environmentObject(AppRouter())
     }
 }

@@ -6,7 +6,22 @@
 //
 import SwiftUI
 
-struct HomeScreen: View {
+struct HomeScreen:View {
+
+    var body: some View {
+        HomeScreenContent(
+            categoryList: MockCategories.list,
+            lastViewBooks: MockBooks.list.shuffled(),
+            wishlist: MockBooks.list.shuffled(),
+            newestBooks: MockBooks.list.shuffled()
+        )
+    }
+}
+
+
+struct HomeScreenContent: View {
+    
+    @EnvironmentObject var router: AppRouter
 
     let categoryList: [Category]
     let lastViewBooks: [Book]
@@ -116,6 +131,8 @@ struct CategoryCard: View {
 
 struct BookSection: View {
     
+    @EnvironmentObject var router: AppRouter
+    
     let title: String
     let books: [Book]
     
@@ -128,7 +145,7 @@ struct BookSection: View {
                 HStack(spacing: 16){
                     ForEach(books){ book in
                         Button{
-                            
+                            router.push(.bookDetails(bookId: book.id))
                         }label: {
                             BookCard(book: book)
                         }
@@ -174,10 +191,11 @@ struct BookCard: View {
 }
 
 #Preview {
-    HomeScreen(
+    HomeScreenContent(
         categoryList: MockCategories.list,
         lastViewBooks: MockBooks.list.shuffled(),
         wishlist: MockBooks.list.shuffled(),
         newestBooks: MockBooks.list.shuffled()
     )
+    .environmentObject(AppRouter())
 }

@@ -7,7 +7,14 @@
 
 import SwiftUI
 
-struct StatisticsScreen: View {
+struct StatisticsScreen:View {
+    
+    var body: some View {
+        StatisticsScreenContent()
+    }
+}
+
+struct StatisticsScreenContent: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
@@ -37,11 +44,11 @@ struct StatisticsScreen: View {
 }
 
 #Preview {
-    StatisticsScreen()
+    StatisticsScreenContent()
         .preferredColorScheme(.light)
 }
 
 #Preview {
-    StatisticsScreen()
+    StatisticsScreenContent()
         .preferredColorScheme(.dark)
 }

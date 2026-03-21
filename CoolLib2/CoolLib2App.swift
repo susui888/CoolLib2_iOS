@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct CoolLib2App: App {
+    @StateObject private var router = AppRouter()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainTabView()
+                .environmentObject(router)
         }
     }
 }
