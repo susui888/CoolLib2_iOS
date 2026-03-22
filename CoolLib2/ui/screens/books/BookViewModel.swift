@@ -8,13 +8,18 @@
 import Combine
 import SwiftUI
 
+enum BookUIState{
+    case idle
+    case loading
+    case success([Book])
+    case error(String)
+}
+
 @MainActor
 class BookViewModel: ObservableObject {
 
-    @Published var books: [Book] = []
-    @Published var isLoading = false
-    @Published var errorMessage: String?
-
+    @Published private(set) var state: BookUIState = .idle
+    
     private let usecase: BookUseCases
 
     init(usecase: BookUseCases) {
@@ -22,26 +27,16 @@ class BookViewModel: ObservableObject {
     }
 
     func search(query: SearchQuery) {
-        execute {
-            self.books = try await self.usecase.searchBooks(query: query)
-            
-            print("bookViewModel")
-            print(self.books.count)
-        }
-    }
-
-    private func execute(_ block: @escaping () async throws -> Void) {
         Task {
-            isLoading = true
-            errorMessage = nil
-
+            state = .loading
             do {
-                try await block()
+                let books = try await usecase.searchBooks(query: query)
+                state = .success(books)
             } catch {
-                errorMessage = error.localizedDescription
+                state = .error(error.localizedDescription)
             }
-
-            isLoading = false
         }
     }
 }
+
+

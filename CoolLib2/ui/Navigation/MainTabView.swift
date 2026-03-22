@@ -30,7 +30,7 @@ struct MainTabView: View {
 
             // MARK: - Book Tab
             NavigationStack(path: $router.bookPath) {
-                BookScreen(container: container)
+                BookScreen(container: container, initialQuery: SearchQuery())
                     .navigationDestination(for: Screen.self) {
                         router.destination(for: $0)
                     }
