@@ -63,7 +63,11 @@ final class AppRouter: ObservableObject {  // The global router class managing n
         switch screen {
             
         case .bookDetails(let id):
-            BookDetailScreen(bookId: id)
+            BookDetailScreen(
+                container: container,
+                bookId: id
+            )
+            
             
         case .books(
             let category,

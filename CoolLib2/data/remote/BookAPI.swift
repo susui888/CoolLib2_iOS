@@ -14,4 +14,6 @@ protocol BookAPI {
         year: Int?,
         searchTerm: String?
     ) async throws -> [BookDTO]
+    
+    func getBookById(id: Int) async throws -> BookDTO
 }

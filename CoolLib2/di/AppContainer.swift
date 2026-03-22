@@ -26,4 +26,8 @@ final class AppContainer: ObservableObject {
     func makeBookViewModel() -> BookViewModel {
         BookViewModel(usecase: bookUseCases)
     }
+    
+    func makeBookDetailViewModel() -> BookDetailViewModel {
+        BookDetailViewModel(usecase: bookUseCases)
+    }
 }

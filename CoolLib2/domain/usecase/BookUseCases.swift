@@ -15,4 +15,8 @@ struct BookUseCases {
     func searchBooks(query: SearchQuery) async throws -> [Book] {
         try await repo.searchBooks(query: query).shuffled()
     }
+    
+    func getBookById(id: Int) async throws -> Book {
+        try await repo.getBookById(id: id)
+    }
 }

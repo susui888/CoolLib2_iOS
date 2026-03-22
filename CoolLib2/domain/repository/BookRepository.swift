@@ -7,4 +7,6 @@
 
 protocol BookRepository {
     func searchBooks(query: SearchQuery) async throws -> [Book]
+    
+    func getBookById(id: Int) async throws -> Book
 }
