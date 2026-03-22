@@ -30,4 +30,8 @@ final class AppContainer: ObservableObject {
     func makeBookDetailViewModel() -> BookDetailViewModel {
         BookDetailViewModel(usecase: bookUseCases)
     }
+    
+    func makeHomeViewModel() -> HomeViewModel {
+        HomeViewModel(usecase: bookUseCases)
+    }
 }

@@ -18,7 +18,7 @@ struct MainTabView: View {
 
             // MARK: - Home Tab
             NavigationStack(path: $router.homePath) {
-                HomeScreen()
+                HomeScreen(container: container)
                     .navigationDestination(for: Screen.self) {
                         router.destination(for: $0)
                     }

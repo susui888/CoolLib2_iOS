@@ -31,4 +31,9 @@ final class BookRepositoryImpl: BookRepository {
         let dto = try await bookApi.getBookById(id: id)
         return dto.toDomain()
     }
+    
+    func getCategory() async throws -> [Category] {
+        let dtos = try await bookApi.getCategory()
+        return dtos.map { $0.toDomain() }
+    }
 }

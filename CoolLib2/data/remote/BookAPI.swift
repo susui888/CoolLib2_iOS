@@ -16,4 +16,6 @@ protocol BookAPI {
     ) async throws -> [BookDTO]
     
     func getBookById(id: Int) async throws -> BookDTO
+    
+    func getCategory() async throws -> [CategoryDTO]
 }

@@ -6,46 +6,85 @@
 //
 import SwiftUI
 
-struct HomeScreen:View {
+struct HomeScreen: View {
+    @EnvironmentObject var router: AppRouter
+
+    @StateObject private var homeViewModel: HomeViewModel
+
+    init(
+        container: AppContainer
+    ) {
+        _homeViewModel = StateObject(
+            wrappedValue: container.makeHomeViewModel()
+        )
+    }
 
     var body: some View {
-        HomeScreenContent(
-            categoryList: MockCategories.list,
-            lastViewBooks: MockBooks.list.shuffled(),
-            wishlist: MockBooks.list.shuffled(),
-            newestBooks: MockBooks.list.shuffled()
-        )
+        content
+            .navigationTitle("CoolLib")
+            .onAppear {
+                homeViewModel.loadAllContent()
+            }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        switch homeViewModel.state {
+        case .idle, .loading:
+            ProgressView()
+                .controlSize(.large)
+
+        case .success(let categories, let recent, let favorites, let newest):
+            HomeScreenContent(
+                categoryList: categories,
+                recentBooks: recent,
+                wishlist: favorites,
+                newestBooks: newest,
+                onCategoryTap: { id in
+                    router.push(.books(category: id))
+                }
+            )
+
+        case .error(let message):
+            ContentUnavailableView {
+                Label("Error", systemImage: "wifi.exclamationmark")
+            } description: {
+                Text(message)
+            } actions: {
+                Button("Retry") { homeViewModel.loadAllContent() }
+            }
+        }
     }
 }
 
-
 struct HomeScreenContent: View {
-    
-    @EnvironmentObject var router: AppRouter
 
     let categoryList: [Category]
-    let lastViewBooks: [Book]
+    let recentBooks: [Book]
     let wishlist: [Book]
     let newestBooks: [Book]
     
+    let onCategoryTap: (Int) -> Void
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 28) {
                 CategorySection(
                     title: "Discover by Category",
-                    categories: categoryList
+                    categories: categoryList,
+                    onCategoryTap: onCategoryTap
                 )
-                
+
                 BookSection(
                     title: "Recently Viewed",
-                    books: lastViewBooks
+                    books: recentBooks
                 )
-                
+
                 BookSection(
                     title: "Favourites",
                     books: wishlist
                 )
-                
+
                 BookSection(
                     title: "New Arrivals",
                     books: newestBooks
@@ -54,6 +93,7 @@ struct HomeScreenContent: View {
             .padding(.vertical)
         }
     }
+    
 }
 
 struct SectionTitle: View {
@@ -72,6 +112,8 @@ struct CategorySection: View {
 
     let title: String
     let categories: [Category]
+    
+    let onCategoryTap: (Int) -> Void
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -82,7 +124,7 @@ struct CategorySection: View {
                 HStack(spacing: 16) {
                     ForEach(categories) { category in
                         Button {
-
+                            onCategoryTap(category.id)
                         } label: {
                             CategoryCard(category: category)
                                 .padding(.bottom, 4)
@@ -130,29 +172,29 @@ struct CategoryCard: View {
 }
 
 struct BookSection: View {
-    
+
     @EnvironmentObject var router: AppRouter
-    
+
     let title: String
     let books: [Book]
-    
+
     var body: some View {
-        VStack(alignment: .leading){
-            
+        VStack(alignment: .leading) {
+
             SectionTitle(title: title)
-            
-            ScrollView(.horizontal, showsIndicators: false){
-                HStack(spacing: 16){
-                    ForEach(books){ book in
-                        Button{
-                            router.push(.bookDetails(bookId: book.id))
-                        }label: {
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 16) {
+                    ForEach(books) { book in
+                        Button {
+                            //router.push(.bookDetails(bookId: book.id))
+                        } label: {
                             BookCard(book: book)
                         }
                     }
                 }
                 .padding(.horizontal)
-                .padding(.bottom,16)
+                .padding(.bottom, 16)
             }
         }
     }
@@ -191,17 +233,13 @@ struct BookCard: View {
 }
 
 #Preview {
-
-    let container = AppContainer()
-    let router = AppRouter(container: container)
-    
     return NavigationStack {
         HomeScreenContent(
             categoryList: MockCategories.list,
-            lastViewBooks: MockBooks.list.shuffled(),
+            recentBooks: MockBooks.list.shuffled(),
             wishlist: MockBooks.list.shuffled(),
-            newestBooks: MockBooks.list.shuffled()
+            newestBooks: MockBooks.list.shuffled(),
+            onCategoryTap: { _ in }
         )
-        .environmentObject(router)
     }
 }

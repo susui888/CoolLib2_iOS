@@ -19,4 +19,8 @@ struct BookUseCases {
     func getBookById(id: Int) async throws -> Book {
         try await repo.getBookById(id: id)
     }
+    
+    func getCategory() async throws -> [Category] {
+        try await repo.getCategory()
+    }
 }
