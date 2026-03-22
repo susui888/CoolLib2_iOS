@@ -61,8 +61,10 @@ final class AppRouter: ObservableObject {  // The global router class managing n
     @ViewBuilder
     func destination(for screen: Screen) -> some View {  // Map Screen enum to SwiftUI view
         switch screen {
+            
         case .bookDetails(let id):
             BookDetailScreen(bookId: id)
+            
         case .books(
             let category,
             let author,

@@ -8,15 +8,19 @@
 import SwiftUI
 
 struct SearchScreen:View {
+    @EnvironmentObject var router: AppRouter
     
     var body: some View {
-        SearchScreenContent()
+        SearchScreenContent(
+            onSearchTap: { query in
+                router.push(.books(searchTerm: query))
+            }
+        )
     }
 }
 
 struct SearchScreenContent: View {
-
-    @EnvironmentObject var router: AppRouter
+    let onSearchTap: (String) -> Void
     
     @State private var text = ""
     @State private var history: [String] = []
@@ -51,20 +55,23 @@ struct SearchScreenContent: View {
     }
 
     func historyRow(_ item: String) -> some View {
-        HStack {
-            Image(systemName: "clock")
-
-            Text(item)
-
-            Spacer()
-
-            Button {
-                remove(item)
-            } label: {
-                Image(systemName: "xmark")
+        Button {
+            search(item)
+        } label: {
+            HStack {
+                Image(systemName: "clock")
+                    .foregroundStyle(.secondary)
+                Text(item)
+                    .foregroundStyle(.primary)
+                Spacer()
+                
+                Image(systemName: "arrow.up.left")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
             }
+            .contentShape(Rectangle())
         }
-        .contentShape(Rectangle())
+        .buttonStyle(.plain)
     }
 
     func search(_ query: String) {
@@ -75,7 +82,7 @@ struct SearchScreenContent: View {
         
         text.removeAll()
 
-        router.push(.books(searchTerm: query))
+        onSearchTap(query)
     }
     
     func delete(at offset: IndexSet){
@@ -88,11 +95,10 @@ struct SearchScreenContent: View {
 }
 
 #Preview("Search") {
-    let container = AppContainer()
-    let router = AppRouter(container: container)
-    
+   
     NavigationStack {
-        SearchScreenContent()
-            .environmentObject(router)
+        SearchScreenContent(
+            onSearchTap: { _ in }
+        )
     }
 }

@@ -28,7 +28,7 @@ final class BookAPIImpl: BookAPI {
         if let author { items.append(.init(name: "author", value: author)) }
         if let publisher { items.append(.init(name: "publisher", value: publisher)) }
         if let year { items.append(.init(name: "year", value: "\(year)")) }
-        if let searchTerm { items.append(.init(name: "q", value: searchTerm)) }
+        if let searchTerm { items.append(.init(name: "searchTerm", value: searchTerm)) }
         
         var components = URLComponents(string: "\(APIConfig.serverURL)/api/books/search")!
         
