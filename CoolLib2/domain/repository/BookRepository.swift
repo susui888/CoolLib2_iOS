@@ -11,4 +11,6 @@ protocol BookRepository {
     func getBookById(id: Int) async throws -> Book
     
     func getCategory() async throws -> [Category]
+    
+    func getNewestBooks() async throws -> [Book]
 }

@@ -42,6 +42,9 @@ struct HomeScreen: View {
                 newestBooks: newest,
                 onCategoryTap: { id in
                     router.push(.books(category: id))
+                },
+                onBookTap: { id in
+                    router.push(.bookDetails(bookId: id))
                 }
             )
 
@@ -65,6 +68,7 @@ struct HomeScreenContent: View {
     let newestBooks: [Book]
     
     let onCategoryTap: (Int) -> Void
+    let onBookTap: (Int) -> Void
 
     var body: some View {
         ScrollView {
@@ -72,22 +76,25 @@ struct HomeScreenContent: View {
                 CategorySection(
                     title: "Discover by Category",
                     categories: categoryList,
-                    onCategoryTap: onCategoryTap
+                    onCategoryTap: onCategoryTap,
                 )
 
                 BookSection(
                     title: "Recently Viewed",
-                    books: recentBooks
+                    books: recentBooks,
+                    onBookTap: onBookTap,
                 )
 
                 BookSection(
                     title: "Favourites",
-                    books: wishlist
+                    books: wishlist,
+                    onBookTap: onBookTap,
                 )
 
                 BookSection(
                     title: "New Arrivals",
-                    books: newestBooks
+                    books: newestBooks,
+                    onBookTap: onBookTap,
                 )
             }
             .padding(.vertical)
@@ -177,6 +184,8 @@ struct BookSection: View {
 
     let title: String
     let books: [Book]
+    
+    let onBookTap: (Int) -> Void
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -187,7 +196,7 @@ struct BookSection: View {
                 HStack(spacing: 16) {
                     ForEach(books) { book in
                         Button {
-                            //router.push(.bookDetails(bookId: book.id))
+                            onBookTap(book.id)
                         } label: {
                             BookCard(book: book)
                         }
@@ -239,7 +248,8 @@ struct BookCard: View {
             recentBooks: MockBooks.list.shuffled(),
             wishlist: MockBooks.list.shuffled(),
             newestBooks: MockBooks.list.shuffled(),
-            onCategoryTap: { _ in }
+            onCategoryTap: { _ in },
+            onBookTap: { _ in },
         )
     }
 }

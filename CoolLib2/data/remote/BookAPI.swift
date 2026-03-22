@@ -18,4 +18,6 @@ protocol BookAPI {
     func getBookById(id: Int) async throws -> BookDTO
     
     func getCategory() async throws -> [CategoryDTO]
+    
+    func getNewestBooks() async throws -> [BookDTO]
 }

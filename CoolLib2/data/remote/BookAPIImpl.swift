@@ -27,6 +27,11 @@ final class BookAPIImpl: BookAPI {
         return try await client.request(urlString)
     }
 
+    func getNewestBooks() async throws -> [BookDTO] {
+        let urlString = "\(APIConfig.serverURL)/api/books/newest"
+        return try await client.request(urlString)
+    }
+    
     func searchBooks(
         category: Int?,
         author: String?,

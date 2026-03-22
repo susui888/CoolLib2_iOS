@@ -23,4 +23,8 @@ struct BookUseCases {
     func getCategory() async throws -> [Category] {
         try await repo.getCategory()
     }
+    
+    func getNewestBooks() async throws -> [Book]{
+        try await repo.getNewestBooks()
+    }
 }
