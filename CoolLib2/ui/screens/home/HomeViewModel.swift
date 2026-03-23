@@ -41,7 +41,7 @@ class HomeViewModel: ObservableObject {
                 async let categoriesReq = try await usecase.getCategory()
                 async let newestReq = try await usecase.getNewestBooks()
 
-                async let recentReq = MockBooks.list.shuffled()
+                async let recentReq = try await usecase.getRecentBooks()
                 async let favoritesReq = MockBooks.list.shuffled()
 
                 let (categories, newest, recent, favorites) = try await (

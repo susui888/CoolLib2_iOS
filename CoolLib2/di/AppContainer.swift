@@ -7,9 +7,16 @@
 
 import SwiftUI
 import Combine
+import SwiftData
 
 @MainActor
 final class AppContainer: ObservableObject {
+    
+    private let modelContext: ModelContext
+    
+    init(modelContext: ModelContext) {
+        self.modelContext = modelContext
+    }
     
     // MARK: - API
     private lazy var apiClient = APIClient()
@@ -17,7 +24,7 @@ final class AppContainer: ObservableObject {
     private lazy var bookAPI: BookAPI = BookAPIImpl(client: apiClient)
     
     // MARK: - Repository
-    private lazy var bookRepository: BookRepository = BookRepositoryImpl(bookApi: bookAPI)
+    private lazy var bookRepository: BookRepository = BookRepositoryImpl(bookApi: bookAPI, modelContext: modelContext)
     
     // MARK: - UseCases
     private lazy var bookUseCases = BookUseCases(repo: bookRepository)

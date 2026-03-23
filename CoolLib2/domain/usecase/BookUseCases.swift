@@ -21,10 +21,14 @@ struct BookUseCases {
     }
     
     func getCategory() async throws -> [Category] {
-        try await repo.getCategory()
+        try await repo.getCategory().sorted { $0.name < $1.name}
     }
     
     func getNewestBooks() async throws -> [Book]{
-        try await repo.getNewestBooks()
+        try await repo.getNewestBooks().shuffled()
+    }
+    
+    func getRecentBooks(limit: Int = 12) async throws -> [Book] {
+        try await repo.getRecentBooks(limit: limit)
     }
 }

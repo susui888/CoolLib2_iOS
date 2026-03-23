@@ -58,9 +58,9 @@ struct BookDetailScreenContent: View {
         ZStack {
 
             LinearGradient(
-                colors: [.brown.opacity(0.25), .clear],
+                colors: [.brown.opacity(0.35), .clear],
                 startPoint: .top,
-                endPoint: .center
+                endPoint: .bottom
             )
             .ignoresSafeArea()
 

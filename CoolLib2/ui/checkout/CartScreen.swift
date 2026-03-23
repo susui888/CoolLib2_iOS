@@ -138,16 +138,11 @@ struct CartScreenContent: View {
 }
 
 #Preview("Cart & Wishlist - Filled") {
-
-    let container = AppContainer()
-    let router = AppRouter(container: container)
-    
-    return NavigationStack {
+    NavigationStack {
         CartScreenContent(
             cart: MockCart.list,
             wishlist: MockWishlist.list
         )
-        .environmentObject(router)
     }
 }
 

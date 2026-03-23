@@ -80,11 +80,7 @@ struct MainTabView: View {
 }
 
 #Preview {
-
-    let container = AppContainer()
-    let router = AppRouter(container: container)
-    
-    return MainTabView()
-        .environmentObject(router)
-        .environmentObject(container)
+    NavigationStack {
+        MainTabView()
+    }
 }
