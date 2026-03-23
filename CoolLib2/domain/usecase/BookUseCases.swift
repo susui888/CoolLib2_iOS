@@ -6,29 +6,29 @@
 //
 
 struct BookUseCases {
-    private let repo: BookRepository
+    private let repository: BookRepository
     
-    init(repo: BookRepository) {
-        self.repo = repo
+    init(repository: BookRepository) {
+        self.repository = repository
     }
     
     func searchBooks(query: SearchQuery) async throws -> [Book] {
-        try await repo.searchBooks(query: query).shuffled()
+        try await repository.searchBooks(query: query).shuffled()
     }
     
     func getBookById(id: Int) async throws -> Book {
-        try await repo.getBookById(id: id)
+        try await repository.getBookById(id: id)
     }
     
     func getCategory() async throws -> [Category] {
-        try await repo.getCategory().sorted { $0.name < $1.name}
+        try await repository.getCategory().sorted { $0.name < $1.name}
     }
     
     func getNewestBooks() async throws -> [Book]{
-        try await repo.getNewestBooks().shuffled()
+        try await repository.getNewestBooks().shuffled()
     }
     
     func getRecentBooks(limit: Int = 12) async throws -> [Book] {
-        try await repo.getRecentBooks(limit: limit)
+        try await repository.getRecentBooks(limit: limit)
     }
 }

@@ -20,3 +20,16 @@ extension Cart {
         )
     }
 }
+
+extension CartEntity {
+    func toDomain() -> Cart {
+        Cart(
+            id: id,
+            isbn: isbn,
+            title: title,
+            author: author,
+            publisher: publisher,
+            year: year,
+        )
+    }
+}

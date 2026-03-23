@@ -12,7 +12,9 @@ struct BookDetailScreen: View {
     @EnvironmentObject var router: AppRouter
 
     @StateObject private var detailViewModel: BookDetailViewModel
+    @StateObject private var cartViewModel: CartViewModel
 
+    @State private var isInCart: Bool = false
     private let bookId: Int
 
     init(
@@ -21,6 +23,9 @@ struct BookDetailScreen: View {
     ) {
         _detailViewModel = StateObject(
             wrappedValue: container.makeBookDetailViewModel()
+        )
+        _cartViewModel = StateObject(
+            wrappedValue: container.makeCartViewModel()
         )
         self.bookId = bookId
     }
@@ -39,10 +44,23 @@ struct BookDetailScreen: View {
             },
             onYearTap: { year in
                 router.push(.books(year: year))
+            },
+            inCart: isInCart,
+            onToggleCart: { book in
+                let impact = UIImpactFeedbackGenerator(style: .medium)
+                impact.impactOccurred()  // 震动反馈
+
+                cartViewModel.toggleCart(book: book)
+                withAnimation(.spring()) {
+                    isInCart.toggle()  // 带动画切换
+                }
             }
         )
         .onAppear {
             detailViewModel.getBook(id: bookId)
+        }
+        .task {
+            isInCart = await cartViewModel.isBookInCart(bookId: bookId)
         }
     }
 }
@@ -53,6 +71,9 @@ struct BookDetailScreenContent: View {
     let onAuthorTap: (String) -> Void
     let onPublisherTap: (String) -> Void
     let onYearTap: (Int) -> Void
+
+    let inCart: Bool
+    let onToggleCart: (Book) -> Void
 
     var body: some View {
         ZStack {
@@ -166,13 +187,25 @@ struct BookDetailScreenContent: View {
         .safeAreaInset(edge: .bottom) {
             HStack(spacing: 16) {
                 Button {
-                    // Add to cart
+                    onToggleCart(book)
                 } label: {
-                    Label("Add", systemImage: "cart.fill.badge.plus")
-                        .frame(maxWidth: .infinity)
+
+                    HStack(spacing: 4) {
+                        Image(
+                            systemName: inCart
+                                ? "cart.fill.badge.minus" : "cart.badge.plus"
+                        )
+                        .font(.system(size: 20))
+
+                        Text(inCart ? "Remove" : "Add")
+                            .font(.system(size: 16, weight: .semibold))
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 24)
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.brown)
+                .disabled(!book.available)
 
                 Button {
                     // Favourite
@@ -197,6 +230,8 @@ struct BookDetailScreenContent: View {
             onAuthorTap: { _ in },
             onPublisherTap: { _ in },
             onYearTap: { _ in },
+            inCart: false,
+            onToggleCart: { _ in }
         )
     }
 }
@@ -208,6 +243,8 @@ struct BookDetailScreenContent: View {
         onAuthorTap: { _ in },
         onPublisherTap: { _ in },
         onYearTap: { _ in },
+        inCart: true,
+        onToggleCart: { _ in }
     )
 }
 
@@ -218,5 +255,7 @@ struct BookDetailScreenContent: View {
         onAuthorTap: { _ in },
         onPublisherTap: { _ in },
         onYearTap: { _ in },
+        inCart: true,
+        onToggleCart: { _ in }
     )
 }

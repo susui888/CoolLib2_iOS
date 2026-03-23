@@ -11,24 +11,41 @@ enum CartTab {
     case cart
 }
 
-struct CartScreen:View {
+struct CartScreen: View {
+    @EnvironmentObject var router: AppRouter
 
-    
+    @StateObject private var cartViewModel: CartViewModel
+
+    init(
+        container: AppContainer,
+    ) {
+        _cartViewModel = StateObject(
+            wrappedValue: container.makeCartViewModel()
+        )
+    }
+
     var body: some View {
         CartScreenContent(
-            cart: MockCart.list,
-            wishlist: MockWishlist.list
+            cartState: cartViewModel.state,
+            onDeleteCartItem: { id in
+                cartViewModel.removeCart(bookId: id)
+            },
+            onCartItemTap: { id in
+                router.push(.bookDetails(bookId: id))
+            }
         )
+        .onAppear {
+            cartViewModel.load()
+        }
     }
 }
 
 struct CartScreenContent: View {
-    
-    @EnvironmentObject var router: AppRouter
-    @State private var selectedTab: CartTab = .cart
+    let cartState: CartUIState
+    let onDeleteCartItem: (Int) -> Void
+    let onCartItemTap: (Int) -> Void
 
-    let cart: [Cart]
-    let wishlist: [Wishlist]
+    @State private var selectedTab: CartTab = .cart
 
     var body: some View {
         VStack {
@@ -39,37 +56,43 @@ struct CartScreenContent: View {
             .pickerStyle(.segmented)
             .padding(.horizontal)
 
-            if selectedTab == .wishlist {
-                wishlistView
-            } else {
-                cartView
+            switch selectedTab {
+            case .wishlist:
+                renderWishlist()
+            case .cart:
+                renderCart()
             }
         }
         .navigationTitle("Cart & Favourites")
         .navigationBarTitleDisplayMode(.inline)
     }
 
-    var wishlistView: some View {
-        Group {
-            if wishlist.isEmpty {
-                emptyView(
-                    icon: "heart",
-                    title: "No saved books",
-                    subtitle: "Books you save will appear here"
-                )
-            } else {
-                List {
-                    ForEach(wishlist) { wishlist in
-                        bookRow(book: wishlist.toBook())
-                    }
-                }
-            }
-        }
+    @ViewBuilder
+    private func renderWishlist() -> some View {
+//            if wishlist.isEmpty {
+//                emptyView(
+//                    icon: "heart",
+//                    title: "No saved books",
+//                    subtitle: "Books you save will appear here"
+//                )
+//            } else {
+//                List {
+//                    ForEach(wishlist) { wishlist in
+//                        bookRow(book: wishlist.toBook())
+//                    }
+//                }
+//            }
     }
 
-    var cartView: some View {
-        Group {
-            if cart.isEmpty {
+    @ViewBuilder
+    private func renderCart() -> some View {
+        switch cartState {
+        case .idle:
+            Color.clear
+        case .loading:
+            ProgressView().frame(maxHeight: .infinity)
+        case .success(let items):
+            if items.isEmpty {
                 emptyView(
                     icon: "cart",
                     title: "Cart is empty",
@@ -77,12 +100,20 @@ struct CartScreenContent: View {
                 )
             } else {
                 List {
-                    ForEach(cart) { cart in
-                        bookRow(book: cart.toBook())
+                    ForEach(items) { item in
+                        bookRow(book: item.toBook())
+                    }
+                    .onDelete { IndexSet in
+                        for index in IndexSet {
+                            onDeleteCartItem(items[index].id)
+                        }
                     }
                 }
+
                 .listStyle(.plain)
             }
+        case .error(let message):
+            Text(message).foregroundStyle(.red)
         }
     }
 
@@ -116,7 +147,7 @@ struct CartScreenContent: View {
         }
         .padding(.vertical, 4)
         .onTapGesture {
-            router.push(.bookDetails(bookId: book.id))
+            onCartItemTap(book.id)
         }
     }
 
@@ -140,8 +171,9 @@ struct CartScreenContent: View {
 #Preview("Cart & Wishlist - Filled") {
     NavigationStack {
         CartScreenContent(
-            cart: MockCart.list,
-            wishlist: MockWishlist.list
+            cartState: .success(MockCart.list),
+            onDeleteCartItem: { _ in },
+            onCartItemTap: { _ in }
         )
     }
 }
@@ -149,8 +181,9 @@ struct CartScreenContent: View {
 #Preview("Cart & Wishlist - Empty") {
     NavigationStack {
         CartScreenContent(
-            cart: [],
-            wishlist: []
+            cartState: .success([]),
+            onDeleteCartItem: { _ in },
+            onCartItemTap: { _ in }
         )
     }
 }

@@ -11,6 +11,7 @@ enum ModelContainerFactory {
         try! ModelContainer(
             for:
                 BookEntity.self,
+                CartEntity.self,
         )
     }
 }

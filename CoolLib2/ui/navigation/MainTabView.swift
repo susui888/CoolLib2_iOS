@@ -13,6 +13,12 @@ struct MainTabView: View {
     @EnvironmentObject var router: AppRouter
     @EnvironmentObject var container: AppContainer
 
+    @StateObject private var cartViewModel: CartViewModel
+    
+    init(container: AppContainer){
+        self._cartViewModel = StateObject(wrappedValue: container.makeCartViewModel())
+    }
+    
     var body: some View {
         TabView(selection: $router.selectedTab) {
 
@@ -42,7 +48,7 @@ struct MainTabView: View {
 
             // MARK: - Cart Tab
             NavigationStack(path: $router.cartPath) {
-                CartScreen()
+                CartScreen(container: container)
                     .navigationDestination(for: Screen.self) {
                         router.destination(for: $0)
                     }
@@ -50,6 +56,7 @@ struct MainTabView: View {
             .tabItem {
                 Label("Cart", systemImage: "cart.fill")
             }
+            .badge(cartViewModel.state.count)
             .tag(Tab.cart)
 
             // MARK: - Stats Tab
@@ -76,11 +83,8 @@ struct MainTabView: View {
             }
             .tag(Tab.search)
         }
-    }
-}
-
-#Preview {
-    NavigationStack {
-        MainTabView()
+        .onAppear{
+            cartViewModel.load()
+        }
     }
 }

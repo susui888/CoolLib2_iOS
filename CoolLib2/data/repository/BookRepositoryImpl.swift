@@ -8,6 +8,7 @@
 import Foundation
 import SwiftData
 
+@MainActor
 final class BookRepositoryImpl: BookRepository {
 
     private let bookApi: BookAPI

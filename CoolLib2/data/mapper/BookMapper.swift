@@ -21,7 +21,7 @@ extension BookDTO {
 }
 
 extension BookDTO {
-    func toEntity() -> BookEntity{
+    func toEntity() -> BookEntity {
         BookEntity(
             id: id,
             isbn: isbn,
@@ -46,6 +46,19 @@ extension BookEntity {
             year: year,
             available: available,
             description: desc
+        )
+    }
+}
+
+extension Book {
+    func toCartEntity() -> CartEntity {
+        CartEntity(
+            id: id,
+            isbn: isbn,
+            title: title,
+            author: author,
+            publisher: publisher,
+            year: year,
         )
     }
 }
