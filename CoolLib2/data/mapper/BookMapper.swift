@@ -62,3 +62,17 @@ extension Book {
         )
     }
 }
+
+extension Book {
+    func toWishlistEntity() -> WishlistEntity {
+        WishlistEntity(
+            id: id,
+            isbn: isbn,
+            title: title,
+            author: author,
+            publisher: publisher,
+            year: year,
+        )
+    }
+}
+

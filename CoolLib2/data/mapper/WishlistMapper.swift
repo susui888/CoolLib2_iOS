@@ -21,3 +21,16 @@ extension Wishlist {
         )
     }
 }
+
+extension WishlistEntity {
+    func toDomain() -> Wishlist {
+        Wishlist(
+            id: id,
+            isbn: isbn,
+            title: title,
+            author: author,
+            publisher: publisher,
+            year: year,
+        )
+    }
+}

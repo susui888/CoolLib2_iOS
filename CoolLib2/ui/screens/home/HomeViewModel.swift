@@ -24,10 +24,12 @@ class HomeViewModel: ObservableObject {
 
     @Published private(set) var state: HomeUIState = .idle
 
-    private let usecase: BookUseCases
+    private let bookUseCase: BookUseCases
+    private let wishlistUseCase : WishlistUseCases
 
-    init(usecase: BookUseCases) {
-        self.usecase = usecase
+    init(bookUseCase: BookUseCases, wishlistUseCase: WishlistUseCases) {
+        self.bookUseCase = bookUseCase
+        self.wishlistUseCase = wishlistUseCase
     }
 
     func loadAllContent() {
@@ -38,19 +40,21 @@ class HomeViewModel: ObservableObject {
 
         Task {
             do {
-                async let categoriesReq = try await usecase.getCategory()
-                async let newestReq = try await usecase.getNewestBooks()
+                async let categoriesReq = try await bookUseCase.getCategory()
+                async let newestReq = try await bookUseCase.getNewestBooks()
 
-                async let recentReq = try await usecase.getRecentBooks()
-                async let favoritesReq = MockBooks.list.shuffled()
+                async let recentReq = try await bookUseCase.getRecentBooks()
+                async let rawFavorites = try await wishlistUseCase.allWishlistItems()
 
-                let (categories, newest, recent, favorites) = try await (
+                let (categories, newest, recent, favoritesItems) = try await (
                     categoriesReq,
                     newestReq,
                     recentReq,
-                    favoritesReq
+                    rawFavorites
                 )
 
+                let favorites = favoritesItems.map { $0.toBook() }
+                
                 state = .success(
                     categories: categories,
                     recent: recent,

@@ -15,6 +15,7 @@ struct CartScreen: View {
     @EnvironmentObject var router: AppRouter
 
     @StateObject private var cartViewModel: CartViewModel
+    @StateObject private var wishlistViewModel: WishlistViewModel
 
     init(
         container: AppContainer,
@@ -22,6 +23,9 @@ struct CartScreen: View {
         _cartViewModel = StateObject(
             wrappedValue: container.makeCartViewModel()
         )
+        
+        _wishlistViewModel = StateObject(
+            wrappedValue: container.makeWishlistViewModel())
     }
 
     var body: some View {
@@ -30,12 +34,17 @@ struct CartScreen: View {
             onDeleteCartItem: { id in
                 cartViewModel.removeCart(bookId: id)
             },
-            onCartItemTap: { id in
+            onItemTap: { id in
                 router.push(.bookDetails(bookId: id))
-            }
+            },
+            wishlistState: wishlistViewModel.state,
+            onDeleteWishlistItem: { id in
+                wishlistViewModel.removeWishlist(bookId: id)
+            },
         )
         .onAppear {
             cartViewModel.load()
+            wishlistViewModel.load()
         }
     }
 }
@@ -43,7 +52,11 @@ struct CartScreen: View {
 struct CartScreenContent: View {
     let cartState: CartUIState
     let onDeleteCartItem: (Int) -> Void
-    let onCartItemTap: (Int) -> Void
+    let onItemTap: (Int) -> Void
+    
+    let wishlistState: WishlistUIState
+    let onDeleteWishlistItem: (Int) -> Void
+
 
     @State private var selectedTab: CartTab = .cart
 
@@ -69,19 +82,31 @@ struct CartScreenContent: View {
 
     @ViewBuilder
     private func renderWishlist() -> some View {
-//            if wishlist.isEmpty {
-//                emptyView(
-//                    icon: "heart",
-//                    title: "No saved books",
-//                    subtitle: "Books you save will appear here"
-//                )
-//            } else {
-//                List {
-//                    ForEach(wishlist) { wishlist in
-//                        bookRow(book: wishlist.toBook())
-//                    }
-//                }
-//            }
+        switch wishlistState {
+        case .idle:
+            Color.clear
+        case .loading:
+            ProgressView().frame(maxHeight: .infinity)
+        case .success(let items):
+            if items.isEmpty {
+                emptyView(icon: "heart", title: "No saved book", subtitle: "Books you save will appear here")
+            } else {
+                List {
+                    ForEach(items) { item in
+                        bookRow(book: item.toBook())
+                    }
+                    .onDelete { IndexSet in
+                        for index in IndexSet {
+                            onDeleteWishlistItem(items[index].id)
+                        }
+                        
+                    }
+                }
+                .listStyle(.plain)
+            }
+        case .error(let message):
+            Text(message).foregroundStyle(.red)
+        }
     }
 
     @ViewBuilder
@@ -109,7 +134,6 @@ struct CartScreenContent: View {
                         }
                     }
                 }
-
                 .listStyle(.plain)
             }
         case .error(let message):
@@ -147,7 +171,7 @@ struct CartScreenContent: View {
         }
         .padding(.vertical, 4)
         .onTapGesture {
-            onCartItemTap(book.id)
+            onItemTap(book.id)
         }
     }
 
@@ -173,7 +197,9 @@ struct CartScreenContent: View {
         CartScreenContent(
             cartState: .success(MockCart.list),
             onDeleteCartItem: { _ in },
-            onCartItemTap: { _ in }
+            onItemTap: { _ in },
+            wishlistState: .success(MockWishlist.list),
+            onDeleteWishlistItem: { _ in },
         )
     }
 }
@@ -183,7 +209,9 @@ struct CartScreenContent: View {
         CartScreenContent(
             cartState: .success([]),
             onDeleteCartItem: { _ in },
-            onCartItemTap: { _ in }
+            onItemTap: { _ in },
+            wishlistState: .success(MockWishlist.list),
+            onDeleteWishlistItem: { _ in }
         )
     }
 }

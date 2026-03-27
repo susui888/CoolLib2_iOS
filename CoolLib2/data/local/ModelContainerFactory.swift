@@ -12,6 +12,7 @@ enum ModelContainerFactory {
             for:
                 BookEntity.self,
                 CartEntity.self,
+                WishlistEntity.self,
         )
     }
 }

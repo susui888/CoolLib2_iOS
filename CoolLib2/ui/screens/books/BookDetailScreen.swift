@@ -13,8 +13,11 @@ struct BookDetailScreen: View {
 
     @StateObject private var detailViewModel: BookDetailViewModel
     @StateObject private var cartViewModel: CartViewModel
+    @StateObject private var wishlistViewModel: WishlistViewModel
 
     @State private var isInCart: Bool = false
+    @State private var isInWishlist: Bool = false
+
     private let bookId: Int
 
     init(
@@ -27,40 +30,61 @@ struct BookDetailScreen: View {
         _cartViewModel = StateObject(
             wrappedValue: container.makeCartViewModel()
         )
+        _wishlistViewModel = StateObject(
+            wrappedValue: container.makeWishlistViewModel()
+        )
         self.bookId = bookId
     }
 
     var body: some View {
         BookDetailScreenContent(
             state: detailViewModel.state,
-            onRetryTap: {
+
+            onRetryTap: { 
                 detailViewModel.getBook(id: bookId)
             },
+
             onAuthorTap: { author in
                 router.push(.books(author: author))
             },
+
             onPublisherTap: { publisher in
                 router.push(.books(publisher: publisher))
             },
+
             onYearTap: { year in
                 router.push(.books(year: year))
             },
+
             inCart: isInCart,
+
             onToggleCart: { book in
                 let impact = UIImpactFeedbackGenerator(style: .medium)
                 impact.impactOccurred()  // 震动反馈
 
                 cartViewModel.toggleCart(book: book)
                 withAnimation(.spring()) {
-                    isInCart.toggle()  // 带动画切换
+                    isInCart.toggle()
                 }
-            }
+            },
+
+            inWishlist: isInWishlist,
+            
+            onToggleWishlist: { book in
+                wishlistViewModel.toggleWishlist(book: book)
+                withAnimation(.spring()){
+                    isInWishlist.toggle()
+                }
+            },
         )
         .onAppear {
             detailViewModel.getBook(id: bookId)
         }
         .task {
             isInCart = await cartViewModel.isBookInCart(bookId: bookId)
+            isInWishlist = await wishlistViewModel.isBookInWishlist(
+                bookId: bookId
+            )
         }
     }
 }
@@ -74,6 +98,9 @@ struct BookDetailScreenContent: View {
 
     let inCart: Bool
     let onToggleCart: (Book) -> Void
+
+    let inWishlist: Bool
+    let onToggleWishlist: (Book) -> Void
 
     var body: some View {
         ZStack {
@@ -208,10 +235,21 @@ struct BookDetailScreenContent: View {
                 .disabled(!book.available)
 
                 Button {
-                    // Favourite
+                    onToggleWishlist(book)
                 } label: {
-                    Label("Favourite", systemImage: "heart")
-                        .frame(maxWidth: .infinity)
+                    
+                    HStack(spacing: 4){
+                        Image (
+                            systemName: inWishlist
+                            ? "heart.fill" : "heart"
+                        )
+                        .font(.system(size: 20))
+                        
+                        Text(inWishlist ? "Remove" : "Favourite")
+                            .font(.system(size:16, weight: .semibold))
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 24)
                 }
                 .buttonStyle(.borderedProminent)
                 .tint(.pink)
@@ -231,7 +269,9 @@ struct BookDetailScreenContent: View {
             onPublisherTap: { _ in },
             onYearTap: { _ in },
             inCart: false,
-            onToggleCart: { _ in }
+            onToggleCart: { _ in },
+            inWishlist: false,
+            onToggleWishlist: { _ in }
         )
     }
 }
@@ -244,7 +284,9 @@ struct BookDetailScreenContent: View {
         onPublisherTap: { _ in },
         onYearTap: { _ in },
         inCart: true,
-        onToggleCart: { _ in }
+        onToggleCart: { _ in },
+        inWishlist: true,
+        onToggleWishlist: { _ in }
     )
 }
 
@@ -256,6 +298,8 @@ struct BookDetailScreenContent: View {
         onPublisherTap: { _ in },
         onYearTap: { _ in },
         inCart: true,
-        onToggleCart: { _ in }
+        onToggleCart: { _ in },
+        inWishlist: true,
+        onToggleWishlist: { _ in },
     )
 }
