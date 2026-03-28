@@ -179,7 +179,6 @@ struct MockBooks {
 }
 
 
-
 struct MockCart {
 
     static let list: [Cart] = MockBooks.list.shuffled().prefix(7).map {
@@ -207,4 +206,34 @@ struct MockWishlist {
         )
     }
 
+}
+
+extension MockBooks {
+    
+    static var dtoList: [BookDTO] {
+        list.map { domainBook in
+            BookDTO(
+                id: domainBook.id,
+                isbn: domainBook.isbn,
+                title: domainBook.title,
+                author: domainBook.author,
+                publisher: domainBook.publisher,
+                year: domainBook.year,
+                available: domainBook.available,
+                description: domainBook.description,
+            )
+        }
+    }
+}
+
+extension MockCategories {
+    static var dtoList: [CategoryDTO] {
+        list.map { category in
+            CategoryDTO(
+                id: category.id,
+                name: category.name,
+                description: category.description,
+            )
+        }
+    }
 }

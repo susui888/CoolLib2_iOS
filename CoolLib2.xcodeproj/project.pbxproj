@@ -6,11 +6,32 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		52BD13612F77AC91000D1AB3 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 52BD13602F77AC91000D1AB3 /* SnapshotTesting */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		52052F812F7765BA00A8BBAA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52A92A9E2F6AC0BC0048EFA2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 52A92AA52F6AC0BC0048EFA2;
+			remoteInfo = CoolLib2;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		52052F7D2F7765BA00A8BBAA /* CoolLib2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoolLib2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		52052F932F777B7B00A8BBAA /* CoolLib2.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CoolLib2.xctestplan; sourceTree = "<group>"; };
 		52A92AA62F6AC0BC0048EFA2 /* CoolLib2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoolLib2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		52052F7E2F7765BA00A8BBAA /* CoolLib2Tests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CoolLib2Tests;
+			sourceTree = "<group>";
+		};
 		52A92AA82F6AC0BC0048EFA2 /* CoolLib2 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = CoolLib2;
@@ -19,6 +40,14 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		52052F7A2F7765BA00A8BBAA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52BD13612F77AC91000D1AB3 /* SnapshotTesting in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		52A92AA32F6AC0BC0048EFA2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -32,7 +61,10 @@
 		52A92A9D2F6AC0BC0048EFA2 = {
 			isa = PBXGroup;
 			children = (
+				52052F932F777B7B00A8BBAA /* CoolLib2.xctestplan */,
 				52A92AA82F6AC0BC0048EFA2 /* CoolLib2 */,
+				52052F7E2F7765BA00A8BBAA /* CoolLib2Tests */,
+				52BD135D2F77AC91000D1AB3 /* Frameworks */,
 				52A92AA72F6AC0BC0048EFA2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,13 +73,45 @@
 			isa = PBXGroup;
 			children = (
 				52A92AA62F6AC0BC0048EFA2 /* CoolLib2.app */,
+				52052F7D2F7765BA00A8BBAA /* CoolLib2Tests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		52BD135D2F77AC91000D1AB3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		52052F7C2F7765BA00A8BBAA /* CoolLib2Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52052F852F7765BA00A8BBAA /* Build configuration list for PBXNativeTarget "CoolLib2Tests" */;
+			buildPhases = (
+				52052F792F7765BA00A8BBAA /* Sources */,
+				52052F7A2F7765BA00A8BBAA /* Frameworks */,
+				52052F7B2F7765BA00A8BBAA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				52052F822F7765BA00A8BBAA /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				52052F7E2F7765BA00A8BBAA /* CoolLib2Tests */,
+			);
+			name = CoolLib2Tests;
+			packageProductDependencies = (
+				52BD13602F77AC91000D1AB3 /* SnapshotTesting */,
+			);
+			productName = CoolLib2Tests;
+			productReference = 52052F7D2F7765BA00A8BBAA /* CoolLib2Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		52A92AA52F6AC0BC0048EFA2 /* CoolLib2 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 52A92AB12F6AC0BC0048EFA2 /* Build configuration list for PBXNativeTarget "CoolLib2" */;
@@ -80,6 +144,10 @@
 				LastSwiftUpdateCheck = 2630;
 				LastUpgradeCheck = 2630;
 				TargetAttributes = {
+					52052F7C2F7765BA00A8BBAA = {
+						CreatedOnToolsVersion = 26.3;
+						TestTargetID = 52A92AA52F6AC0BC0048EFA2;
+					};
 					52A92AA52F6AC0BC0048EFA2 = {
 						CreatedOnToolsVersion = 26.3;
 					};
@@ -94,17 +162,28 @@
 			);
 			mainGroup = 52A92A9D2F6AC0BC0048EFA2;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				52052FB42F77A31200A8BBAA /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 52A92AA72F6AC0BC0048EFA2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				52A92AA52F6AC0BC0048EFA2 /* CoolLib2 */,
+				52052F7C2F7765BA00A8BBAA /* CoolLib2Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		52052F7B2F7765BA00A8BBAA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		52A92AA42F6AC0BC0048EFA2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +194,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		52052F792F7765BA00A8BBAA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		52A92AA22F6AC0BC0048EFA2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +210,57 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		52052F822F7765BA00A8BBAA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 52A92AA52F6AC0BC0048EFA2 /* CoolLib2 */;
+			targetProxy = 52052F812F7765BA00A8BBAA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		52052F832F7765BA00A8BBAA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WWVT6JNYPV;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.CoolLib2Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoolLib2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CoolLib2";
+			};
+			name = Debug;
+		};
+		52052F842F7765BA00A8BBAA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WWVT6JNYPV;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.CoolLib2Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoolLib2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CoolLib2";
+			};
+			name = Release;
+		};
 		52A92AAF2F6AC0BC0048EFA2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -313,6 +449,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		52052F852F7765BA00A8BBAA /* Build configuration list for PBXNativeTarget "CoolLib2Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52052F832F7765BA00A8BBAA /* Debug */,
+				52052F842F7765BA00A8BBAA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		52A92AA12F6AC0BC0048EFA2 /* Build configuration list for PBXProject "CoolLib2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -332,6 +477,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		52052FB42F77A31200A8BBAA /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.19.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		52BD13602F77AC91000D1AB3 /* SnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 52052FB42F77A31200A8BBAA /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = SnapshotTesting;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 52A92A9E2F6AC0BC0048EFA2 /* Project object */;
 }
