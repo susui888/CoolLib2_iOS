@@ -25,7 +25,7 @@ jobs:
       - name: Run Unit Tests
         run: |
           xcodebuild test \
-            -workspace CoolLib2.xcworkspace \
+            -project CoolLib2.xcodeproj \
             -scheme CoolLib2 \
             -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.5' \
             -testPlan CoolLib2Tests \
