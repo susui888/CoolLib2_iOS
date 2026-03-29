@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		52BD13612F77AC91000D1AB3 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 52BD13602F77AC91000D1AB3 /* SnapshotTesting */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		52052F812F7765BA00A8BBAA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -32,6 +28,11 @@
 			path = CoolLib2Tests;
 			sourceTree = "<group>";
 		};
+		52770AF92F78AAC200179C9A /* .github */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = .github;
+			sourceTree = "<group>";
+		};
 		52A92AA82F6AC0BC0048EFA2 /* CoolLib2 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = CoolLib2;
@@ -44,7 +45,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52BD13612F77AC91000D1AB3 /* SnapshotTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,10 +61,10 @@
 		52A92A9D2F6AC0BC0048EFA2 = {
 			isa = PBXGroup;
 			children = (
+				52770AF92F78AAC200179C9A /* .github */,
 				52052F932F777B7B00A8BBAA /* CoolLib2.xctestplan */,
 				52A92AA82F6AC0BC0048EFA2 /* CoolLib2 */,
 				52052F7E2F7765BA00A8BBAA /* CoolLib2Tests */,
-				52BD135D2F77AC91000D1AB3 /* Frameworks */,
 				52A92AA72F6AC0BC0048EFA2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -76,13 +76,6 @@
 				52052F7D2F7765BA00A8BBAA /* CoolLib2Tests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		52BD135D2F77AC91000D1AB3 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -106,7 +99,6 @@
 			);
 			name = CoolLib2Tests;
 			packageProductDependencies = (
-				52BD13602F77AC91000D1AB3 /* SnapshotTesting */,
 			);
 			productName = CoolLib2Tests;
 			productReference = 52052F7D2F7765BA00A8BBAA /* CoolLib2Tests.xctest */;
@@ -125,6 +117,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				52770AF92F78AAC200179C9A /* .github */,
 				52A92AA82F6AC0BC0048EFA2 /* CoolLib2 */,
 			);
 			name = CoolLib2;
@@ -163,7 +156,6 @@
 			mainGroup = 52A92A9D2F6AC0BC0048EFA2;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				52052FB42F77A31200A8BBAA /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 52A92AA72F6AC0BC0048EFA2 /* Products */;
@@ -477,25 +469,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		52052FB42F77A31200A8BBAA /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.19.1;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		52BD13602F77AC91000D1AB3 /* SnapshotTesting */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 52052FB42F77A31200A8BBAA /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
-			productName = SnapshotTesting;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 52A92A9E2F6AC0BC0048EFA2 /* Project object */;
 }
