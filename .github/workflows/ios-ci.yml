@@ -10,7 +10,7 @@ jobs:
   build-and-test:
     name: Build and Run Unit Tests
 
-    runs-on: macos-14
+    runs-on: macos-15
     
     steps:
   
