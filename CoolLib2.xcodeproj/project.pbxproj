@@ -22,7 +22,6 @@
 
 /* Begin PBXFileReference section */
 		52052F7D2F7765BA00A8BBAA /* CoolLib2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoolLib2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		52052F932F777B7B00A8BBAA /* CoolLib2.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CoolLib2.xctestplan; sourceTree = "<group>"; };
 		52A92AA62F6AC0BC0048EFA2 /* CoolLib2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoolLib2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -61,10 +60,8 @@
 		52A92A9D2F6AC0BC0048EFA2 = {
 			isa = PBXGroup;
 			children = (
-				52052F932F777B7B00A8BBAA /* CoolLib2.xctestplan */,
 				52A92AA82F6AC0BC0048EFA2 /* CoolLib2 */,
 				52052F7E2F7765BA00A8BBAA /* CoolLib2Tests */,
-				52BD135D2F77AC91000D1AB3 /* Frameworks */,
 				52A92AA72F6AC0BC0048EFA2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -76,13 +73,6 @@
 				52052F7D2F7765BA00A8BBAA /* CoolLib2Tests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		52BD135D2F77AC91000D1AB3 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

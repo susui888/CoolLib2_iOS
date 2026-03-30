@@ -19,6 +19,12 @@ final class AppRouter: ObservableObject {  // The global router class managing n
     @Published var statsPath: [Screen] = []  // Navigation path for Stats tab
     @Published var searchPath: [Screen] = []  // Navigation path for Search tab
 
+    @Published var showLoginSheet: Bool = false
+
+    func showLogin() {
+        showLoginSheet = true
+    }
+
     // MARK: - Push Screen to Current Tab
     func push(_ screen: Screen) {  // Push a Screen to the currently selected tab
         switch selectedTab {
@@ -61,14 +67,13 @@ final class AppRouter: ObservableObject {  // The global router class managing n
     @ViewBuilder
     func destination(for screen: Screen) -> some View {  // Map Screen enum to SwiftUI view
         switch screen {
-            
+
         case .bookDetails(let id):
             BookDetailScreen(
                 container: container,
                 bookId: id
             )
-            
-            
+
         case .books(
             let category,
             let author,
@@ -86,6 +91,32 @@ final class AppRouter: ObservableObject {  // The global router class managing n
                     searchTerm: searchTerm
                 )
             )
+
+        case .myLoans:
+            Text("My Loans Screen")
+        case .reservations:
+            Text("Reservations Screen")
+        case .history:
+            Text("History Screen")
+        case .profile:
+            Text("Profile Settings Screen")
+        }
+    }
+
+    func navigate(fromMenu identifier: String) {
+        switch identifier {
+        case "login":
+            showLogin()
+        case "loans":
+            push(.myLoans)
+        case "reservation":
+            push(.reservations)
+        case "history":
+            push(.history)
+        case "profile":
+            push(.profile)
+        default:
+            print("Unknown identifier: \(identifier)")
         }
     }
 }

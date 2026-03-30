@@ -14,11 +14,15 @@ struct MainTabView: View {
     @EnvironmentObject var container: AppContainer
 
     @StateObject private var cartViewModel: CartViewModel
-    
-    init(container: AppContainer){
-        self._cartViewModel = StateObject(wrappedValue: container.makeCartViewModel())
+
+    @State private var topBarManager = TopBarManager()
+
+    init(container: AppContainer) {
+        self._cartViewModel = StateObject(
+            wrappedValue: container.makeCartViewModel()
+        )
     }
-    
+
     var body: some View {
         TabView(selection: $router.selectedTab) {
 
@@ -28,6 +32,7 @@ struct MainTabView: View {
                     .navigationDestination(for: Screen.self) {
                         router.destination(for: $0)
                     }
+                    .topBar(manager: topBarManager)
             }
             .tabItem {
                 Label("Home", systemImage: "house.fill")
@@ -83,8 +88,29 @@ struct MainTabView: View {
             }
             .tag(Tab.search)
         }
-        .onAppear{
+        .onAppear {
             cartViewModel.load()
+            topBarManager.container = container
+            topBarManager.router = router
+        }
+        .sheet(isPresented: $router.showLoginSheet) {
+            NavigationStack {
+                LoginScreen { username, password in
+                    router.showLoginSheet = false
+                }
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button {
+                            router.showLoginSheet = false
+                        } label: {
+                            Image(systemName: "xmark")
+                                .symbolRenderingMode(.hierarchical)
+                                .foregroundColor(.gray)
+                                .font(.title3)
+                        }
+                    }
+                }
+            }
         }
     }
 }
