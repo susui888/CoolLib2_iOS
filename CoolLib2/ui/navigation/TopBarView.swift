@@ -13,20 +13,22 @@ class TopBarManager {
     var showProfileSheet = false
     var showScanner = false
 
-    var container: AppContainer?
-    var router: AppRouter?
+    let container: AppContainer
+    let router: AppRouter
 
+    init(container: AppContainer, router: AppRouter) {
+        self.container = container
+        self.router = router
+    }
 
     var isLoggedIn: Bool {
-        //container?.authState.isLoggedIn ?? false
-        false
+        container.sessionManager.isLoggedIn
     }
 
     var username: String? {
-        //container?.authState.username
-        ""
+        isLoggedIn ? container.sessionManager.getUsername() : nil
     }
-
+    
 
     func handleScan() {
         print("Starting QR Scanner...")
@@ -36,15 +38,18 @@ class TopBarManager {
     func handleMenuTap(_ option: MenuOption) {
         showProfileSheet = false
         if option == .login {
-            self.router?.navigate(fromMenu: option)
+            self.router.showLogin(true)
         } else {
-
+            self.router.navigate(fromMenu: option)
         }
     }
 
     func handleLogout() {
         showProfileSheet = false
-        // container?.logout()
+
+        container.sessionManager.clearSession()
+                
+        router.switchTo(tab: .home)
     }
 }
 

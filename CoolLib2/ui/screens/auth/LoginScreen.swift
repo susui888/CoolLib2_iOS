@@ -1,34 +1,75 @@
 import SwiftUI
 
+
 struct LoginScreen: View {
     
+    @EnvironmentObject var router: AppRouter
+
+    @StateObject private var viewModel: UserViewModel
+
+
+    init(
+        container: AppContainer,
+    ) {
+        _viewModel = StateObject(
+            wrappedValue: container.makeUserViewModel()
+        )
+    }
+    
+    
+    var body: some View {
+ 
+            LoginScreenContent(
+                state: viewModel.loginState,
+                
+                onLogin: { username, password in
+                    viewModel.login(username: username, password: password)
+                }
+            )
+            .onChange(of: viewModel.loginState) { oldValue, newValue in
+                
+                if case .success(_) = newValue {
+                    router.showLogin(false)
+                }
+            }
+        }
+}
+
+
+struct LoginScreenContent: View {
     @State private var username = ""
     @State private var password = ""
-    @State private var isLoading = false
-    
+
+
+    let state: AuthUIState<LoginResponse>
     let onLogin: (String, String) -> Void
     
+    // MARK: - Computed Properties
+    private var isLoading: Bool {
+        if case .loading = state { return true }
+        return false
+    }
     
-    var body: some View{
-        VStack(spacing: 32){
+    private var errorMessage: String? {
+        if case .error(let msg) = state { return msg }
+        return nil
+    }
+    
+    var body: some View {
+        VStack(spacing: 32) {
             
-            VStack(spacing: 12){
+            // Header Section
+            VStack(spacing: 12) {
                 Image(systemName: "books.vertical.fill")
                     .font(.system(size: 64))
                     .foregroundColor(.accentColor)
-                
-                Text("CoolLib")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                
-                Text("Books on the Move")
-                    .foregroundColor(.secondary)
+                Text("CoolLib").font(.largeTitle).fontWeight(.bold)
+                Text("Books on the Move").foregroundColor(.secondary)
             }
             .padding(.top, 40)
             
-            
+            // Input Section
             VStack(spacing: 16) {
-                
                 TextField("Username", text: $username)
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled()
@@ -40,19 +81,21 @@ struct LoginScreen: View {
                     .padding()
                     .background(.thinMaterial)
                     .cornerRadius(12)
+                
+                if let error = errorMessage {
+                    Text(error)
+                        .font(.caption)
+                        .foregroundColor(.red)
+                        .transition(.opacity)
+                }
             }
             
+            // Login Button
             Button {
-                
                 guard !username.isEmpty, !password.isEmpty else { return }
-                
-                isLoading = true
-                
-                onLogin(username,password)
-                
-            }label: {
-                
-                if (isLoading){
+                onLogin(username, password)
+            } label: {
+                if isLoading {
                     ProgressView()
                         .frame(maxWidth: .infinity)
                 } else {
@@ -63,14 +106,15 @@ struct LoginScreen: View {
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
-            .disabled(username.isEmpty || password.isEmpty)
+            .disabled(username.isEmpty || password.isEmpty || isLoading)
             
-            VStack(spacing: 8){
-                Button("Forgot Passward"){}
+            // Footer Section
+            VStack(spacing: 8) {
+                Button("Forgot Password") { }
                 
-                Button{
-                    
-                }label: {
+                Button {
+                    // TODO: Trigger register navigation
+                } label: {
                     Text("Create Account")
                 }
             }
@@ -82,11 +126,32 @@ struct LoginScreen: View {
         .navigationTitle("Login")
         .navigationBarTitleDisplayMode(.inline)
     }
-    
 }
 
-#Preview {
+#Preview("Initial State") {
     NavigationStack {
-        LoginScreen(){ _, _ in }
+        LoginScreenContent(state: .idle) { username, password in
+            print("Login tapped with: \(username)")
+        }
+    }
+}
+
+#Preview("Loading State") {
+    NavigationStack {
+        LoginScreenContent(state: .loading) { _, _ in }
+    }
+}
+
+#Preview("Error State") {
+    NavigationStack {
+        LoginScreenContent(state: .error("Invalid username or password")) { _, _ in }
+    }
+}
+
+#Preview("Success State") {
+    NavigationStack {
+        LoginScreenContent(
+            state: .success(LoginResponse(token: "mock_token", username: "Ryan Su"))
+        ) { _, _ in }
     }
 }

@@ -76,7 +76,7 @@ struct BookScreenContent: View {
         }
         .navigationTitle(navigationTitle)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItemGroup(placement: .topBarLeading) {
                 Button {
                     isGrid.toggle()
                 } label: {

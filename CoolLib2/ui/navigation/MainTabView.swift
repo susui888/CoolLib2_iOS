@@ -7,11 +7,14 @@ struct MainTabView: View {
 
     @StateObject private var cartViewModel: CartViewModel
 
-    @State private var topBarManager = TopBarManager()
+    @State private var topBarManager: TopBarManager
 
-    init(container: AppContainer) {
+    init(container: AppContainer, router: AppRouter) {
         self._cartViewModel = StateObject(
             wrappedValue: container.makeCartViewModel()
+        )
+        self._topBarManager = State(
+            wrappedValue: TopBarManager(container: container, router: router)
         )
     }
 
@@ -37,6 +40,7 @@ struct MainTabView: View {
                     .navigationDestination(for: Screen.self) {
                         router.destination(for: $0)
                     }
+                    .topBar(manager: topBarManager)
             }
             .tabItem {
                 Label("Book", systemImage: "book")
@@ -49,6 +53,7 @@ struct MainTabView: View {
                     .navigationDestination(for: Screen.self) {
                         router.destination(for: $0)
                     }
+                    .topBar(manager: topBarManager)
             }
             .tabItem {
                 Label("Cart", systemImage: "cart.fill")
@@ -62,6 +67,7 @@ struct MainTabView: View {
                     .navigationDestination(for: Screen.self) {
                         router.destination(for: $0)
                     }
+                    .topBar(manager: topBarManager)
             }
             .tabItem {
                 Label("Stats", systemImage: "chart.bar.fill")
@@ -74,6 +80,7 @@ struct MainTabView: View {
                     .navigationDestination(for: Screen.self) {
                         router.destination(for: $0)
                     }
+                    .topBar(manager: topBarManager)
             }
             .tabItem {
                 Label("Search", systemImage: "magnifyingglass")
@@ -82,26 +89,22 @@ struct MainTabView: View {
         }
         .onAppear {
             cartViewModel.load()
-            topBarManager.container = container
-            topBarManager.router = router
         }
         .sheet(isPresented: $router.showLoginSheet) {
             NavigationStack {
-                LoginScreen { username, password in
-                    router.showLoginSheet = false
-                }
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button {
-                            router.showLoginSheet = false
-                        } label: {
-                            Image(systemName: "xmark")
-                                .symbolRenderingMode(.hierarchical)
-                                .foregroundColor(.gray)
-                                .font(.title3)
+                LoginScreen(container: container)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button {
+                                router.showLoginSheet = false
+                            } label: {
+                                Image(systemName: "xmark")
+                                    .symbolRenderingMode(.hierarchical)
+                                    .foregroundColor(.gray)
+                                    .font(.title3)
+                            }
                         }
                     }
-                }
             }
         }
     }

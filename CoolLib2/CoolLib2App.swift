@@ -31,10 +31,9 @@ struct CoolLib2App: App {
 
     var body: some Scene {
         WindowGroup {
-            MainTabView(container: container)
+            MainTabView(container: container, router: router)
                 .environmentObject(router)
                 .environmentObject(container)
-                // 如果你使用了 SwiftData，别忘了注入 modelContainer
                 .modelContainer(modelContainer)
         }
     }

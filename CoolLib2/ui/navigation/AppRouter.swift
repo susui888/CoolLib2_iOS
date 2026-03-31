@@ -21,8 +21,8 @@ final class AppRouter: ObservableObject {  // The global router class managing n
 
     @Published var showLoginSheet: Bool = false
 
-    func showLogin() {
-        showLoginSheet = true
+    func showLogin(_ isShown: Bool) {
+        showLoginSheet = isShown
     }
 
     // MARK: - Push Screen to Current Tab
@@ -106,7 +106,7 @@ final class AppRouter: ObservableObject {  // The global router class managing n
     func navigate(fromMenu option: MenuOption) {
         switch option {
         case .login:
-            showLogin()
+            showLogin(true)
         case .loans:
             push(.myLoans)
         case .reservations:
@@ -116,9 +116,9 @@ final class AppRouter: ObservableObject {  // The global router class managing n
         case .profile:
             push(.profile)
         case .settings:
-            push(.profile)      //Temp
+            push(.profile)  //Temp
         case .about:
-            push(.profile)      //Temp
+            push(.profile)  //Temp
         }
     }
 }

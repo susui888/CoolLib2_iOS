@@ -14,14 +14,22 @@ final class AppContainer: ObservableObject {
 
     private let modelContext: ModelContext
 
+    let sessionManager = SessionManager.shared
+
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
     }
 
     // MARK: - API
-    private lazy var apiClient = APIClient()
+    private(set) lazy var apiClient: APIClient = {
+        APIClient(sessionManager: sessionManager)
+    }()
 
     private lazy var bookAPI: BookAPI = BookAPIImpl(client: apiClient)
+    private lazy var userAPI: UserAPI = UserAPIImpl(
+        client: apiClient,
+        sessionManager: sessionManager
+    )
 
     // MARK: - Repository
     private lazy var bookRepository: BookRepository = BookRepositoryImpl(
@@ -38,6 +46,10 @@ final class AppContainer: ObservableObject {
             modelContext: modelContext
         )
 
+    lazy var userRepository: UserRepository = UserRepositoryImpl(
+        userApi: userAPI
+    )
+
     // MARK: - UseCases
     private lazy var bookUseCases = BookUseCases(repository: bookRepository)
 
@@ -46,6 +58,8 @@ final class AppContainer: ObservableObject {
     private lazy var wishlistUseCases = WishlistUseCases(
         repository: wishlistRepository
     )
+
+    private lazy var userUseCases = UserUseCase(userRepository: userRepository)
 
     // MARK: - ViewModels
     func makeBookViewModel() -> BookViewModel {
@@ -73,5 +87,9 @@ final class AppContainer: ObservableObject {
 
     func makeWishlistViewModel() -> WishlistViewModel {
         WishlistViewModel(usecase: wishlistUseCases)
+    }
+
+    func makeUserViewModel() -> UserViewModel {
+        UserViewModel(userUseCase: userUseCases, sessionManager: sessionManager)
     }
 }

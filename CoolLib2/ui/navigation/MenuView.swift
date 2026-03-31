@@ -21,22 +21,33 @@ struct MenuView: View {
         ScrollView {
             VStack(spacing: 16) {
                 
-                VStack {
-                    Image(systemName: "person.crop.circle.fill")
-                        .resizable()
-                        .frame(width:80, height: 80)
-                        .foregroundColor(.brown)
+                VStack(spacing: 12) {
+                    if isLoggedIn {
+                        Image("User")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 80, height: 80)
+                                .clipShape(Circle())
+                    } else {
+                        Image(systemName: "person.crop.circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 80, height: 80)
+                            .symbolRenderingMode(.hierarchical)
+                            .foregroundColor(.gray)
+                    }
                     
-                    Text(username ?? "Guest")
+                    Text(isLoggedIn ? (username ?? "User") : "Guest")
                         .font(.title2)
                         .bold()
                     
                     if !isLoggedIn {
-                        Text("Please login th access your lirary")
+                        Text("Please login to access your library")
                             .foregroundColor(.gray)
                             .font(.caption)
                     }
                 }
+                .padding(.vertical, 20)
                 
                 VStack(spacing: 0) {
                     MenuItem(icon: "list.bullet", title: "My Loans") {
