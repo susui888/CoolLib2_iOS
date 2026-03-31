@@ -2,7 +2,7 @@
 //  CoolLib2App.swift
 //  CoolLib2
 //
-//  Created by susui on 2026/3/18.
+//  Created by Ryan Su on 2026/3/18.
 //
 
 import SwiftUI

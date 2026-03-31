@@ -2,7 +2,7 @@
 //  WishlistUseCases.swift
 //  CoolLib2
 //
-//  Created by susui on 2026/3/27.
+//  Created by Ryan Su on 2026/3/27.
 //
 
 struct WishlistUseCases {

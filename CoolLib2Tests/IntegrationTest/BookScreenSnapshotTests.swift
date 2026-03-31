@@ -2,7 +2,7 @@
 //  BookScreenSnapshotTests.swift
 //  CoolLib2Tests
 //
-//  Created by susui on 2026/03/27.
+//  Created by Ryan Su on 2026/03/27.
 //
 
 import XCTest

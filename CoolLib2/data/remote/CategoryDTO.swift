@@ -2,7 +2,7 @@
 //  CategoryDTO.swift
 //  CoolLib2
 //
-//  Created by susui on 2026/3/22.
+//  Created by Ryan Su on 2026/3/22.
 //
 
 struct CategoryDTO: Codable, Sendable {

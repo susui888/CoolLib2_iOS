@@ -2,7 +2,7 @@
 //  Category.swift
 //  CoolLib2
 //
-//  Created by susui on 2026/3/20.
+//  Created by Ryan Su on 2026/3/20.
 //
 
 struct Category: Identifiable, Sendable {
