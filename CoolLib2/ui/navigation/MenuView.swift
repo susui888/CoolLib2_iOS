@@ -12,7 +12,7 @@ struct MenuView: View {
     let isLoggedIn: Bool
     let username: String?
     
-    let onMenuTap: (String) -> Void
+    let onMenuTap: (MenuOption) -> Void
     let onLogout: () -> Void
     
     @Environment(\.dismiss) private var dismiss
@@ -40,15 +40,15 @@ struct MenuView: View {
                 
                 VStack(spacing: 0) {
                     MenuItem(icon: "list.bullet", title: "My Loans") {
-                        onMenuTap("loans")
+                        onMenuTap(.loans)
                     }
                     Divider()
                     MenuItem(icon:"bookmark", title: "Reservations") {
-                        onMenuTap("reservation")
+                        onMenuTap(.reservations)
                     }
                     Divider()
                     MenuItem(icon: "clock", title: "History"){
-                        onMenuTap("history")
+                        onMenuTap(.history)
                     }
                 }
                 .padding()
@@ -57,15 +57,15 @@ struct MenuView: View {
                 
                 VStack(spacing: 0){
                     MenuItem(icon: "person", title: "Profile") {
-                        onMenuTap("profile")
+                        onMenuTap(.profile)
                     }
                     Divider()
                     MenuItem(icon: "gear", title: "Settings") {
-                        onMenuTap("settings")
+                        onMenuTap(.settings)
                     }
                     Divider()
                     MenuItem(icon: "info.circle", title: "About") {
-                        onMenuTap("about")
+                        onMenuTap(.about)
                     }
                 }
                 .padding()
@@ -87,7 +87,7 @@ struct MenuView: View {
                             icon: "arrow.right.square",
                             title: "Login",
                             action: {
-                                onMenuTap("login")
+                                onMenuTap(.login)
                             }
                         )
                     }

@@ -33,10 +33,10 @@ class TopBarManager {
         showScanner = true
     }
 
-    func handleMenuTap(_ identifier: String) {
+    func handleMenuTap(_ option: MenuOption) {
         showProfileSheet = false
-        if identifier == "login" {
-            self.router?.navigate(fromMenu: identifier)
+        if option == .login {
+            self.router?.navigate(fromMenu: option)
         } else {
 
         }
@@ -56,7 +56,7 @@ extension View {
                 onLogout: { manager.handleLogout() },
                 isLoggedIn: manager.isLoggedIn,
                 username: manager.username,
-                onMenuTap: { id in manager.handleMenuTap(id) }
+                onMenuTap: { option in manager.handleMenuTap(option) }
             )
         )
         .fullScreenCover(isPresented: createBinding(manager)) {
@@ -78,7 +78,7 @@ struct TopBarView: ViewModifier {
     let onLogout: () -> Void
     let isLoggedIn: Bool
     let username: String?
-    let onMenuTap: (String) -> Void
+    let onMenuTap: (MenuOption) -> Void
 
     @State private var showProfileSheet = false
 
@@ -108,9 +108,9 @@ struct TopBarView: ViewModifier {
                     MenuView(
                         isLoggedIn: isLoggedIn,
                         username: username,
-                        onMenuTap: { id in
+                        onMenuTap: { option in
                             showProfileSheet = false
-                            onMenuTap(id)
+                            onMenuTap(option)
                         },
                         onLogout: {
                             showProfileSheet = false

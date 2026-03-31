@@ -1,13 +1,5 @@
 import SwiftUI
 
-enum Tab {
-    case home
-    case book
-    case cart
-    case stats
-    case search
-}
-
 struct MainTabView: View {
 
     @EnvironmentObject var router: AppRouter

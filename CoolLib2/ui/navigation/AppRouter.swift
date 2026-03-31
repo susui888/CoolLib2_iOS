@@ -103,20 +103,22 @@ final class AppRouter: ObservableObject {  // The global router class managing n
         }
     }
 
-    func navigate(fromMenu identifier: String) {
-        switch identifier {
-        case "login":
+    func navigate(fromMenu option: MenuOption) {
+        switch option {
+        case .login:
             showLogin()
-        case "loans":
+        case .loans:
             push(.myLoans)
-        case "reservation":
+        case .reservations:
             push(.reservations)
-        case "history":
+        case .history:
             push(.history)
-        case "profile":
+        case .profile:
             push(.profile)
-        default:
-            print("Unknown identifier: \(identifier)")
+        case .settings:
+            push(.profile)      //Temp
+        case .about:
+            push(.profile)      //Temp
         }
     }
 }
