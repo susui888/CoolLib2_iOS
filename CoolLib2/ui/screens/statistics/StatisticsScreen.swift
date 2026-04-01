@@ -9,46 +9,102 @@ import SwiftUI
 
 struct StatisticsScreen:View {
     
+    @EnvironmentObject var router: AppRouter
+
+    @StateObject private var statisticsViewModel: StatisticsViewModel
+
+    init(
+        container: AppContainer,
+    ) {
+        _statisticsViewModel = StateObject(
+            wrappedValue: container.makeStatisticsViewModel()
+        )
+    }
+    
     var body: some View {
-        StatisticsScreenContent()
+        StatisticsScreenContent(
+            state: statisticsViewModel.uiState
+        )
     }
 }
 
+import SwiftUI
+
 struct StatisticsScreenContent: View {
+    let state: StatisticsUIState
+    
     var body: some View {
         ScrollView {
-            VStack(spacing: 20) {
+            if state.isLoading {
+                ProgressView()
+                    .padding(.top, 50)
+            } else {
+                VStack(spacing: 16) {
 
-                StatCardView(
-                    title: "Currently Borrowed",
-                    value: "3",
-                    systemImage: "book.fill"
-                )
-
-                StatCardView(
-                    title: "Overdue",
-                    value: "0",
-                    systemImage: "exclamationmark.triangle.fill"
-                )
-                
-                StatCardView(
-                    title: "Total Borrowed",
-                    value: "27",
-                    systemImage: "books.vertical.fill"
-                )
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+                        StatCardView(
+                            title: "Current",
+                            value: "\(state.currentlyBorrowed)",
+                            systemImage: "book.fill",
+                            color: .blue
+                        )
+                        
+                        StatCardView(
+                            title: "Due Soon",
+                            value: "\(state.dueSoon)",
+                            systemImage: "clock.badge.exclamationmark.fill",
+                            color: .orange
+                        )
+                        
+                        StatCardView(
+                            title: "Overdue",
+                            value: "\(state.overdue)",
+                            systemImage: "exclamationmark.triangle.fill",
+                            color: .red
+                        )
+                        
+                        StatCardView(
+                            title: "Total",
+                            value: "\(state.totalBorrowed)",
+                            systemImage: "books.vertical.fill",
+                            color: .secondary
+                        )
+                    }
+                }
+                .padding()
             }
-            .padding()
         }
         .navigationTitle("Statistics")
     }
 }
 
-#Preview {
-    StatisticsScreenContent()
-        .preferredColorScheme(.light)
+// MARK: - Previews
+#Preview("Light Mode") {
+    NavigationStack {
+        StatisticsScreenContent(state: StatisticsUIState(
+            currentlyBorrowed: 2,
+            dueSoon: 1,
+            overdue: 0,
+            totalBorrowed: 15,
+            isLoading: false,
+            isLoggedIn: true
+        ))
+        .navigationTitle("Statistics")
+    }
+    .preferredColorScheme(.light)
 }
 
-#Preview {
-    StatisticsScreenContent()
-        .preferredColorScheme(.dark)
+#Preview("Dark Mode") {
+    NavigationStack {
+        StatisticsScreenContent(state: StatisticsUIState(
+            currentlyBorrowed: 5,
+            dueSoon: 3,
+            overdue: 1,
+            totalBorrowed: 20,
+            isLoading: false,
+            isLoggedIn: true
+        ))
+        .navigationTitle("Statistics")
+    }
+    .preferredColorScheme(.dark)
 }

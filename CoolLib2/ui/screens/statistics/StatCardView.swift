@@ -7,33 +7,36 @@
 import SwiftUI
 
 struct StatCardView: View {
-    
     let title: String
     let value: String
     let systemImage: String
+    let color: Color
     
     var body: some View {
-        HStack {
-            Image(systemName: systemImage)
-                .font(.title)
-                .frame(width: 40)
-            
-            
-            VStack(alignment: .leading){
-                Text(title)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                
-                Text(value)
-                    .font(.title)
-                    .bold()
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Image(systemName: systemImage)
+                    .font(.title2)
+                    .foregroundColor(color)
+                Spacer()
             }
             
-            Spacer()
+            VStack(alignment: .leading, spacing: 4) {
+                Text(value)
+                    .font(.system(.title, design: .serif))
+                    .fontWeight(.bold)
+                
+                Text(title)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .fontWeight(.medium)
+            }
         }
         .padding()
-        .background(Color(.systemGray6))
-        .cornerRadius(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.white)
+        .cornerRadius(12)
+        .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
     }
 }
 
@@ -41,6 +44,7 @@ struct StatCardView: View {
     StatCardView(
         title: "Currently Borrowed",
         value: "3",
-        systemImage: "book.fill"
+        systemImage: "book.fill",
+        color: .blue
     )
 }

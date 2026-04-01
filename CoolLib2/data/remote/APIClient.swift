@@ -13,16 +13,19 @@ final class APIClient {
     init(sessionManager: SessionManager) {
         self.sessionManager = sessionManager
     }
-    
+
     // MARK: - Auth Interceptor Logic (Private)
     private func intercept(_ request: URLRequest) -> URLRequest {
         var requestBuilder = request
-        
+
         // Get token from session manager
         if let token = sessionManager.getToken(), !token.isEmpty {
-            requestBuilder.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            requestBuilder.addValue(
+                "Bearer \(token)",
+                forHTTPHeaderField: "Authorization"
+            )
         }
-        
+
         return requestBuilder
     }
 
@@ -31,66 +34,73 @@ final class APIClient {
         guard let url = URL(string: urlString) else {
             throw APIError.invalidURL
         }
-        
+
         // Step 1: Create request
         let urlRequest = URLRequest(url: url)
-        
+
         // Step 2: Apply Interceptor
         let interceptedRequest = intercept(urlRequest)
-        
+
         // Step 3: Proceed with call
-        let (data, response) = try await URLSession.shared.data(for: interceptedRequest)
-        
+        let (data, response) = try await URLSession.shared.data(
+            for: interceptedRequest
+        )
+
         guard let httpResponse = response as? HTTPURLResponse else {
             throw APIError.invalidResponse
         }
-        
+
         guard 200..<300 ~= httpResponse.statusCode else {
             throw APIError.serverError(code: httpResponse.statusCode)
         }
-        
+
         return try decode(data: data)
     }
-    
+
     // MARK: - 2. New POST Method
     func request<T: Decodable, B: Encodable>(
         _ urlString: String,
         method: String,
         body: B
     ) async throws -> T {
-        
+
         guard let url = URL(string: urlString) else {
             throw APIError.invalidURL
         }
-        
+
         // Step 1: Create request
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
+        urlRequest.setValue(
+            "application/json",
+            forHTTPHeaderField: "Content-Type"
+        )
+
         do {
             urlRequest.httpBody = try JSONEncoder().encode(body)
         } catch {
             throw APIError.jsonDecodingFailed
         }
-        
+
         // Step 2: Apply Interceptor
         let interceptedRequest = intercept(urlRequest)
-        
+
         // Step 3: Proceed with call
-        let (data, response) = try await URLSession.shared.data(for: interceptedRequest)
-        
+        let (data, response) = try await URLSession.shared.data(
+            for: interceptedRequest
+        )
+
         guard let httpResponse = response as? HTTPURLResponse else {
             throw APIError.invalidResponse
         }
-        
+
         guard 200..<300 ~= httpResponse.statusCode else {
             throw APIError.serverError(code: httpResponse.statusCode)
         }
-        
+
         return try decode(data: data)
     }
-    
+
     // MARK: - Shared Decoding Logic
     private func decode<T: Decodable>(data: Data) throws -> T {
         if T.self == String.self {
@@ -99,9 +109,17 @@ final class APIClient {
             }
             return string
         }
-        
+
         do {
-            return try JSONDecoder().decode(T.self, from: data)
+            let decoder = JSONDecoder()
+
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+
+            decoder.dateDecodingStrategy = .formatted(dateFormatter)
+
+            return try decoder.decode(T.self, from: data)
         } catch {
             throw APIError.jsonDecodingFailed
         }
@@ -114,19 +132,19 @@ enum APIError: Error {
     case serverError(code: Int)
     case jsonDecodingFailed
     case stringDecodingFailed
-    
+
     var code: Int {
-            switch self {
-            case .serverError(let code):
-                return code
-            case .invalidURL:
-                return -1 
-            case .invalidResponse:
-                return -2
-            case .jsonDecodingFailed:
-                return -3
-            case .stringDecodingFailed:
-                return -4
-            }
+        switch self {
+        case .serverError(let code):
+            return code
+        case .invalidURL:
+            return -1
+        case .invalidResponse:
+            return -2
+        case .jsonDecodingFailed:
+            return -3
+        case .stringDecodingFailed:
+            return -4
         }
+    }
 }

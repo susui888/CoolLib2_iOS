@@ -63,7 +63,7 @@ struct MainTabView: View {
 
             // MARK: - Stats Tab
             NavigationStack(path: $router.statsPath) {
-                StatisticsScreen()
+                StatisticsScreen(container: container)
                     .navigationDestination(for: Screen.self) {
                         router.destination(for: $0)
                     }
