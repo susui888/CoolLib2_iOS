@@ -8,4 +8,6 @@
 protocol LoanAPI {
     
     func getAllLoans() async throws -> [LoanDTO]
+    
+    func borrowBooks(carts: [CartDTO]) async throws -> BorrowResponse
 }

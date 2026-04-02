@@ -49,11 +49,11 @@ final class CartViewModel: ObservableObject {
         }
     }
 
-    func toggleCart(book: Book)  {
+    func toggleCart(book: Book) {
         Task {
             do {
                 try await usecase.toggleCart(book: book)
-                
+
                 let updatedItems = try await usecase.allCartItems()
                 state = .success(updatedItems)
             } catch {
@@ -62,7 +62,7 @@ final class CartViewModel: ObservableObject {
         }
     }
 
-    func removeCart(bookId: Int)  {
+    func removeCart(bookId: Int) {
         Task {
             do {
                 try await usecase.removeFromCart(bookId: bookId)
@@ -78,7 +78,7 @@ final class CartViewModel: ObservableObject {
         return (try? await usecase.isBookInCart(bookId: bookId)) ?? false
     }
 
-    func clearLocalCart()  {
+    func clearLocalCart() {
         Task {
             do {
                 try await usecase.clearLocalCart()
@@ -87,5 +87,15 @@ final class CartViewModel: ObservableObject {
                 state = .error("Failed to clear cart")
             }
         }
+    }
+
+    // MARK: - Borrow Books Logic
+
+
+    func borrowBooks() async throws {
+        guard case .success(let items) = state, !items.isEmpty else { return }
+        
+        let _ = try await usecase.borrowBooks(carts: items)
+        state = .success([])
     }
 }

@@ -7,18 +7,27 @@
 
 import Foundation
 
-final class LoanAPIImpl: LoanAPI{
-    
+final class LoanAPIImpl: LoanAPI {
+
     private let client: APIClient
 
     init(client: APIClient) {
         self.client = client
     }
-    
-    
+
     func getAllLoans() async throws -> [LoanDTO] {
         let urlString = "\(APIConfig.serverURL)/api/loan"
-        
+
         return try await client.request(urlString)
+    }
+
+    func borrowBooks(carts: [CartDTO]) async throws -> BorrowResponse {
+        let urlString = "\(APIConfig.serverURL)/api/cart/borrow"
+
+        return try await client.request(
+            urlString,
+            method: "POST",
+            body: carts
+        )
     }
 }

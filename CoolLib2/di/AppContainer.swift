@@ -39,6 +39,7 @@ final class AppContainer: ObservableObject {
     )
 
     private lazy var cartRepository: CartRepository = CartRepositoryImpl(
+        loanAPI: loanAPI,
         modelContext: modelContext
     )
 

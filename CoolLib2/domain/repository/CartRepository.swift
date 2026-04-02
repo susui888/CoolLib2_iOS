@@ -17,4 +17,6 @@ protocol CartRepository {
     func allCartItems() async throws -> [Cart]
     
     func clearLocalCart() async throws
+    
+    func borrowBooks(carts: [Cart]) async throws -> String
 }

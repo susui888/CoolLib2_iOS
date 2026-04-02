@@ -33,3 +33,12 @@ extension CartEntity {
         )
     }
 }
+
+extension Cart {
+    func toDTO() -> CartDTO {
+        return CartDTO(
+            bookId: self.id,
+            quantity: 1
+        )
+    }
+}

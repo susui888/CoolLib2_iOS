@@ -36,4 +36,8 @@ struct CartUseCases {
     func clearLocalCart() async throws {
         try await repository.clearLocalCart()
     }
+
+    func borrowBooks(carts: [Cart]) async throws -> String {
+        return try await repository.borrowBooks(carts: carts)
+    }
 }

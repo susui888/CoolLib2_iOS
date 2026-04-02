@@ -10,10 +10,13 @@ import SwiftData
 
 @MainActor
 final class CartRepositoryImpl: CartRepository {
+    
+    private let loanAPI: LoanAPI
     private let modelContext: ModelContext
-
-    init(modelContext: ModelContext) {
+    
+    init(loanAPI: LoanAPI, modelContext: ModelContext) {
         self.modelContext = modelContext
+        self.loanAPI = loanAPI
     }
 
     func toggleCart(book: Book) async throws {
@@ -68,4 +71,22 @@ final class CartRepositoryImpl: CartRepository {
         try modelContext.save()
     }
 
+    func borrowBooks(carts: [Cart]) async throws -> String {
+
+        let dtoList = carts.map { $0.toDTO() }
+
+        let response: BorrowResponse = try await loanAPI.borrowBooks(carts: dtoList)
+
+        if response.status == "success" {
+          
+            try await clearLocalCart()
+            return response.message
+        } else {
+            throw NSError(
+                domain: "BorrowError",
+                code: 0,
+                userInfo: [NSLocalizedDescriptionKey: response.message]
+            )
+        }
+    }
 }

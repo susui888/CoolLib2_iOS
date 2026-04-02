@@ -23,21 +23,33 @@ struct CartScreen: View {
         _cartViewModel = StateObject(
             wrappedValue: container.makeCartViewModel()
         )
-        
+
         _wishlistViewModel = StateObject(
-            wrappedValue: container.makeWishlistViewModel())
+            wrappedValue: container.makeWishlistViewModel()
+        )
     }
 
     var body: some View {
         CartScreenContent(
             cartState: cartViewModel.state,
+
             onDeleteCartItem: { id in
                 cartViewModel.removeCart(bookId: id)
             },
+
             onItemTap: { id in
                 router.push(.bookDetails(bookId: id))
             },
+
+            onBorrow: {
+                Task {
+                    try? await cartViewModel.borrowBooks()
+                    router.navigate(fromMenu: .loans)
+                }
+            },
+
             wishlistState: wishlistViewModel.state,
+
             onDeleteWishlistItem: { id in
                 wishlistViewModel.removeWishlist(bookId: id)
             },
@@ -53,10 +65,10 @@ struct CartScreenContent: View {
     let cartState: CartUIState
     let onDeleteCartItem: (Int) -> Void
     let onItemTap: (Int) -> Void
-    
+    let onBorrow: () -> Void
+
     let wishlistState: WishlistUIState
     let onDeleteWishlistItem: (Int) -> Void
-
 
     @State private var selectedTab: CartTab = .cart
 
@@ -89,7 +101,11 @@ struct CartScreenContent: View {
             ProgressView().frame(maxHeight: .infinity)
         case .success(let items):
             if items.isEmpty {
-                emptyView(icon: "heart", title: "No saved book", subtitle: "Books you save will appear here")
+                emptyView(
+                    icon: "heart",
+                    title: "No saved book",
+                    subtitle: "Books you save will appear here"
+                )
             } else {
                 List {
                     ForEach(items) { item in
@@ -99,7 +115,7 @@ struct CartScreenContent: View {
                         for index in IndexSet {
                             onDeleteWishlistItem(items[index].id)
                         }
-                        
+
                     }
                 }
                 .listStyle(.plain)
@@ -135,6 +151,19 @@ struct CartScreenContent: View {
                     }
                 }
                 .listStyle(.plain)
+
+                Button(action: onBorrow) {
+                    Text("Borrow All (\(items.count))")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundStyle(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+                .padding()
+                .background(.background)
+                .shadow(color: .black.opacity(0.05), radius: 5, y: -5)
             }
         case .error(let message):
             Text(message).foregroundStyle(.red)
@@ -198,6 +227,7 @@ struct CartScreenContent: View {
             cartState: .success(MockCart.list),
             onDeleteCartItem: { _ in },
             onItemTap: { _ in },
+            onBorrow: {},
             wishlistState: .success(MockWishlist.list),
             onDeleteWishlistItem: { _ in },
         )
@@ -210,6 +240,7 @@ struct CartScreenContent: View {
             cartState: .success([]),
             onDeleteCartItem: { _ in },
             onItemTap: { _ in },
+            onBorrow: {},
             wishlistState: .success(MockWishlist.list),
             onDeleteWishlistItem: { _ in }
         )
