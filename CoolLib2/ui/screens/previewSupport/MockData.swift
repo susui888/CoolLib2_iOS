@@ -1,3 +1,5 @@
+import Foundation
+
 struct MockCategories {
 
     static let list: [Category] = [
@@ -235,5 +237,57 @@ extension MockCategories {
                 description: category.description,
             )
         }
+    }
+}
+
+
+struct MockLoans {
+    
+    static let list: [Loan] = [
+        Loan(
+            id: 1001,
+            book: MockBooks.list.first(where: { $0.id == 262 }),
+            borrowDate: daysAgo(10),
+            dueDate: daysFromNow(4),
+            returnDate: nil,
+            status: .borrowed
+        ),
+        
+        Loan(
+            id: 1002,
+            book: MockBooks.list.first(where: { $0.id == 270 }),
+            borrowDate: daysAgo(30),
+            dueDate: daysAgo(2),
+            returnDate: nil,
+            status: .overdue
+        ),
+        
+        Loan(
+            id: 1003,
+            book: MockBooks.list.first(where: { $0.id == 243 }),
+            borrowDate: daysAgo(45),
+            dueDate: daysAgo(15),
+            returnDate: daysAgo(16),
+            status: .returned
+        ),
+        
+        Loan(
+            id: 1004,
+            book: MockBooks.list.first(where: { $0.id == 271 }),
+            borrowDate: daysAgo(5),
+            dueDate: daysFromNow(9),
+            returnDate: nil,
+            status: .borrowed
+        )
+    ]
+    
+    // MARK: - Helper Methods for Dates
+    
+    private static func daysAgo(_ days: Int) -> Date {
+        Calendar.current.date(byAdding: .day, value: -days, to: Date()) ?? Date()
+    }
+    
+    private static func daysFromNow(_ days: Int) -> Date {
+        Calendar.current.date(byAdding: .day, value: days, to: Date()) ?? Date()
     }
 }

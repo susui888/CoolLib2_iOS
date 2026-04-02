@@ -50,7 +50,7 @@ final class AppContainer: ObservableObject {
     lazy var userRepository: UserRepository = UserRepositoryImpl(
         userApi: userAPI
     )
-    
+
     private lazy var loanRepository: LoanRepository = LoanRepositoryImpl(
         loanApi: loanAPI,
         bookRepository: bookRepository
@@ -66,7 +66,7 @@ final class AppContainer: ObservableObject {
     )
 
     private lazy var userUseCases = UserUseCase(userRepository: userRepository)
-    
+
     private lazy var loanUseCases = LoanUseCases(repository: loanRepository)
 
     // MARK: - ViewModels
@@ -100,8 +100,22 @@ final class AppContainer: ObservableObject {
     func makeUserViewModel() -> UserViewModel {
         UserViewModel(userUseCase: userUseCases, sessionManager: sessionManager)
     }
-    
+
     func makeStatisticsViewModel() -> StatisticsViewModel {
-        StatisticsViewModel(loanUseCases: loanUseCases, sessionManager: sessionManager)
+        StatisticsViewModel(
+            loanUseCases: loanUseCases,
+            sessionManager: sessionManager
+        )
+    }
+
+    func makeLoanViewModel() -> LoanViewModel {
+        LoanViewModel(
+            loanUseCases: loanUseCases,
+            sessionManager: sessionManager
+        )
+    }
+
+    func makeSessionManager() -> SessionManager {
+        return sessionManager
     }
 }

@@ -22,6 +22,18 @@ enum LoanStatus: String, Codable, CaseIterable {
     func isFinished() -> Bool {
         return self == .returned
     }
+    
+    var description: String {
+        return self.rawValue
+    }
+    
+    var displayColor: Color {
+        switch self {
+        case .borrowed: return .blue
+        case .returned: return .green
+        case .overdue: return .red
+        }
+    }
 }
 
 // MARK: - Loan Model

@@ -1,5 +1,6 @@
 enum Screen: Hashable {
     case bookDetails(bookId: Int)
+    
     case books(
         category: Int? = nil,
         author: String? = nil,
@@ -7,10 +8,8 @@ enum Screen: Hashable {
         year: Int? = nil,
         searchTerm: String? = nil
     )
-    case myLoans
-    case reservations
-    case history
-    case profile
+    
+    case loans(loanType: LoanType)
 }
 
 enum Tab: Hashable {
@@ -29,4 +28,9 @@ enum MenuOption: CaseIterable {
     case settings
     case about
     case login
+}
+
+enum LoanType {
+    case loans
+    case history
 }

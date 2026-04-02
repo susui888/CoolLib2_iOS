@@ -1,86 +1,78 @@
 import Combine
 import SwiftUI
 
-final class AppRouter: ObservableObject {  // The global router class managing navigation and tabs
-
+final class AppRouter: ObservableObject {
     private let container: AppContainer
 
     init(container: AppContainer) {
         self.container = container
     }
 
-    // MARK: - Current Selected Tab
-    @Published var selectedTab: Tab = .home  // Tracks the currently selected tab, SwiftUI updates automatically
-
-    // MARK: - Navigation Paths for Each Tab
-    @Published var homePath: [Screen] = []  // Navigation path for Home tab
-    @Published var bookPath: [Screen] = []  // Navigation path for Book tab
-    @Published var cartPath: [Screen] = []  // Navigation path for Cart tab
-    @Published var statsPath: [Screen] = []  // Navigation path for Stats tab
-    @Published var searchPath: [Screen] = []  // Navigation path for Search tab
-
+    @Published var selectedTab: Tab = .home
+    @Published var homePath: [Screen] = []
+    @Published var bookPath: [Screen] = []
+    @Published var cartPath: [Screen] = []
+    @Published var statsPath: [Screen] = []
+    @Published var searchPath: [Screen] = []
     @Published var showLoginSheet: Bool = false
 
     func showLogin(_ isShown: Bool) {
         showLoginSheet = isShown
     }
 
-    // MARK: - Push Screen to Current Tab
-    func push(_ screen: Screen) {  // Push a Screen to the currently selected tab
-        switch selectedTab {
-        case .home:
-            homePath.append(screen)
-        case .book:
-            bookPath.append(screen)
-        case .cart:
-            cartPath.append(screen)
-        case .stats:
-            statsPath.append(screen)
-        case .search:
-            searchPath.append(screen)
+    // MARK: - Navigation Methods
+
+    func pop() {
+        updatePath(for: selectedTab) { path in
+            if !path.isEmpty {
+                path.removeLast()
+            }
+        }
+    }
+    
+    func popToRoot() {
+        updatePath(for: selectedTab) { path in
+            path.removeAll()
         }
     }
 
-    // MARK: - Switch Tab
-    func switchTo(tab: Tab) {  // Switch to a different tab
+    func push(_ screen: Screen) {
+        updatePath(for: selectedTab) { path in
+            path.append(screen)
+        }
+    }
+
+    func switchTo(tab: Tab) {
         selectedTab = tab
     }
 
-    // MARK: - Push Screen to Specific Tab (Cross-Tab Navigation)
-    func push(_ screen: Screen, on tab: Tab) {  // Push a Screen to a specific tab
+    func push(_ screen: Screen, on tab: Tab) {
         selectedTab = tab
+        updatePath(for: tab) { path in
+            path.append(screen)
+        }
+    }
+
+    // MARK: - Private Helpers
+
+    private func updatePath(for tab: Tab, action: (inout [Screen]) -> Void) {
         switch tab {
-        case .home:
-            homePath.append(screen)
-        case .book:
-            bookPath.append(screen)
-        case .cart:
-            cartPath.append(screen)
-        case .stats:
-            statsPath.append(screen)
-        case .search:
-            searchPath.append(screen)
+        case .home: action(&homePath)
+        case .book: action(&bookPath)
+        case .cart: action(&cartPath)
+        case .stats: action(&statsPath)
+        case .search: action(&searchPath)
         }
     }
 
     // MARK: - Screen to View Mapping
     @ViewBuilder
-    func destination(for screen: Screen) -> some View {  // Map Screen enum to SwiftUI view
+    func destination(for screen: Screen) -> some View {
         switch screen {
-
         case .bookDetails(let id):
-            BookDetailScreen(
-                container: container,
-                bookId: id
-            )
-
-        case .books(
-            let category,
-            let author,
-            let publisher,
-            let year,
-            let searchTerm
-        ):
+            BookDetailScreen(container: container, bookId: id)
+            
+        case .books(let category, let author, let publisher, let year, let searchTerm):
             BookScreen(
                 container: container,
                 initialQuery: SearchQuery(
@@ -91,15 +83,9 @@ final class AppRouter: ObservableObject {  // The global router class managing n
                     searchTerm: searchTerm
                 )
             )
-
-        case .myLoans:
-            Text("My Loans Screen")
-        case .reservations:
-            Text("Reservations Screen")
-        case .history:
-            Text("History Screen")
-        case .profile:
-            Text("Profile Settings Screen")
+            
+        case .loans(let loanType):
+            LoanScreen(container: container, loanType: loanType)
         }
     }
 
@@ -108,17 +94,11 @@ final class AppRouter: ObservableObject {  // The global router class managing n
         case .login:
             showLogin(true)
         case .loans:
-            push(.myLoans)
-        case .reservations:
-            push(.reservations)
+            push(.loans(loanType: .loans))
         case .history:
-            push(.history)
-        case .profile:
-            push(.profile)
-        case .settings:
-            push(.profile)  //Temp
-        case .about:
-            push(.profile)  //Temp
+            push(.loans(loanType: .history))
+        case .reservations, .profile, .settings, .about:
+            showLogin(true)
         }
     }
 }
