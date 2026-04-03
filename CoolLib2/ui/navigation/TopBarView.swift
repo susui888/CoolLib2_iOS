@@ -13,6 +13,8 @@ class TopBarManager {
     var showProfileSheet = false
     var showScanner = false
 
+    var lastScannedISBN: String = ""
+
     let container: AppContainer
     let router: AppRouter
 
@@ -28,10 +30,9 @@ class TopBarManager {
     var username: String? {
         isLoggedIn ? container.sessionManager.getUsername() : nil
     }
-    
 
     func handleScan() {
-        print("Starting QR Scanner...")
+        lastScannedISBN = ""
         showScanner = true
     }
 
@@ -48,8 +49,13 @@ class TopBarManager {
         showProfileSheet = false
 
         container.sessionManager.clearSession()
-                
+
         router.switchTo(tab: .home)
+    }
+
+    func navigateToCart() {
+        self.showScanner = false
+        self.router.switchTo(tab: .cart)
     }
 }
 
@@ -65,7 +71,7 @@ extension View {
             )
         )
         .fullScreenCover(isPresented: createBinding(manager)) {
-            Text("Scanner Placeholder")  // ScannerView()
+            ScannerScreen(container: manager.container, manager: manager)
         }
     }
 

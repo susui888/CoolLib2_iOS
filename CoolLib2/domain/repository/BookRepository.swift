@@ -15,4 +15,6 @@ protocol BookRepository {
     func getNewestBooks() async throws -> [Book]
     
     func getRecentBooks(limit: Int) async throws -> [Book]
+    
+    func getBookByISBN(isbn: String) async throws -> Book
 }

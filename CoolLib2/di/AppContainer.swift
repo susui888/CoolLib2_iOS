@@ -115,6 +115,13 @@ final class AppContainer: ObservableObject {
             sessionManager: sessionManager
         )
     }
+    
+    func makeScannerViewModel() -> ScannerViewModel {
+        ScannerViewModel(
+            bookUseCase: bookUseCases,
+            cartUseCase: cartUseCases
+        )
+    }
 
     func makeSessionManager() -> SessionManager {
         return sessionManager

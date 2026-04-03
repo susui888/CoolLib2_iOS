@@ -21,7 +21,7 @@ struct BookUseCases {
     }
     
     func getCategory() async throws -> [Category] {
-        try await repository.getCategory().sorted { $0.name < $1.name}
+        try await repository.getCategory()
     }
     
     func getNewestBooks() async throws -> [Book]{
@@ -30,5 +30,9 @@ struct BookUseCases {
     
     func getRecentBooks(limit: Int = 12) async throws -> [Book] {
         try await repository.getRecentBooks(limit: limit)
+    }
+    
+    func getBookByISBN(isbn: String) async throws -> Book {
+        try await repository.getBookByISBN(isbn: isbn)
     }
 }

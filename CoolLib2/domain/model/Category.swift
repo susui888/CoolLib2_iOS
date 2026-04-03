@@ -11,8 +11,8 @@ struct Category: Identifiable, Sendable {
         self.id = id
         self.name = name
         self.description = description
-        //self.coverUrl = coverUrl ?? "\(APIConfig.serverURL)/img/\(id).webp"
-        self.coverUrl = coverUrl ?? "https://picsum.photos/240"
+        self.coverUrl = coverUrl ?? "\(APIConfig.serverURL)/img/\(id).webp"
+        //self.coverUrl = coverUrl ?? "https://picsum.photos/240"
     }
 
     let id: Int

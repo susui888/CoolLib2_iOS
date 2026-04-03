@@ -17,13 +17,16 @@ final class BookAPIImpl: BookAPI {
     
     func getCategory() async throws -> [CategoryDTO] {
         let urlString = "\(APIConfig.serverURL)/api/category"
-        
         return try await client.request(urlString)
     }
     
     func getBookById(id: Int) async throws -> BookDTO {
         let urlString = "\(APIConfig.serverURL)/api/books/\(id)"
-        
+        return try await client.request(urlString)
+    }
+    
+    func getBookByISBN(isbn: String) async throws -> BookDTO {
+        let urlString = "\(APIConfig.serverURL)/api/books/isbn/\(isbn)"
         return try await client.request(urlString)
     }
 

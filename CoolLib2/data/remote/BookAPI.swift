@@ -20,4 +20,6 @@ protocol BookAPI {
     func getCategory() async throws -> [CategoryDTO]
     
     func getNewestBooks() async throws -> [BookDTO]
+    
+    func getBookByISBN(isbn: String) async throws -> BookDTO
 }

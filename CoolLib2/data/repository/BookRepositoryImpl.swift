@@ -54,7 +54,11 @@ final class BookRepositoryImpl: BookRepository {
 
         return dto.toDomain()
     }
-
+    
+    func getBookByISBN(isbn: String) async throws -> Book {
+        try await bookApi.getBookByISBN(isbn: isbn).toDomain()
+    }
+    
     func getCategory() async throws -> [Category] {
         let dtos = try await bookApi.getCategory()
         return dtos.map { $0.toDomain() }
