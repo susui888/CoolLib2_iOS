@@ -17,15 +17,13 @@ struct CoolLib2App: App {
     private let modelContainer: ModelContainer
 
     init() {
-        // 1. 初始化持久化层
         let mc = ModelContainerFactory.create()
         self.modelContainer = mc
         
-        // 2. 初始化依赖注入容器
+
         let appContainer = AppContainer(modelContext: mc.mainContext)
         self._container = StateObject(wrappedValue: appContainer)
-        
-        // 3. 将容器注入路由系统
+
         self._router = StateObject(wrappedValue: AppRouter(container: appContainer))
     }
 

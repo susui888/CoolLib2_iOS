@@ -12,11 +12,11 @@ class ISBNScannerViewController: UIViewController, AVCaptureMetadataOutputObject
     var captureSession: AVCaptureSession!
     var previewLayer: AVCaptureVideoPreviewLayer!
     
-    // 回调闭包：用于将扫描结果传出
+    // Callback closure: used to pass scanned result outward
     var completionHandler: ((String) -> Void)?
 
     private var lastScanTime: Date = Date.distantPast
-    private let scanInterval: TimeInterval = 5.0 // 设置间隔为 5 秒
+    private let scanInterval: TimeInterval = 5.0 // Scan interval set to 5 seconds
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +45,7 @@ class ISBNScannerViewController: UIViewController, AVCaptureMetadataOutputObject
             captureSession.addOutput(metadataOutput)
 
             metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-            // ISBN 通常使用 EAN-13 格式
+            // ISBN codes typically use EAN-13 format
             metadataOutput.metadataObjectTypes = [.ean13]
         } else {
             return
@@ -56,30 +56,30 @@ class ISBNScannerViewController: UIViewController, AVCaptureMetadataOutputObject
         previewLayer.videoGravity = .resizeAspectFill
         view.layer.addSublayer(previewLayer)
 
-        // 在后台线程启动会话以避免阻塞主线程
+        // Start the session on a background thread to avoid blocking the main thread
         DispatchQueue.global(qos: .userInitiated).async {
             self.captureSession.startRunning()
         }
     }
 
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        // --- 核心更新：5秒间隔逻辑 ---
+        // --- Core update: 5-second interval throttling ---
         let now = Date()
         guard now.timeIntervalSince(lastScanTime) >= scanInterval else {
-            return // 如果距离上次扫描不足 5 秒，直接忽略
+            return // Ignore if last scan was within 5 seconds
         }
 
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let stringValue = readableObject.stringValue else { return }
             
-            // 更新最后一次成功扫描的时间
+            // Update last successful scan time
             lastScanTime = now
             
-            // 震动反馈
+            // Haptic feedback (vibration)
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             
-            // 处理扫描到的 ISBN 码
+            // Handle scanned ISBN code
             found(code: stringValue)
         }
     }
@@ -87,11 +87,11 @@ class ISBNScannerViewController: UIViewController, AVCaptureMetadataOutputObject
     func found(code: String) {
         print("Scanned ISBN: \(code)")
         
-        // 执行回调通知调用方
+        // Notify caller via callback
         completionHandler?(code)
         
-        // 如果你希望扫描一次后就关闭界面，取消下面两行的注释：
-        //captureSession.stopRunning()
-        //dismiss(animated: true)
+        // If you want to stop scanning after one result, uncomment below:
+        // captureSession.stopRunning()
+        // dismiss(animated: true)
     }
 }
