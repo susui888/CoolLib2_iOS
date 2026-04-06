@@ -1,28 +1,23 @@
-# CoolLib - Library Management iOS App
+# CoolLib iOS 🍎
 
-**CoolLib** is a high-performance library management app built with **SwiftUI** and **Clean Architecture**. It mirrors the Android version's architecture and features while leveraging modern iOS technologies.
+The iOS implementation of the CoolLib ecosystem, delivering a premium native experience using **SwiftUI** and **SwiftData**.
 
-## 🚀 Key Technical Wins
-
-- **Architecture**: Implemented **Clean Architecture (MVVM)** with strict layer separation, ensuring high modularity and testability.
-- **Concurrency**: Utilized **Swift Structured Concurrency (Async/Await)** for efficient, non-blocking data fetching and parallel mapping.
-- **Data Persistence**: Leveraging **SwiftData** for modern, declarative local storage and seamless data syncing.
-- **Reactive UI**: Built a fluid UI using **SwiftUI** and **Combine**, ensuring real-time state synchronization across all views.
-- **Testing**: Robust test suite using **XCTest** (or Swift Testing) covering core business logic and repository mapping.
+## 🔗 Ecosystem Links
+* [CoolLib Server](https://github.com/susui888/CoolLeaf) - Spring Boot API
+* [CoolLib Android](https://github.com/susui888/coollib-android) - Android Counterpart
 
 ## 🛠 Tech Stack
+* **UI:** SwiftUI
+* **Architecture:** Clean Architecture
+* **Persistence:** SwiftData (Latest iOS standards)
+* **Concurrency:** Swift Concurrency (Async/Await)
 
-- **UI**: SwiftUI, SF Symbols, Custom ViewModifiers.
-- **Logic**: MVVM, Use Cases, Async/Await, Combine.
-- **Data**: URLSession, SwiftData, Codable.
+## ✨ Key Features
+* **Native Experience:** Optimized for iOS with smooth animations.
+* **Unified Core:** Uses the same Distributed Core API as other platforms.
+* **Offline-First:** Seamless data handling with SwiftData.
+* **Modern Pipeline:** Reactive data flow from networking to UI.
 
-## 📊 Core Features
-
-- **Loan Tracking**: Filtered views for "Active Loans" vs. "History" with status-based design.
-- **Smart Stats**: Real-time calculation of "Due Soon" and "Overdue" metrics.
-- **QR Scanning**: Integrated AVFoundation for instant book barcode/QR identification.
-- **Book-Style UI**: Custom SwiftUI theme with a paper-like palette and signature book-texture card components.
-
-## 🏗 Development
-- **Min iOS**: 17.0
-- **Build**: Xcode / Swift Package Manager
+## 🛠 Requirements
+* iOS 26.0+
+* Xcode 26.0+
