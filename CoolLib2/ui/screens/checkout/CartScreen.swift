@@ -5,6 +5,7 @@
 //  Created by Ryan Su on 2026/3/20.
 //
 import SwiftUI
+import Kingfisher
 
 enum CartTab {
     case wishlist
@@ -172,17 +173,10 @@ struct CartScreenContent: View {
 
     func bookRow(book: Book) -> some View {
         HStack(spacing: 12) {
-
-            AsyncImage(url: URL(string: book.coverUrl)) { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-            } placeholder: {
-                Rectangle()
-                    .fill(.gray.opacity(0.2))
-            }
-            .frame(width: 60, height: 80)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
+            
+            KFImage(URL(string: book.coverUrl))
+                .standardStyle(width: 60, height: 80, cornerRadius: 8)
+            
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(book.title)

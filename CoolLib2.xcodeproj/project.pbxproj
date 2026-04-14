@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		521970292F8E22E100DFF6F7 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 521970282F8E22E100DFF6F7 /* Kingfisher */; };
 		52BD13612F77AC91000D1AB3 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 52BD13602F77AC91000D1AB3 /* SnapshotTesting */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				521970292F8E22E100DFF6F7 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +121,7 @@
 			);
 			name = CoolLib2;
 			packageProductDependencies = (
+				521970282F8E22E100DFF6F7 /* Kingfisher */,
 			);
 			productName = CoolLib2;
 			productReference = 52A92AA62F6AC0BC0048EFA2 /* CoolLib2.app */;
@@ -132,7 +135,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2630;
-				LastUpgradeCheck = 2630;
+				LastUpgradeCheck = 2640;
 				TargetAttributes = {
 					52052F7C2F7765BA00A8BBAA = {
 						CreatedOnToolsVersion = 26.3;
@@ -154,6 +157,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				52052FB42F77A31200A8BBAA /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+				521970272F8E22E100DFF6F7 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 52A92AA72F6AC0BC0048EFA2 /* Products */;
@@ -310,6 +314,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -367,6 +372,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -479,9 +485,22 @@
 				minimumVersion = 1.19.1;
 			};
 		};
+		521970272F8E22E100DFF6F7 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.8.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		521970282F8E22E100DFF6F7 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 521970272F8E22E100DFF6F7 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		52BD13602F77AC91000D1AB3 /* SnapshotTesting */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 52052FB42F77A31200A8BBAA /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;

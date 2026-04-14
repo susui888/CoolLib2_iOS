@@ -11,4 +11,14 @@ extension CategoryDTO {
     }
 }
 
+extension CategoryDTO {
+    func toEntity() -> CategoryEntity {
+        CategoryEntity(id: id, name: name, desc: description)
+    }
+}
 
+extension CategoryEntity {
+    func toDomain() -> Category {
+        Category(id: id, name: name, description: desc)
+    }
+}

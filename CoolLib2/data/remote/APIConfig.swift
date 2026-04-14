@@ -8,7 +8,8 @@ import Foundation
 
 enum APIConfig {
     
-    static let serverURL = "http://192.168.2.18:8080"
+    //static let serverURL = "http://192.168.2.18:9080"
+    static let serverURL = "https://coollib.ryansu.uk"
     
-    static let cacheTimeInterval: TimeInterval = 3 * 24 * 60 * 60
+    static let cacheTimeInterval: TimeInterval = 30 * 24 * 60 * 60
 }

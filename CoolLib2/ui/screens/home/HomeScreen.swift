@@ -1,3 +1,4 @@
+import Kingfisher
 //
 //  HomeScreen.swift
 //  CoolLib2
@@ -66,7 +67,7 @@ struct HomeScreenContent: View {
     let recentBooks: [Book]
     let wishlist: [Book]
     let newestBooks: [Book]
-    
+
     let onCategoryTap: (Int) -> Void
     let onBookTap: (Int) -> Void
 
@@ -100,7 +101,7 @@ struct HomeScreenContent: View {
             .padding(.vertical)
         }
     }
-    
+
 }
 
 struct SectionTitle: View {
@@ -119,7 +120,7 @@ struct CategorySection: View {
 
     let title: String
     let categories: [Category]
-    
+
     let onCategoryTap: (Int) -> Void
 
     var body: some View {
@@ -153,15 +154,8 @@ struct CategoryCard: View {
 
         VStack(spacing: 10) {
 
-            AsyncImage(url: URL(string: category.coverUrl)) { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-            } placeholder: {
-                Color.gray.opacity(0.2)
-            }
-            .frame(width: 240, height: 240)
-            .clipped()
+            KFImage(URL(string: category.coverUrl))
+                .standardStyle(width: 240, height: 240)
 
             Text(category.name)
                 .font(.headline)
@@ -184,7 +178,7 @@ struct BookSection: View {
 
     let title: String
     let books: [Book]
-    
+
     let onBookTap: (Int) -> Void
 
     var body: some View {
@@ -215,15 +209,9 @@ struct BookCard: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            AsyncImage(url: URL(string: book.coverUrl)) { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-            } placeholder: {
-                Color.gray.opacity(0.2)
-            }
-            .frame(width: 140, height: 190)
-            .clipped()
+            
+            KFImage(URL(string: book.coverUrl))
+                .standardStyle(width: 140, height: 190)
 
             Text(book.title)
                 .font(.caption2)

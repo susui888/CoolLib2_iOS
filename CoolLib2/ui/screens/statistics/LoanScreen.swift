@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct LoanScreen: View {
     @EnvironmentObject var router: AppRouter
@@ -140,15 +141,9 @@ struct LoanItemView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .top, spacing: 16) {
-                // Book Cover
-                AsyncImage(url: URL(string: loan.book?.coverUrl ?? "")) { image in
-                    image.resizable().aspectRatio(contentMode: .fill)
-                } placeholder: {
-                    Color(.secondarySystemBackground)
-                        .overlay(Text("No Cover").font(.caption2))
-                }
-                .frame(width: 60, height: 90)
-                .clipShape(RoundedRectangle(cornerRadius: 4))
+                
+                KFImage(URL(string: loan.book?.coverUrl ?? ""))
+                    .standardStyle(width: 60, height: 90, cornerRadius: 6)
                 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(loan.book?.title ?? "Unknown Book")

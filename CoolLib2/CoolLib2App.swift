@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import Kingfisher
 
 @main
 struct CoolLib2App: App {
@@ -25,6 +26,8 @@ struct CoolLib2App: App {
         self._container = StateObject(wrappedValue: appContainer)
 
         self._router = StateObject(wrappedValue: AppRouter(container: appContainer))
+        
+        setupKingfisherCache()
     }
 
     var body: some Scene {

@@ -2,11 +2,13 @@ import Foundation
 @testable import CoolLib2
 
 final class MockBookAPI: BookAPI {
+   
     
     // --- Stubs (Stub Data) ---
     // Defaulting to the lists defined in your MockBooks and MockCategories
     var stubSearchBooks: [BookDTO] = MockBooks.dtoList
     var stubBookById: BookDTO? = MockBooks.dtoList.first
+    var stubBookByISBN: BookDTO? = MockBooks.dtoList.first
     var stubCategories: [CategoryDTO] = MockCategories.dtoList
     var stubNewestBooks: [BookDTO] = MockBooks.dtoList.shuffled()
     
@@ -57,5 +59,10 @@ final class MockBookAPI: BookAPI {
     func getNewestBooks() async throws -> [BookDTO] {
         if shouldThrowError { throw customError }
         return stubNewestBooks
+    }
+    
+    func getBookByISBN(isbn: String) async throws -> BookDTO {
+        if shouldThrowError { throw customError }
+        return stubBookByISBN!
     }
 }

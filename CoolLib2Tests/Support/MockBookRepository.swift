@@ -8,13 +8,14 @@ import Foundation
 @testable import CoolLib2
 
 final class MockBookRepository: BookRepository {
+
     // --- 模拟数据持有者 ---
     var stubCategories: [CoolLib2.Category] = []
     var stubNewestBooks: [Book] = []
     var stubRecentBooks: [Book] = []
     var stubSearchBooks: [Book] = []
-
     var stubBookById: Book?
+    var stubBookByISBN: Book?
 
     // --- 控制开关 ---
     var shouldThrowError = false
@@ -43,6 +44,12 @@ final class MockBookRepository: BookRepository {
         return stubSearchBooks
     }
 
+    func getBookByISBN(isbn: String) async throws -> Book {
+        if shouldThrowError { throw createError() }
+        if let book = stubBookByISBN { return book }
+        throw createError(code: 404, message: "ISBN not found")
+    }
+
     func getBookById(id: Int) async throws -> Book {
         if shouldThrowError {
             throw NSError(
@@ -66,6 +73,16 @@ final class MockBookRepository: BookRepository {
             domain: "MockError",
             code: -1,
             userInfo: [NSLocalizedDescriptionKey: "Mocked network failure"]
+        )
+    }
+
+    private func createError(code: Int = -1, message: String = "Mocked failure")
+        -> NSError
+    {
+        return NSError(
+            domain: "MockError",
+            code: code,
+            userInfo: [NSLocalizedDescriptionKey: message]
         )
     }
 }

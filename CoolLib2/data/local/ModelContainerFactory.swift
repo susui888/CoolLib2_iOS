@@ -13,6 +13,7 @@ enum ModelContainerFactory {
                 BookEntity.self,
                 CartEntity.self,
                 WishlistEntity.self,
+                CategoryEntity.self,
         )
     }
 }

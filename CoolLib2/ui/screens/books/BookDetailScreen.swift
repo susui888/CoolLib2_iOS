@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct BookDetailScreen: View {
 
@@ -141,20 +142,11 @@ struct BookDetailScreenContent: View {
         ScrollView {
             VStack(spacing: 24) {
 
-                AsyncImage(url: URL(string: book.coverUrl)) { image in
-                    image
-                        .resizable()
-                        .scaledToFit()
-                } placeholder: {
-                    Rectangle()
-                        .fill(.gray.opacity(0.2))
-                        .overlay(ProgressView())
-                }
-                .frame(width: 180, height: 260)
-                .clipShape(RoundedRectangle(cornerRadius: 14))
-                .shadow(radius: 8, y: 6)
-                .padding(.top, 16)
-
+                KFImage(URL(string: book.coverUrl))
+                    .standardStyle(width: 200, height: 300, cornerRadius: 14)
+                    .shadow(radius: 8, y: 6)
+                    
+                
                 VStack(alignment: .leading, spacing: 16) {
                     Text(book.title)
                         .font(.title2)

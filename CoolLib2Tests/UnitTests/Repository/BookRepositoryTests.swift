@@ -99,7 +99,7 @@ final class BookRepositoryTests: XCTestCase {
     func test_getBookById_whenCacheIsExpired_shouldFetchFromAPIAndRefresh() async throws {
         // Arrange: 10 days ago (Exceeds APIConfig.cacheTimeInterval)
         let bookId = 262
-        let oldDate = Date().addingTimeInterval(-86400 * 10)
+        let oldDate = Date().addingTimeInterval(-86400 * 100)
         
         let expiredEntity = makeEntity(id: bookId, title: "Old Title", updatedAt: oldDate)
         context.insert(expiredEntity)

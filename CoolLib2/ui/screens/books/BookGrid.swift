@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct BookGrid: View {
     
@@ -15,15 +16,8 @@ struct BookGrid: View {
         
         VStack(spacing: 4){
             
-            AsyncImage(url: URL(string: book.coverUrl)) { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-            } placeholder: {
-                Color.gray.opacity(0.2)
-            }
-            .frame(width: 170, height: 210)
-            .clipped()
+            KFImage(URL(string: book.coverUrl))
+                .standardStyle(width: 170, height: 210)
             
             VStack(alignment: .leading, spacing: 2) {
                 
