@@ -50,4 +50,5 @@ final class BookEntity {
     var createdAt: Date
     var updatedAt: Date
 
+    var newestRef: NewestBookRef?
 }

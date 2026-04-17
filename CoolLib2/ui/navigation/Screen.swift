@@ -10,6 +10,7 @@ enum Screen: Hashable {
     )
     
     case loans(loanType: LoanType)
+    case about
 }
 
 enum Tab: Hashable {

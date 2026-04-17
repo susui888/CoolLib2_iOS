@@ -1,4 +1,5 @@
 import Combine
+import SafariServices
 import SwiftUI
 
 final class AppRouter: ObservableObject {
@@ -29,7 +30,7 @@ final class AppRouter: ObservableObject {
             }
         }
     }
-    
+
     func popToRoot() {
         updatePath(for: selectedTab) { path in
             path.removeAll()
@@ -71,8 +72,14 @@ final class AppRouter: ObservableObject {
         switch screen {
         case .bookDetails(let id):
             BookDetailScreen(container: container, bookId: id)
-            
-        case .books(let category, let author, let publisher, let year, let searchTerm):
+
+        case .books(
+            let category,
+            let author,
+            let publisher,
+            let year,
+            let searchTerm
+        ):
             BookScreen(
                 container: container,
                 initialQuery: SearchQuery(
@@ -83,10 +90,18 @@ final class AppRouter: ObservableObject {
                     searchTerm: searchTerm
                 )
             )
-            
+
         case .loans(let loanType):
             LoanScreen(container: container, loanType: loanType)
+
+        case .about:
+            AboutScreen(
+                onUrlClick: { urlString in
+                    self.openSafari(with: urlString)
+                }
+            )
         }
+
     }
 
     func navigate(fromMenu option: MenuOption) {
@@ -97,8 +112,25 @@ final class AppRouter: ObservableObject {
             push(.loans(loanType: .loans))
         case .history:
             push(.loans(loanType: .history))
-        case .reservations, .profile, .settings, .about:
+        case .reservations, .profile, .settings:
             showLogin(true)
+        case .about:
+            push(.about)
+        }
+    }
+
+    private func openSafari(with urlString: String) {
+        guard let url = URL(string: urlString) else { return }
+
+        if let windowScene = UIApplication.shared.connectedScenes.first
+            as? UIWindowScene,
+            let rootVC = windowScene.windows.first?.rootViewController
+        {
+            let safariVC = SFSafariViewController(url: url)
+            safariVC.dismissButtonStyle = .done
+            rootVC.present(safariVC, animated: true)
+        } else {
+            UIApplication.shared.open(url)
         }
     }
 }

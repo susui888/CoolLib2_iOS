@@ -35,6 +35,22 @@ extension BookDTO {
     }
 }
 
+extension Book {
+    func toEntity() -> BookEntity {
+        BookEntity(
+            id: id,
+            isbn: isbn,
+            title: title,
+            author: author,
+            publisher: publisher,
+            year: year,
+            available: available,
+            desc: description
+        )
+    }
+}
+
+
 extension BookEntity {
     func toDomain() -> Book {
         Book(
