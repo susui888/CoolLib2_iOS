@@ -43,7 +43,7 @@ struct MockBooks {
             year: 2011,
             available: true,
             description: "In Sapiens: A Brief History of Humankind, Yuval Noah Harari takes us on a breathtaking journey through the entire span of human history. He challenges everything we thought we knew about being human: our thoughts, our actions, our power... and our future. Harari explores how the Cognitive Revolution, the Agricultural Revolution, and the Scientific Revolution shaped us and the societies around us. He argues that Homo Sapiens dominates the world because we are the only animal that can cooperate flexibly in large numbers, thanks to our unique ability to believe in things that exist only in our imagination, such as gods, nations, and money.",
-            coverUrl: "\(APIConfig.serverURL)/img/cover/9780099590088.webp"
+            coverUrl: "\(APIConfig.IMG_BOOK_COVER)/9780099590088.webp"
         ),
 
         Book(
@@ -55,7 +55,7 @@ struct MockBooks {
             year: 2008,
             available: true,
             description: nil,
-            coverUrl: "\(APIConfig.serverURL)/img/cover/9780132350884.webp"
+            coverUrl: "\(APIConfig.IMG_BOOK_COVER)/9780132350884.webp"
         ),
 
         Book(
@@ -67,7 +67,7 @@ struct MockBooks {
             year: 1992,
             available: true,
             description: nil,
-            coverUrl: "\(APIConfig.serverURL)/img/cover/9780812513738.webp"
+            coverUrl: "\(APIConfig.IMG_BOOK_COVER)/9780812513738.webp"
         ),
 
         Book(
@@ -79,7 +79,7 @@ struct MockBooks {
             year: 1954,
             available: true,
             description: nil,
-            coverUrl: "\(APIConfig.serverURL)/img/cover/9780618640195.webp"
+            coverUrl: "\(APIConfig.IMG_BOOK_COVER)/9780618640195.webp"
         ),
 
         Book(
@@ -91,7 +91,7 @@ struct MockBooks {
             year: 1813,
             available: true,
             description: nil,
-            coverUrl: "\(APIConfig.serverURL)/img/cover/9780141439518.webp"
+            coverUrl: "\(APIConfig.IMG_BOOK_COVER)/9780141439518.webp"
         ),
 
         Book(
@@ -103,7 +103,7 @@ struct MockBooks {
             year: 1605,
             available: true,
             description: nil,
-            coverUrl: "\(APIConfig.serverURL)/img/cover/9780142437230.webp"
+            coverUrl: "\(APIConfig.IMG_BOOK_COVER)/9780142437230.webp"
         ),
 
         Book(
@@ -115,7 +115,7 @@ struct MockBooks {
             year: 1988,
             available: true,
             description: nil,
-            coverUrl: "\(APIConfig.serverURL)/img/cover/9780553380163.webp"
+            coverUrl: "\(APIConfig.IMG_BOOK_COVER)/9780553380163.webp"
         ),
 
         Book(
@@ -127,7 +127,7 @@ struct MockBooks {
             year: 1950,
             available: true,
             description: nil,
-            coverUrl: "\(APIConfig.serverURL)/img/cover/9780714832470.webp"
+            coverUrl: "\(APIConfig.IMG_BOOK_COVER)/9780714832470.webp"
         ),
 
         Book(
@@ -139,7 +139,7 @@ struct MockBooks {
             year: 1994,
             available: true,
             description: nil,
-            coverUrl: "\(APIConfig.serverURL)/img/cover/9780201633610.webp"
+            coverUrl: "\(APIConfig.IMG_BOOK_COVER)/9780201633610.webp"
         ),
 
         Book(
@@ -151,7 +151,7 @@ struct MockBooks {
             year: 1978,
             available: true,
             description: nil,
-            coverUrl: "\(APIConfig.serverURL)/img/cover/9780131103627.webp"
+            coverUrl: "\(APIConfig.IMG_BOOK_COVER)/9780131103627.webp"
         ),
 
         Book(
@@ -163,7 +163,7 @@ struct MockBooks {
             year: 2000,
             available: false,
             description: nil,
-            coverUrl: "\(APIConfig.serverURL)/img/cover/9780812575583.webp"
+            coverUrl: "\(APIConfig.IMG_BOOK_COVER)/9780812575583.webp"
         ),
 
         Book(
@@ -175,7 +175,7 @@ struct MockBooks {
             year: 2013,
             available: true,
             description: nil,
-            coverUrl: "\(APIConfig.serverURL)/img/cover/9780765325969.webp"
+            coverUrl: "\(APIConfig.IMG_BOOK_COVER)/9780765325969.webp"
         )
     ]
 }

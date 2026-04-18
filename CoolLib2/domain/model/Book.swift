@@ -26,7 +26,7 @@ struct Book: Identifiable, Sendable {
         self.year = year ?? 1900
         self.available = available ?? false
         self.description = description ?? "Description Unavailable"
-        self.coverUrl = coverUrl ?? "\(APIConfig.serverURL)/img/cover/\(isbn).webp"
+        self.coverUrl = coverUrl ?? "\(APIConfig.IMG_BOOK_COVER)/\(isbn).webp"
     }
 
     let id: Int

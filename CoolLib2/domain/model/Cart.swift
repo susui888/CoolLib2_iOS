@@ -21,7 +21,7 @@ struct Cart: Identifiable, Sendable {
         self.author = author
         self.publisher = publisher ?? "Publisher Unavailable"
         self.year = year ?? 1900
-        self.coverUrl = coverUrl ?? "\(APIConfig.serverURL)/img/cover/\(isbn).webp"
+        self.coverUrl = coverUrl ?? "\(APIConfig.IMG_BOOK_COVER)/\(isbn).webp"
     }
 
     let id: Int
