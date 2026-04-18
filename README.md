@@ -21,14 +21,3 @@ The iOS implementation of the CoolLib ecosystem, delivering a premium native exp
 ## Requirements
 * iOS 26.0+
 * Xcode 26.0+
-
-<div align="center">
-  <video 
-    src="https://raw.githubusercontent.com/susui888/susui888/main/ios1_small.mp4" 
-    width="320" 
-    autoplay 
-    loop 
-    muted 
-    playsinline>
-  </video>
-</div>
