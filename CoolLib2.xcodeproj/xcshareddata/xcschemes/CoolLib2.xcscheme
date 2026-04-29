@@ -46,6 +46,17 @@
                ReferencedContainer = "container:CoolLib2.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "52ABE4B12FA1EB57008849F3"
+               BuildableName = "CoolLib2UITests.xctest"
+               BlueprintName = "CoolLib2UITests"
+               ReferencedContainer = "container:CoolLib2.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

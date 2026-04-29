@@ -40,11 +40,11 @@ class HomeViewModel: ObservableObject {
 
         Task {
             do {
-                async let categoriesReq = try await bookUseCase.getCategory()
-                async let newestReq = try await bookUseCase.getNewestBooks()
+                async let categoriesReq = try await bookUseCase.getCategory().shuffled()
+                async let newestReq = try await bookUseCase.getNewestBooks().shuffled()
 
                 async let recentReq = try await bookUseCase.getRecentBooks()
-                async let rawFavorites = try await wishlistUseCase.allWishlistItems()
+                async let rawFavorites = try await wishlistUseCase.allWishlistItems().shuffled()
 
                 let (categories, newest, recent, favoritesItems) = try await (
                     categoriesReq,

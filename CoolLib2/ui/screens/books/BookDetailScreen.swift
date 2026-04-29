@@ -5,8 +5,8 @@
 //  Created by Ryan Su on 2026/3/20.
 //
 
-import SwiftUI
 import Kingfisher
+import SwiftUI
 
 struct BookDetailScreen: View {
 
@@ -41,8 +41,18 @@ struct BookDetailScreen: View {
         BookDetailScreenContent(
             state: detailViewModel.state,
 
-            onRetryTap: { 
+            reviews: detailViewModel.reviews,  //Added for review feat
+
+            onRetryTap: {
                 detailViewModel.getBook(id: bookId)
+            },
+
+            onPostReview: { rating, content in  //Added for review feat
+                detailViewModel.postReview(
+                    bookId: bookId,
+                    rating: rating,
+                    content: content
+                )
             },
 
             onAuthorTap: { author in
@@ -70,10 +80,10 @@ struct BookDetailScreen: View {
             },
 
             inWishlist: isInWishlist,
-            
+
             onToggleWishlist: { book in
                 wishlistViewModel.toggleWishlist(book: book)
-                withAnimation(.spring()){
+                withAnimation(.spring()) {
                     isInWishlist.toggle()
                 }
             },
@@ -92,7 +102,11 @@ struct BookDetailScreen: View {
 
 struct BookDetailScreenContent: View {
     let state: DetailState
+    let reviews: [Review]  //Added for review feat
+
     let onRetryTap: () -> Void
+    let onPostReview: (Int, String) -> Void  //Added for review feat
+
     let onAuthorTap: (String) -> Void
     let onPublisherTap: (String) -> Void
     let onYearTap: (Int) -> Void
@@ -145,8 +159,7 @@ struct BookDetailScreenContent: View {
                 KFImage(URL(string: book.coverUrl))
                     .standardStyle(width: 200, height: 300, cornerRadius: 14)
                     .shadow(radius: 8, y: 6)
-                    
-                
+
                 VStack(alignment: .leading, spacing: 16) {
                     Text(book.title)
                         .font(.title2)
@@ -197,6 +210,13 @@ struct BookDetailScreenContent: View {
                     Text(book.description)
                         .foregroundStyle(.secondary)
                         .lineSpacing(4)
+
+                    Divider().padding(.vertical, 8)
+
+                    AddReviewView(onPostReview: onPostReview)
+
+                    BookReviewView(reviews: reviews)
+
                 }
                 .padding(.horizontal)
             }
@@ -229,16 +249,16 @@ struct BookDetailScreenContent: View {
                 Button {
                     onToggleWishlist(book)
                 } label: {
-                    
-                    HStack(spacing: 4){
-                        Image (
+
+                    HStack(spacing: 4) {
+                        Image(
                             systemName: inWishlist
-                            ? "heart.fill" : "heart"
+                                ? "heart.fill" : "heart"
                         )
                         .font(.system(size: 20))
-                        
+
                         Text(inWishlist ? "Remove" : "Favourite")
-                            .font(.system(size:16, weight: .semibold))
+                            .font(.system(size: 16, weight: .semibold))
                     }
                     .frame(maxWidth: .infinity)
                     .frame(height: 24)
@@ -256,7 +276,9 @@ struct BookDetailScreenContent: View {
     NavigationStack {
         BookDetailScreenContent(
             state: .success(MockBooks.list[0]),
+            reviews: [],
             onRetryTap: {},
+            onPostReview: { _, _ in },
             onAuthorTap: { _ in },
             onPublisherTap: { _ in },
             onYearTap: { _ in },
@@ -271,7 +293,9 @@ struct BookDetailScreenContent: View {
 #Preview("Loading State") {
     BookDetailScreenContent(
         state: .loading,
+        reviews: [],
         onRetryTap: {},
+        onPostReview: { _, _ in },
         onAuthorTap: { _ in },
         onPublisherTap: { _ in },
         onYearTap: { _ in },
@@ -285,7 +309,9 @@ struct BookDetailScreenContent: View {
 #Preview("Error State") {
     BookDetailScreenContent(
         state: .error("Could not find the book server."),
+        reviews: [],
         onRetryTap: {},
+        onPostReview: { _, _ in },
         onAuthorTap: { _ in },
         onPublisherTap: { _ in },
         onYearTap: { _ in },

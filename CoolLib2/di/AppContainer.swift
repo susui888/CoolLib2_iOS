@@ -31,6 +31,7 @@ final class AppContainer: ObservableObject {
         sessionManager: sessionManager
     )
     private lazy var loanAPI: LoanAPI = LoanAPIImpl(client: apiClient)
+    private lazy var reviewAPI: ReviewAPI = ReviewAPIImpl(client: apiClient)
 
     // MARK: - Repository
     private lazy var bookRepository: BookRepository = BookRepositoryImpl(
@@ -56,6 +57,10 @@ final class AppContainer: ObservableObject {
         loanApi: loanAPI,
         bookRepository: bookRepository
     )
+    
+    private lazy var reviewRepository: ReviewRepository = ReviewRepositoryImpl(
+        reviewApi: reviewAPI
+    )
 
     // MARK: - UseCases
     private lazy var bookUseCases = BookUseCases(repository: bookRepository)
@@ -69,6 +74,8 @@ final class AppContainer: ObservableObject {
     private lazy var userUseCases = UserUseCase(userRepository: userRepository)
 
     private lazy var loanUseCases = LoanUseCases(repository: loanRepository)
+    
+    private lazy var reviewUseCases = ReviewUseCases(repository: reviewRepository)
 
     // MARK: - ViewModels
     func makeBookViewModel() -> BookViewModel {
@@ -76,7 +83,9 @@ final class AppContainer: ObservableObject {
     }
 
     func makeBookDetailViewModel() -> BookDetailViewModel {
-        BookDetailViewModel(usecase: bookUseCases)
+        BookDetailViewModel(
+            usecase: bookUseCases,
+            reviewUseCase: reviewUseCases)
     }
 
     func makeHomeViewModel() -> HomeViewModel {

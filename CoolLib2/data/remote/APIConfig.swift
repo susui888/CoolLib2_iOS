@@ -18,4 +18,6 @@ enum APIConfig {
     static let IMG_BOOK_COVER = "\(IMG_SERVER)/bookcover/1"
     
     static let IMG_CATEGORY = "\(IMG_SERVER)/category"
+    
+    static let IMG_USER = "\(IMG_SERVER)/userimg"
 }

@@ -81,14 +81,14 @@ struct HomeScreenContent: View {
                 )
 
                 BookSection(
-                    title: "Recently Viewed",
-                    books: recentBooks,
-                    onBookTap: onBookTap,
-                )
-
-                BookSection(
                     title: "Favourites",
                     books: wishlist,
+                    onBookTap: onBookTap,
+                )
+                
+                BookSection(
+                    title: "Recently Viewed",
+                    books: recentBooks,
                     onBookTap: onBookTap,
                 )
 

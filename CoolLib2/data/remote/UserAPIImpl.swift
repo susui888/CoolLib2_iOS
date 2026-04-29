@@ -4,6 +4,7 @@
 //
 //  Created by Ryan Su on 2026/3/31.
 //
+import Alamofire
 
 final class UserAPIImpl: UserAPI {
     
@@ -20,7 +21,7 @@ final class UserAPIImpl: UserAPI {
         
         let response: LoginResponse = try await client.request(
             urlString,
-            method: "POST",
+            method: .post,
             body: request
         )
         
@@ -34,7 +35,7 @@ final class UserAPIImpl: UserAPI {
         
         return try await client.request(
             urlString,
-            method: "POST",
+            method: .post,
             body: request
         )
     }

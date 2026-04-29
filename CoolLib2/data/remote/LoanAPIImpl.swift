@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 final class LoanAPIImpl: LoanAPI {
 
@@ -26,7 +27,7 @@ final class LoanAPIImpl: LoanAPI {
 
         return try await client.request(
             urlString,
-            method: "POST",
+            method: .post,
             body: carts
         )
     }

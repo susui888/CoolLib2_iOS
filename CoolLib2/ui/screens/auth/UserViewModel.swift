@@ -47,12 +47,8 @@ final class UserViewModel: ObservableObject {
                 print("[\(tag)] Login Successful: \(response.username)")
                             
                 loginState = .success(response)
-            }catch let error as APIError {
-                loginState = .error("Error Code: \(error.code)")
             }catch {
-                let errorMsg =
-                    (error as? APIError)?.localizedDescription
-                    ?? error.localizedDescription
+                let errorMsg = error.localizedDescription
                 
                 loginState = .error(errorMsg)
             }
@@ -75,12 +71,9 @@ final class UserViewModel: ObservableObject {
                 print("[\(tag)] Register Success: \(message)")
 
             } catch {
-                // 3. Error state with localized message
-                let errorMsg =
-                    (error as? APIError)?.localizedDescription
-                    ?? error.localizedDescription
-                print("[\(tag)] Register Error: \(errorMsg)")
-                self.registerState = .error(errorMsg)
+                let errorMsg = error.localizedDescription
+                
+                loginState = .error(errorMsg)
             }
         }
     }

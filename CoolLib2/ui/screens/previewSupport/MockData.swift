@@ -291,3 +291,87 @@ struct MockLoans {
         Calendar.current.date(byAdding: .day, value: days, to: Date()) ?? Date()
     }
 }
+
+struct MockReviews {
+
+    static let list: [Review] = [
+        // ID: 262
+        Review(
+            id: 1,
+            bookId: 262,
+            userId: 101,
+            userName: "Ryan Su",
+            rating: 5,
+            content: "Breathtaking journey through human history. It really makes you rethink what it means to be human.",
+            createdAt: daysAgo(2)
+        ),
+        Review(
+            id: 2,
+            bookId: 262,
+            userId: 105,
+            userName: "Alice Chen",
+            rating: 4,
+            content: "Very thought-provoking, though some arguments feel a bit speculative. Still a must-read.",
+            createdAt: daysAgo(15)
+        ),
+
+        
+        Review(
+            id: 3,
+            bookId: 270,
+            userId: 102,
+            userName: "Bob Smith",
+            rating: 5,
+            content: "Essential for every developer. This book changed the way I write functions and name variables.",
+            createdAt: daysAgo(5)
+        ),
+
+        
+        Review(
+            id: 4,
+            bookId: 271,
+            userId: 103,
+            userName: "Charlie Dev",
+            rating: 5,
+            content: "The Bible of software engineering. It can be dense, but the patterns are timeless.",
+            createdAt: daysAgo(20)
+        ),
+
+       
+        Review(
+            id: 5,
+            bookId: 272,
+            userId: 104,
+            userName: "Old School Coder",
+            rating: 4,
+            content: "Short, concise, and classic. The best way to learn the soul of C.",
+            createdAt: daysAgo(100)
+        )
+    ]
+
+    // MARK: - Helper Methods
+    
+    private static func daysAgo(_ days: Int) -> Date {
+        Calendar.current.date(byAdding: .day, value: -days, to: Date()) ?? Date()
+    }
+    
+    static func getReviews(forBookId id: Int) -> [Review] {
+        return list.filter { $0.bookId == id }
+    }
+}
+
+extension MockReviews {
+    static var dtoList: [ReviewDTO] {
+        list.map { review in
+            ReviewDTO(
+                id: review.id,
+                bookId: review.bookId,
+                userId: review.userId,
+                userName: review.userName,
+                rating: Int16(review.rating),
+                content: review.content,
+                createdAt: review.createdAt
+            )
+        }
+    }
+}

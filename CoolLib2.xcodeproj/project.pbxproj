@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		521970292F8E22E100DFF6F7 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 521970282F8E22E100DFF6F7 /* Kingfisher */; };
+		52250F542FA19FB200510435 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 52250F532FA19FB200510435 /* Alamofire */; };
 		52BD13612F77AC91000D1AB3 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 52BD13602F77AC91000D1AB3 /* SnapshotTesting */; };
 /* End PBXBuildFile section */
 
@@ -19,11 +20,19 @@
 			remoteGlobalIDString = 52A92AA52F6AC0BC0048EFA2;
 			remoteInfo = CoolLib2;
 		};
+		52ABE4B82FA1EB57008849F3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52A92A9E2F6AC0BC0048EFA2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 52A92AA52F6AC0BC0048EFA2;
+			remoteInfo = CoolLib2;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		52052F7D2F7765BA00A8BBAA /* CoolLib2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoolLib2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52A92AA62F6AC0BC0048EFA2 /* CoolLib2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoolLib2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		52ABE4B22FA1EB57008849F3 /* CoolLib2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoolLib2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -35,6 +44,11 @@
 		52A92AA82F6AC0BC0048EFA2 /* CoolLib2 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = CoolLib2;
+			sourceTree = "<group>";
+		};
+		52ABE4B32FA1EB57008849F3 /* CoolLib2UITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CoolLib2UITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -53,6 +67,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				521970292F8E22E100DFF6F7 /* Kingfisher in Frameworks */,
+				52250F542FA19FB200510435 /* Alamofire in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52ABE4AF2FA1EB57008849F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +86,7 @@
 			children = (
 				52A92AA82F6AC0BC0048EFA2 /* CoolLib2 */,
 				52052F7E2F7765BA00A8BBAA /* CoolLib2Tests */,
+				52ABE4B32FA1EB57008849F3 /* CoolLib2UITests */,
 				52A92AA72F6AC0BC0048EFA2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -73,6 +96,7 @@
 			children = (
 				52A92AA62F6AC0BC0048EFA2 /* CoolLib2.app */,
 				52052F7D2F7765BA00A8BBAA /* CoolLib2Tests.xctest */,
+				52ABE4B22FA1EB57008849F3 /* CoolLib2UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -122,10 +146,34 @@
 			name = CoolLib2;
 			packageProductDependencies = (
 				521970282F8E22E100DFF6F7 /* Kingfisher */,
+				52250F532FA19FB200510435 /* Alamofire */,
 			);
 			productName = CoolLib2;
 			productReference = 52A92AA62F6AC0BC0048EFA2 /* CoolLib2.app */;
 			productType = "com.apple.product-type.application";
+		};
+		52ABE4B12FA1EB57008849F3 /* CoolLib2UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52ABE4BC2FA1EB57008849F3 /* Build configuration list for PBXNativeTarget "CoolLib2UITests" */;
+			buildPhases = (
+				52ABE4AE2FA1EB57008849F3 /* Sources */,
+				52ABE4AF2FA1EB57008849F3 /* Frameworks */,
+				52ABE4B02FA1EB57008849F3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				52ABE4B92FA1EB57008849F3 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				52ABE4B32FA1EB57008849F3 /* CoolLib2UITests */,
+			);
+			name = CoolLib2UITests;
+			packageProductDependencies = (
+			);
+			productName = CoolLib2UITests;
+			productReference = 52ABE4B22FA1EB57008849F3 /* CoolLib2UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -134,7 +182,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2630;
+				LastSwiftUpdateCheck = 2640;
 				LastUpgradeCheck = 2640;
 				TargetAttributes = {
 					52052F7C2F7765BA00A8BBAA = {
@@ -143,6 +191,10 @@
 					};
 					52A92AA52F6AC0BC0048EFA2 = {
 						CreatedOnToolsVersion = 26.3;
+					};
+					52ABE4B12FA1EB57008849F3 = {
+						CreatedOnToolsVersion = 26.4;
+						TestTargetID = 52A92AA52F6AC0BC0048EFA2;
 					};
 				};
 			};
@@ -158,6 +210,7 @@
 			packageReferences = (
 				52052FB42F77A31200A8BBAA /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 				521970272F8E22E100DFF6F7 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				52250F522FA19FB200510435 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 52A92AA72F6AC0BC0048EFA2 /* Products */;
@@ -166,6 +219,7 @@
 			targets = (
 				52A92AA52F6AC0BC0048EFA2 /* CoolLib2 */,
 				52052F7C2F7765BA00A8BBAA /* CoolLib2Tests */,
+				52ABE4B12FA1EB57008849F3 /* CoolLib2UITests */,
 			);
 		};
 /* End PBXProject section */
@@ -179,6 +233,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		52A92AA42F6AC0BC0048EFA2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		52ABE4B02FA1EB57008849F3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -202,6 +263,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		52ABE4AE2FA1EB57008849F3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -209,6 +277,11 @@
 			isa = PBXTargetDependency;
 			target = 52A92AA52F6AC0BC0048EFA2 /* CoolLib2 */;
 			targetProxy = 52052F812F7765BA00A8BBAA /* PBXContainerItemProxy */;
+		};
+		52ABE4B92FA1EB57008849F3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 52A92AA52F6AC0BC0048EFA2 /* CoolLib2 */;
+			targetProxy = 52ABE4B82FA1EB57008849F3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -221,6 +294,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WWVT6JNYPV;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.CoolLib2Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -242,6 +316,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WWVT6JNYPV;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.CoolLib2Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -444,6 +519,48 @@
 			};
 			name = Release;
 		};
+		52ABE4BA2FA1EB57008849F3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WWVT6JNYPV;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.CoolLib2UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CoolLib2;
+			};
+			name = Debug;
+		};
+		52ABE4BB2FA1EB57008849F3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WWVT6JNYPV;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.CoolLib2UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CoolLib2;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -474,6 +591,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		52ABE4BC2FA1EB57008849F3 /* Build configuration list for PBXNativeTarget "CoolLib2UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52ABE4BA2FA1EB57008849F3 /* Debug */,
+				52ABE4BB2FA1EB57008849F3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -493,6 +619,14 @@
 				minimumVersion = 8.8.1;
 			};
 		};
+		52250F522FA19FB200510435 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.11.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -500,6 +634,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 521970272F8E22E100DFF6F7 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		52250F532FA19FB200510435 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 52250F522FA19FB200510435 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 		52BD13602F77AC91000D1AB3 /* SnapshotTesting */ = {
 			isa = XCSwiftPackageProductDependency;
