@@ -24,6 +24,13 @@
         "identifier" : "52052F7C2F7765BA00A8BBAA",
         "name" : "CoolLib2Tests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:CoolLib2.xcodeproj",
+        "identifier" : "52ABE4B12FA1EB57008849F3",
+        "name" : "CoolLib2UITests"
+      }
     }
   ],
   "version" : 1

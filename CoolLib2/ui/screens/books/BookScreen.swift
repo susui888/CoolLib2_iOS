@@ -81,7 +81,9 @@ struct BookScreenContent: View {
                     isGrid.toggle()
                 } label: {
                     Image(
-                        systemName: isGrid ? "list.bullet" : "square.grid.2x2")}
+                        systemName: isGrid ? "list.bullet" : "square.grid.2x2")
+                }
+                .accessibilityIdentifier("viewModeToggleButton")
             }
         }
     }
@@ -103,11 +105,13 @@ struct BookScreenContent: View {
                         }
                     }
                 }
+                .accessibilityIdentifier("bookGridView")
             } else {
                 List(books) { book in
                     Button { onBookTap(book.id) } label: { BookRow(book: book) }
                     .buttonStyle(.plain)
                 }
+                .accessibilityIdentifier("bookListView")
             }
         }
 }
