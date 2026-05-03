@@ -14,15 +14,6 @@ struct ReviewDTO: Codable, Identifiable {
     let userName: String
     let rating: Int16
     let content: String?
+    let imageUrls: [String]?
     let createdAt: Date
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case bookId
-        case userId
-        case userName
-        case rating
-        case content
-        case createdAt
-    }
 }

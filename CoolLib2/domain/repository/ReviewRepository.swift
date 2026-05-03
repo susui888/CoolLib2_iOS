@@ -6,10 +6,14 @@
 //
 
 import Foundation
+import UIKit
 
 protocol ReviewRepository {
     
     func getReviewsByBook(bookId: Int) async throws -> [Review]
     
     func createReview(review: Review) async throws -> Review?
+    
+    func uploadReviewImages(images: [UIImage]) async throws -> [String]
+
 }

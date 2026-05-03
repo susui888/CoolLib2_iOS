@@ -8,7 +8,6 @@ import Foundation
 
 enum APIConfig {
     
-    //static let serverURL = "http://192.168.2.18:9080"
     static let serverURL = "https://coollib.ryansu.uk"
     
     static let cacheTimeInterval: TimeInterval = 30 * 24 * 60 * 60
@@ -20,4 +19,6 @@ enum APIConfig {
     static let IMG_CATEGORY = "\(IMG_SERVER)/category"
     
     static let IMG_USER = "\(IMG_SERVER)/userimg"
+    
+    nonisolated static let IMG_REVIEW = "https://review.ryansu.uk"
 }

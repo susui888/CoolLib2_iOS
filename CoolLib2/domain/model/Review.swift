@@ -15,6 +15,7 @@ struct Review: Identifiable, Sendable {
         userName: String,
         rating: Int,
         content: String,
+        imageUrls: [String] = [],
         createdAt: Date? = nil
     ) {
         
@@ -24,7 +25,7 @@ struct Review: Identifiable, Sendable {
         self.userName = userName
         self.rating = rating
         self.content = content
-       
+        self.imageUrls = imageUrls
         self.createdAt = createdAt ?? Date()
     }
 
@@ -34,5 +35,6 @@ struct Review: Identifiable, Sendable {
     let userName: String
     let rating: Int
     let content: String
+    let imageUrls: [String]
     let createdAt: Date
 }

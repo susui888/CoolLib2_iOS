@@ -7,6 +7,7 @@
 
 import Kingfisher
 import SwiftUI
+import PhotosUI
 
 struct BookDetailScreen: View {
 
@@ -47,11 +48,12 @@ struct BookDetailScreen: View {
                 detailViewModel.getBook(id: bookId)
             },
 
-            onPostReview: { rating, content in  //Added for review feat
+            onPostReview: { rating, content, items in  //Added for review feat
                 detailViewModel.postReview(
                     bookId: bookId,
                     rating: rating,
-                    content: content
+                    content: content,
+                    items: items
                 )
             },
 
@@ -105,7 +107,7 @@ struct BookDetailScreenContent: View {
     let reviews: [Review]  //Added for review feat
 
     let onRetryTap: () -> Void
-    let onPostReview: (Int, String) -> Void  //Added for review feat
+    let onPostReview: (Int, String,[PhotosPickerItem]) -> Void  //Added for review feat
 
     let onAuthorTap: (String) -> Void
     let onPublisherTap: (String) -> Void
@@ -214,6 +216,8 @@ struct BookDetailScreenContent: View {
                     Divider().padding(.vertical, 8)
 
                     AddReviewView(onPostReview: onPostReview)
+                    
+                    Spacer().frame(height: 20)
 
                     BookReviewView(reviews: reviews)
 
@@ -278,7 +282,7 @@ struct BookDetailScreenContent: View {
             state: .success(MockBooks.list[0]),
             reviews: [],
             onRetryTap: {},
-            onPostReview: { _, _ in },
+            onPostReview: { _, _, _ in },
             onAuthorTap: { _ in },
             onPublisherTap: { _ in },
             onYearTap: { _ in },
@@ -295,7 +299,7 @@ struct BookDetailScreenContent: View {
         state: .loading,
         reviews: [],
         onRetryTap: {},
-        onPostReview: { _, _ in },
+        onPostReview: { _, _, _ in },
         onAuthorTap: { _ in },
         onPublisherTap: { _ in },
         onYearTap: { _ in },
@@ -311,7 +315,7 @@ struct BookDetailScreenContent: View {
         state: .error("Could not find the book server."),
         reviews: [],
         onRetryTap: {},
-        onPostReview: { _, _ in },
+        onPostReview: { _, _,_ in },
         onAuthorTap: { _ in },
         onPublisherTap: { _ in },
         onYearTap: { _ in },

@@ -17,7 +17,7 @@ extension ReviewDTO {
             userName: self.userName,
             rating: Int(self.rating),
             content: self.content ?? "",
-            
+            imageUrls: imageUrls ?? [],
             createdAt: self.createdAt
         )
     }
@@ -34,6 +34,7 @@ extension Review {
             userName: self.userName,
             rating: Int16(self.rating),
             content: self.content.isEmpty ? nil : self.content,
+            imageUrls: imageUrls,
             createdAt: self.createdAt
         )
     }

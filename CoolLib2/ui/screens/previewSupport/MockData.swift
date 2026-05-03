@@ -364,12 +364,13 @@ extension MockReviews {
     static var dtoList: [ReviewDTO] {
         list.map { review in
             ReviewDTO(
-                id: review.id,
+                id: review.id == 0 ? nil : review.id,
                 bookId: review.bookId,
                 userId: review.userId,
                 userName: review.userName,
                 rating: Int16(review.rating),
                 content: review.content,
+                imageUrls: review.imageUrls,
                 createdAt: review.createdAt
             )
         }

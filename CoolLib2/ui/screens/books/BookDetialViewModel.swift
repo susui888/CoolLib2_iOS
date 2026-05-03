@@ -1,4 +1,5 @@
 import Combine
+import PhotosUI
 import SwiftUI
 
 enum DetailState {
@@ -47,11 +48,36 @@ class BookDetailViewModel: ObservableObject {
             self.reviews = []
         }
     }
-    
-    func postReview(bookId: Int, rating: Int, content: String) {
-            Task {
-                isPosting = true
-                
+
+    func postReview(
+        bookId: Int,
+        rating: Int,
+        content: String,
+        items: [PhotosPickerItem]
+    ) {
+        Task {
+            do {
+
+                var images: [UIImage] = []
+                for item in items {
+                    if let data = try await item.loadTransferable(
+                        type: Data.self
+                    ),
+                        let image = UIImage(data: data)
+                    {
+                        images.append(image)
+                    }
+                }
+
+                let imageUrls: [String]
+                if !images.isEmpty {
+                    imageUrls = try await reviewUseCase.uploadImages(
+                        images: images
+                    )
+                } else {
+                    imageUrls = []
+                }
+
                 let newReview = Review(
                     id: nil,
                     bookId: bookId,
@@ -59,19 +85,22 @@ class BookDetailViewModel: ObservableObject {
                     userName: "",
                     rating: rating,
                     content: content,
+                    imageUrls: imageUrls,
                     createdAt: Date()
                 )
-                
-                do {
-                    let result = try await reviewUseCase.createReview(review: newReview)
-                    if result != nil {
-                        await loadReviews(bookId: bookId)
-                    }
-                } catch {
-                    print("Failed to post review: \(error.localizedDescription)")
+
+                let result = try await reviewUseCase.createReview(
+                    review: newReview
+                )
+
+                if result != nil {
+                    await loadReviews(bookId: bookId)
                 }
-                
-                isPosting = false
+
+            } catch {
+
+                print("Failed to post review: \(error.localizedDescription)")
             }
         }
+    }
 }
