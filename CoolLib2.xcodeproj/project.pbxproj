@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		521970292F8E22E100DFF6F7 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 521970282F8E22E100DFF6F7 /* Kingfisher */; };
 		52250F542FA19FB200510435 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 52250F532FA19FB200510435 /* Alamofire */; };
+		529CCDB82FA843DE003035E4 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 529CCDB72FA843DE003035E4 /* README.md */; };
 		52BD13612F77AC91000D1AB3 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 52BD13602F77AC91000D1AB3 /* SnapshotTesting */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		52052F7D2F7765BA00A8BBAA /* CoolLib2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoolLib2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		529CCDB72FA843DE003035E4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		52A92AA62F6AC0BC0048EFA2 /* CoolLib2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoolLib2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52ABE4B22FA1EB57008849F3 /* CoolLib2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoolLib2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -88,6 +90,7 @@
 				52052F7E2F7765BA00A8BBAA /* CoolLib2Tests */,
 				52ABE4B32FA1EB57008849F3 /* CoolLib2UITests */,
 				52A92AA72F6AC0BC0048EFA2 /* Products */,
+				529CCDB72FA843DE003035E4 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -236,6 +239,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				529CCDB82FA843DE003035E4 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
