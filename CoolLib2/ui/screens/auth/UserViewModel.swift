@@ -8,6 +8,7 @@
 import Combine
 import Foundation
 
+
 enum AuthUIState<T: Equatable>: Equatable {
     case idle
     case loading
@@ -32,52 +33,67 @@ final class UserViewModel: ObservableObject {
         self.sessionManager = sessionManager
     }
 
+    // MARK: - Private Logic
+    private func performLogin(username: String, password: String) async -> AuthUIState<LoginResponse> {
+        do {
+            let response = try await userUseCase.login(username: username, password: password)
+            
+            sessionManager.saveSession(token: response.token, username: response.username)
+            
+            print("[\(tag)] Token Saved. username: \(response.username), token: \(response.token)")
+            return .success(response)
+        } catch {
+            let errorMsg = error.localizedDescription
+            print("[\(tag)] Login Failed: \(errorMsg)")
+            return .error(errorMsg)
+        }
+    }
+
     // MARK: - Actions
 
     func login(username: String, password: String) {
         Task {
             loginState = .loading
-
-            do {
-                let response = try await userUseCase.login(
-                    username: username,
-                    password: password
-                )
-
-                print("[\(tag)] Login Successful: \(response.username)")
-                            
-                loginState = .success(response)
-            }catch {
-                let errorMsg = error.localizedDescription
-                
-                loginState = .error(errorMsg)
-            }
+            loginState = await performLogin(username: username, password: password)
         }
     }
 
     func register(username: String, password: String, email: String) {
         Task {
-            // 1. Set to loading state
             registerState = .loading
 
             do {
-                let message = try await userUseCase.register(
+                let result = try await userUseCase.register(
                     username: username,
                     password: password,
                     email: email
                 )
-                // 2. Success state
-                self.registerState = .success(message)
-                print("[\(tag)] Register Success: \(message)")
+                
+                
+                self.registerState = .success(result.message)
+                print("[\(tag)] Register Success: \(result.message)")
+
+                // 注册成功后尝试自动登录 (匹配 Kotlin 逻辑)
+                print("[\(tag)] Attempting auto-login for: \(username)")
+                loginState = .loading
+                loginState = await performLogin(username: username, password: password)
 
             } catch {
                 let errorMsg = error.localizedDescription
-                
-                loginState = .error(errorMsg)
+                print("[\(tag)] Register Error: \(errorMsg)")
+                registerState = .error(errorMsg)
             }
         }
     }
 
+    func clearLoginResult() {
+        loginState = .idle
+    }
+
+    func clearRegisterResult() {
+        registerState = .idle
+    }
+    
     func resetStates() {
         loginState = .idle
         registerState = .idle

@@ -11,6 +11,7 @@ enum Screen: Hashable {
     
     case loans(loanType: LoanType)
     case about
+    case register
 }
 
 enum Tab: Hashable {

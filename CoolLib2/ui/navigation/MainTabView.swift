@@ -91,8 +91,13 @@ struct MainTabView: View {
             cartViewModel.load()
         }
         .sheet(isPresented: $router.showLoginSheet) {
-            NavigationStack {
+            // 1. 绑定专门的 authPath
+            NavigationStack(path: $router.authPath) {
                 LoginScreen(container: container)
+                    // 2. 必须在这里也配置路径映射
+                    .navigationDestination(for: Screen.self) { screen in
+                        router.destination(for: screen)
+                    }
                     .toolbar {
                         ToolbarItem(placement: .topBarLeading) {
                             Button {
@@ -105,6 +110,9 @@ struct MainTabView: View {
                             }
                         }
                     }
+            }
+            .onDisappear {
+                router.authPath.removeAll()
             }
         }
     }

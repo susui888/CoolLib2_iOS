@@ -30,7 +30,7 @@ final class UserAPIImpl: UserAPI {
         return response
     }
     
-    func register(request: UserDTO) async throws -> String {
+    func register(request: UserDTO) async throws -> MessageResponse {
         let urlString = "\(APIConfig.serverURL)/api/auth/register"
         
         return try await client.request(

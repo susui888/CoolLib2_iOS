@@ -15,6 +15,7 @@ final class AppRouter: ObservableObject {
     @Published var cartPath: [Screen] = []
     @Published var statsPath: [Screen] = []
     @Published var searchPath: [Screen] = []
+    @Published var authPath: [Screen] = []
     @Published var showLoginSheet: Bool = false
 
     func showLogin(_ isShown: Bool) {
@@ -38,8 +39,10 @@ final class AppRouter: ObservableObject {
     }
 
     func push(_ screen: Screen) {
-        updatePath(for: selectedTab) { path in
-            path.append(screen)
+        if showLoginSheet {
+            authPath.append(screen)
+        } else {
+            updatePath(for: selectedTab) { $0.append(screen) }
         }
     }
 
@@ -93,6 +96,9 @@ final class AppRouter: ObservableObject {
 
         case .loans(let loanType):
             LoanScreen(container: container, loanType: loanType)
+
+        case .register:
+            RegisterScreen(container: container)
 
         case .about:
             AboutScreen(

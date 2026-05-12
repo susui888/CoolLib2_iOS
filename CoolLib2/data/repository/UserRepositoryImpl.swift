@@ -19,7 +19,7 @@ final class UserRepositoryImpl: UserRepository {
         return try await userApi.login(request: dto)
     }
     
-    func register(username: String, password: String, email: String) async throws -> String {
+    func register(username: String, password: String, email: String) async throws -> MessageResponse {
         let dto = UserDTO(username: username, password: password, email: email)
         return try await userApi.register(request: dto)
     }

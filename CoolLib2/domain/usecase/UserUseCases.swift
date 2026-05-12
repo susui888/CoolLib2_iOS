@@ -24,7 +24,7 @@ final class UserUseCase {
     }
 
     func register(username: String, password: String, email: String)
-        async throws -> String
+        async throws -> MessageResponse
     {
         return try await userRepository.register(
             username: username,
