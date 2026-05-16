@@ -54,8 +54,8 @@ struct MenuView: View {
                         onMenuTap(.loans)
                     }
                     Divider()
-                    MenuItem(icon:"bookmark", title: "Reservations") {
-                        onMenuTap(.reservations)
+                    MenuItem(icon:"bookmark", title: "Reviews") {
+                        onMenuTap(.reviews)
                     }
                     Divider()
                     MenuItem(icon: "clock", title: "History"){

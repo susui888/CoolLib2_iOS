@@ -59,7 +59,8 @@ final class AppContainer: ObservableObject {
     )
     
     private lazy var reviewRepository: ReviewRepository = ReviewRepositoryImpl(
-        reviewApi: reviewAPI
+        reviewApi: reviewAPI,
+        modelContext: modelContext
     )
 
     // MARK: - UseCases
@@ -134,5 +135,12 @@ final class AppContainer: ObservableObject {
 
     func makeSessionManager() -> SessionManager {
         return sessionManager
+    }
+    
+    func makeReviewViewModel() -> ReviewViewModel {
+        ReviewViewModel(
+            reviewUseCase: reviewUseCases,
+            sessionManager: sessionManager,
+        )
     }
 }

@@ -93,6 +93,12 @@ final class AppRouter: ObservableObject {
                     searchTerm: searchTerm
                 )
             )
+        
+        case .reviews:
+            ReviewScreen(container: container)
+            
+        case .login:
+            LoginScreen(container: container)
 
         case .loans(let loanType):
             LoanScreen(container: container, loanType: loanType)
@@ -118,7 +124,9 @@ final class AppRouter: ObservableObject {
             push(.loans(loanType: .loans))
         case .history:
             push(.loans(loanType: .history))
-        case .reservations, .profile, .settings:
+        case .reviews:
+            push(.reviews)
+        case .profile, .settings:
             showLogin(true)
         case .about:
             push(.about)

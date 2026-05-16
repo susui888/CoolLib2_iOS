@@ -12,6 +12,8 @@ enum Screen: Hashable {
     case loans(loanType: LoanType)
     case about
     case register
+    case reviews
+    case login
 }
 
 enum Tab: Hashable {
@@ -24,7 +26,7 @@ enum Tab: Hashable {
 
 enum MenuOption: CaseIterable {
     case loans
-    case reservations
+    case reviews
     case history
     case profile
     case settings

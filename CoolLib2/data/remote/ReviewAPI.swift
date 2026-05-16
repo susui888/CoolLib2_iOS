@@ -16,4 +16,6 @@ protocol ReviewAPI {
     func getReviewImageUploadUrls(fileNames: [String]) async throws -> [UploadUrlResponse]
         
     func uploadImageToS3(url: String, data: Data) async throws
+    
+    func deleteReview(bookId: Int) async throws
 }

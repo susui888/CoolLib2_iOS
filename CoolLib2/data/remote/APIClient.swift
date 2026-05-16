@@ -96,9 +96,18 @@ final class APIClient {
         )
         .validate(statusCode: 200..<300)
 
+        //        let response =
+        //            await dataRequest
+        //            .serializingDecodable(T.self, decoder: Self.makeDecoder())
+        //            .response
+
         let response =
             await dataRequest
-            .serializingDecodable(T.self, decoder: Self.makeDecoder())
+            .serializingDecodable(
+                T.self,
+                decoder: Self.makeDecoder(),
+                emptyResponseCodes: [200, 204, 205]
+            )
             .response
 
         switch response.result {
@@ -110,9 +119,28 @@ final class APIClient {
     }
 
     /// Simple GET request convenience method that takes only a URL string
+    //    func request<T: Decodable>(_ urlString: String) async throws -> T {
+    //        let noBody: String? = nil
+    //        return try await request(urlString, method: .get, body: noBody)
+    //    }
+
     func request<T: Decodable>(_ urlString: String) async throws -> T {
-        let noBody: String? = nil
-        return try await request(urlString, method: .get, body: noBody)
+        let dataRequest = session.request(urlString, method: .get)
+            .validate(statusCode: 200..<300)
+
+        let response =
+            await dataRequest
+            .serializingDecodable(
+                T.self,
+                decoder: Self.makeDecoder(),
+                emptyResponseCodes: [200, 204, 205]
+            )
+            .response
+
+        switch response.result {
+        case .success(let value): return value
+        case .failure(let afError): throw afError
+        }
     }
 
     /// Creates a JSONDecoder configured to handle multiple date string formats

@@ -6,15 +6,67 @@
 //
 
 import Foundation
+import SwiftData
 import UIKit
 
+@MainActor
 final class ReviewRepositoryImpl: ReviewRepository {
 
     private let reviewApi: ReviewAPI
+    private let modelContext: ModelContext
     private let tag = "ReviewRepository"
 
-    init(reviewApi: ReviewAPI) {
+    init(reviewApi: ReviewAPI, modelContext: ModelContext) {
         self.reviewApi = reviewApi
+        self.modelContext = modelContext
+    }
+
+    func getAllLocalReviews() async throws -> [Review] {
+        let descriptor = FetchDescriptor<ReviewEntity>(
+            sortBy: [SortDescriptor(\.createdAt, order: .reverse)]
+        )
+
+        let entities = (try? modelContext.fetch(descriptor)) ?? []
+        var reviews: [Review] = []
+
+        for entity in entities {
+            var review = entity.toDomain()
+
+            let bookIdFilter = review.bookId
+            let bookDescriptor = FetchDescriptor<BookEntity>(
+                predicate: #Predicate { $0.id == bookIdFilter }
+            )
+
+            if let bookEntity = try? modelContext.fetch(bookDescriptor).first {
+                review.book = bookEntity.toDomain()
+            }
+
+            reviews.append(review)
+        }
+
+        return reviews
+    }
+
+    func deleteReview(review: Review) async throws -> Bool {
+        do {
+            try await reviewApi.deleteReview(bookId: review.bookId)
+
+            let reviewId = review.id
+            let descriptor = FetchDescriptor<ReviewEntity>(
+                predicate: #Predicate { $0.id == reviewId }
+            )
+
+            if let entity = try modelContext.fetch(descriptor).first {
+                modelContext.delete(entity)
+                try modelContext.save()
+            }
+            return true
+        } catch {
+            print(
+                "[\(tag)] Failed to delete remote review: \(error.localizedDescription)"
+            )
+            return false
+        }
     }
 
     /// Fetches all reviews for a specific book and maps them from DTOs to Domain models
@@ -24,8 +76,10 @@ final class ReviewRepositoryImpl: ReviewRepository {
             // Transform data transfer objects into clean domain entities
             return dtos.map { $0.toDomain() }
         } catch {
-            print("[\(tag)] Error fetching reviews for bookId \(bookId): \(error.localizedDescription)")
-            return [] // Return an empty list on failure to prevent UI crashes
+            print(
+                "[\(tag)] Error fetching reviews for bookId \(bookId): \(error.localizedDescription)"
+            )
+            return []  // Return an empty list on failure to prevent UI crashes
         }
     }
 
@@ -34,9 +88,19 @@ final class ReviewRepositoryImpl: ReviewRepository {
         do {
             let dto = review.toDTO()
             let responseDto = try await reviewApi.createReview(review: dto)
-            return responseDto.toDomain()
+            let savedReview = responseDto.toDomain()
+
+            let entityToSave = savedReview.toEntity()
+            entityToSave.imageUrls = review.imageUrls.joined(separator: ",")
+
+            modelContext.insert(entityToSave)
+            try modelContext.save()
+
+            return savedReview
         } catch {
-            print("[\(tag)] Error creating review: \(error.localizedDescription)")
+            print(
+                "[\(tag)] Error creating review: \(error.localizedDescription)"
+            )
             return nil
         }
     }
@@ -60,9 +124,13 @@ final class ReviewRepositoryImpl: ReviewRepository {
                 group.addTask {
                     do {
                         let image = images[index]
-                        
+
                         // Compress and resize image before network transmission
-                        guard let imageData = await self.processImage(image: image) else {
+                        guard
+                            let imageData = await self.processImage(
+                                image: image
+                            )
+                        else {
                             return nil
                         }
 
@@ -73,14 +141,17 @@ final class ReviewRepositoryImpl: ReviewRepository {
                         )
 
                         // Clean the object key (remove leading slashes) to build the final CDN URL
-                        let cleanKey = info.objectKey.hasPrefix("/")
+                        let cleanKey =
+                            info.objectKey.hasPrefix("/")
                             ? String(info.objectKey.dropFirst())
                             : info.objectKey
 
                         // Construct final public URL matching the project's asset management convention
                         return "\(APIConfig.IMG_REVIEW)/\(cleanKey)"
                     } catch {
-                        print("[\(self.tag)] Upload failed for \(info.objectKey): \(error.localizedDescription)")
+                        print(
+                            "[\(self.tag)] Upload failed for \(info.objectKey): \(error.localizedDescription)"
+                        )
                         return nil
                     }
                 }
@@ -111,7 +182,7 @@ final class ReviewRepositoryImpl: ReviewRepository {
         }
 
         let format = UIGraphicsImageRendererFormat()
-        format.scale = 1.0 // Use 1.0 to avoid unnecessary pixel density scaling
+        format.scale = 1.0  // Use 1.0 to avoid unnecessary pixel density scaling
 
         let renderer = UIGraphicsImageRenderer(size: targetSize, format: format)
 

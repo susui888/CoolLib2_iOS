@@ -29,4 +29,12 @@ struct ReviewUseCases {
 
         return try await repository.uploadReviewImages(images: images)
     }
+    
+    func getAllLocalReviews() async throws -> [Review] {
+        return try await repository.getAllLocalReviews()
+    }
+    
+    func deleteReview(review: Review) async throws -> Bool {
+        return try await repository.deleteReview(review: review)
+    }
 }

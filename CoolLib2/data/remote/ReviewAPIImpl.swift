@@ -19,7 +19,7 @@ final class ReviewAPIImpl: ReviewAPI {
     /// Fetches a list of reviews for a specific book by its ID
     func getReviewsByBook(bookId: Int) async throws -> [ReviewDTO] {
         let urlString = "\(APIConfig.serverURL)/api/reviews/\(bookId)"
-        
+
         // Performs a standard GET request using the generic APIClient
         return try await client.request(urlString)
     }
@@ -33,6 +33,15 @@ final class ReviewAPIImpl: ReviewAPI {
             urlString,
             method: .post,
             body: review
+        )
+    }
+
+    func deleteReview(bookId: Int) async throws {
+        let urlString = "\(APIConfig.serverURL)/api/reviews/\(bookId)"
+
+        let _: Empty = try await client.request(
+            urlString,
+            method: .delete
         )
     }
 

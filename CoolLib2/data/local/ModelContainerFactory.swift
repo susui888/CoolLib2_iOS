@@ -15,6 +15,7 @@ enum ModelContainerFactory {
                 WishlistEntity.self,
                 CategoryEntity.self,
                 NewestBookRef.self,
+                ReviewEntity.self,
         )
     }
 }

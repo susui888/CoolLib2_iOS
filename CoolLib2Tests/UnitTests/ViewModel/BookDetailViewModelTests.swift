@@ -102,12 +102,12 @@ final class BookDetailViewModelTests: XCTestCase {
         mockReviewRepo.shouldThrowError = false
         mockReviewRepo.stubCreatedReview = Review(
             id: 999, bookId: bookId, userId: 1, userName: "Me",
-            rating: rating, content: content, createdAt: Date()
+            rating: rating, content: content, imageUrls: [], createdAt: Date(),
         )
         
         // Act
         // postReview contains an internal Task { }, so it returns immediately
-        viewModel.postReview(bookId: bookId, rating: rating, content: content)
+        viewModel.postReview(bookId: bookId, rating: rating, content: content, items: [])
         
         // Give the internal Task time to execute
         try await Task.sleep(nanoseconds: 200_000_000) // 0.2s
@@ -123,7 +123,7 @@ final class BookDetailViewModelTests: XCTestCase {
         mockReviewRepo.shouldThrowError = true
         
         // Act
-        viewModel.postReview(bookId: 101, rating: 1, content: "Failure Test")
+        viewModel.postReview(bookId: 101, rating: 1, content: "Failure Test", items: [])
         try await Task.sleep(nanoseconds: 200_000_000)
         
         // Assert

@@ -104,37 +104,6 @@ struct LoanScreenContent: View {
     }
 }
 
-
-
-// MARK: - Subviews
-
-struct LoginPrompt: View {
-    let onLogin: () -> Void
-    
-    var body: some View {
-        VStack(spacing: 20) {
-            Image(systemName: "lock.fill")
-                .font(.system(size: 64))
-                .foregroundColor(.accentColor.opacity(0.6))
-            
-            Text("Please login to view your loans")
-                .font(.body)
-                .foregroundColor(.secondary)
-            
-            Button(action: onLogin) {
-                Text("Login Now")
-                    .bold()
-                    .frame(maxWidth: 200)
-                    .padding()
-                    .background(Color.accentColor)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-            }
-        }
-        .padding(24)
-    }
-}
-
 struct LoanItemView: View {
     let loan: Loan
     

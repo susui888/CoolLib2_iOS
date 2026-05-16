@@ -16,4 +16,7 @@ protocol ReviewRepository {
     
     func uploadReviewImages(images: [UIImage]) async throws -> [String]
 
+    func getAllLocalReviews() async throws -> [Review]
+    
+    func deleteReview(review: Review) async throws -> Bool
 }
