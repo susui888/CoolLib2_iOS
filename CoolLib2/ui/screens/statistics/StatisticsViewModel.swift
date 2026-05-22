@@ -32,11 +32,8 @@ final class StatisticsViewModel: ObservableObject {
     init(loanUseCases: LoanUseCases, sessionManager: SessionManager) {
         self.loanUseCases = loanUseCases
         self.sessionManager = sessionManager
-
-        Task {
-            await loadStatistics()
-        }
     }
+    
 
     func loadStatistics() async {
 

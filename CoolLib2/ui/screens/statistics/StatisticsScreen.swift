@@ -17,6 +17,9 @@ struct StatisticsScreen: View {
                 // router.navigate(to: .loanHistory) // 示例导航逻辑
             }
         )
+        .task {
+            await statisticsViewModel.loadStatistics()
+        }
     }
 }
 
