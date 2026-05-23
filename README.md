@@ -1,5 +1,17 @@
 # CoolLib iOS
 
+<!-- Core & UI -->
+![Swift](https://img.shields.io/badge/Swift-6.0-FA7343)&nbsp;
+![SwiftUI](https://img.shields.io/badge/SwiftUI-iOS_18%2B-0D96F6)&nbsp;
+![SwiftData](https://img.shields.io/badge/SwiftData-Offline_First-F05138)&nbsp;
+![Observation](https://img.shields.io/badge/Observation-Reactive_UI-FF5A5F)
+
+<!-- Architecture & Cloud -->
+![Clean Architecture](https://img.shields.io/badge/Architecture-MVVM_%2B_Clean-4F5B66)&nbsp;
+![Cloudflare R2](https://img.shields.io/badge/Cloudflare-R2_Storage-orange)&nbsp;
+![S3 API](https://img.shields.io/badge/S3-Presigned_URLs-FF9900)&nbsp;
+![Xcode](https://img.shields.io/badge/Xcode-16.0%2B-147EFB)
+
 The premium iOS client for the CoolLib ecosystem, engineered for high-performance library management. This implementation leverages **Swift 6** and **Cloudflare R2** to deliver a secure, decentralized, and offline-first experience.
 
 ## Ecosystem Links
