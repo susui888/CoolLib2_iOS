@@ -1,4 +1,4 @@
-# CoolLib iOS
+# CoolLib iOS Client &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![iOS UI Demo](https://img.shields.io/badge/iOS-UI_Demo-007AFF?style=flat&logo=apple&logoColor=white)](https://ryansu.uk/ios-demo/)
 
 <p>
   <img src="https://img.shields.io/badge/Swift-6.0-FA7343"/>&nbsp;
