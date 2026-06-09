@@ -21,4 +21,6 @@ enum APIConfig {
     static let IMG_USER = "\(IMG_SERVER)/userimg"
     
     nonisolated static let IMG_REVIEW = "https://review.ryansu.uk"
+    
+    nonisolated static let teleMetryURL = "https://status.ryansu.uk"
 }

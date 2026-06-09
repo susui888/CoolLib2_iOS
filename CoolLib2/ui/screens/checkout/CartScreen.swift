@@ -18,6 +18,8 @@ struct CartScreen: View {
     @StateObject private var cartViewModel: CartViewModel
     @StateObject private var wishlistViewModel: WishlistViewModel
 
+    private let telemetryUseCase: TelemetryUseCase
+    
     init(
         container: AppContainer,
     ) {
@@ -28,6 +30,8 @@ struct CartScreen: View {
         _wishlistViewModel = StateObject(
             wrappedValue: container.makeWishlistViewModel()
         )
+        
+        self.telemetryUseCase = container.telemetryUseCase
     }
 
     var body: some View {
@@ -59,6 +63,7 @@ struct CartScreen: View {
             cartViewModel.load()
             wishlistViewModel.load()
         }
+        .trackScreen(name: TelemetryEvents.Screens.cart, with: telemetryUseCase)
     }
 }
 

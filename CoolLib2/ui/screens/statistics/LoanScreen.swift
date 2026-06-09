@@ -14,6 +14,8 @@ struct LoanScreen: View {
     
     private let loanType: LoanType
     
+    private let telemetryUseCase: TelemetryUseCase
+    
     init(
         container: AppContainer,
         loanType: LoanType
@@ -22,6 +24,7 @@ struct LoanScreen: View {
             wrappedValue: container.makeLoanViewModel()
         )
         self.loanType = loanType
+        self.telemetryUseCase = container.telemetryUseCase
     }
     
     var body: some View {
@@ -40,6 +43,7 @@ struct LoanScreen: View {
         .task {
             await viewModel.getLoans(loanType: loanType)
         }
+        .trackScreen(name: TelemetryEvents.Screens.loan, with: telemetryUseCase)
     }
 }
 

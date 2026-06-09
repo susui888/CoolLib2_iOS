@@ -18,6 +18,7 @@ final class AppContainer: ObservableObject {
 
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
+        _ = telemetryAPI
     }
 
     // MARK: - API
@@ -32,6 +33,12 @@ final class AppContainer: ObservableObject {
     )
     private lazy var loanAPI: LoanAPI = LoanAPIImpl(client: apiClient)
     private lazy var reviewAPI: ReviewAPI = ReviewAPIImpl(client: apiClient)
+
+    private lazy var telemetryAPI: TelemetryAPI = {
+        let api = TelemetryAPIImpl(client: apiClient)
+        TelemetryAPIImpl.globalDispatcher = api  // 绑定静态广播槽
+        return api
+    }()
 
     // MARK: - Repository
     private lazy var bookRepository: BookRepository = BookRepositoryImpl(
@@ -57,11 +64,15 @@ final class AppContainer: ObservableObject {
         loanApi: loanAPI,
         bookRepository: bookRepository
     )
-    
+
     private lazy var reviewRepository: ReviewRepository = ReviewRepositoryImpl(
         reviewApi: reviewAPI,
         modelContext: modelContext
     )
+
+    private lazy var telemetryRepository: TelemetryRepository = {
+        TelemetryRepositoryImpl(telemetryApi: telemetryAPI)
+    }()
 
     // MARK: - UseCases
     private lazy var bookUseCases = BookUseCases(repository: bookRepository)
@@ -75,8 +86,14 @@ final class AppContainer: ObservableObject {
     private lazy var userUseCases = UserUseCase(userRepository: userRepository)
 
     private lazy var loanUseCases = LoanUseCases(repository: loanRepository)
-    
-    private lazy var reviewUseCases = ReviewUseCases(repository: reviewRepository)
+
+    private lazy var reviewUseCases = ReviewUseCases(
+        repository: reviewRepository
+    )
+
+    private(set) lazy var telemetryUseCase = TelemetryUseCase(
+        telemetryRepository: telemetryRepository
+    )
 
     // MARK: - ViewModels
     func makeBookViewModel() -> BookViewModel {
@@ -86,7 +103,8 @@ final class AppContainer: ObservableObject {
     func makeBookDetailViewModel() -> BookDetailViewModel {
         BookDetailViewModel(
             usecase: bookUseCases,
-            reviewUseCase: reviewUseCases)
+            reviewUseCase: reviewUseCases
+        )
     }
 
     func makeHomeViewModel() -> HomeViewModel {
@@ -125,7 +143,7 @@ final class AppContainer: ObservableObject {
             sessionManager: sessionManager
         )
     }
-    
+
     func makeScannerViewModel() -> ScannerViewModel {
         ScannerViewModel(
             bookUseCase: bookUseCases,
@@ -136,7 +154,7 @@ final class AppContainer: ObservableObject {
     func makeSessionManager() -> SessionManager {
         return sessionManager
     }
-    
+
     func makeReviewViewModel() -> ReviewViewModel {
         ReviewViewModel(
             reviewUseCase: reviewUseCases,

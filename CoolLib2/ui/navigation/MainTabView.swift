@@ -76,7 +76,7 @@ struct MainTabView: View {
 
             // MARK: - Search Tab
             NavigationStack(path: $router.searchPath) {
-                SearchScreen()
+                SearchScreen(container: container)
                     .navigationDestination(for: Screen.self) {
                         router.destination(for: $0)
                     }

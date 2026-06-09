@@ -25,7 +25,8 @@ final class APIClient {
         data: Data,
         headers: [String: String] = [:]
     ) async throws {
-
+        let startTime = DispatchTime.now()
+        
         let httpHeaders = HTTPHeaders(
             headers.map { HTTPHeader(name: $0.key, value: $0.value) }
         )
@@ -43,6 +44,9 @@ final class APIClient {
             emptyResponseCodes: [200, 204, 205]
         ).response
 
+        // 加上拦截调用：
+        trackNetworkMetrics(urlString: urlString, method: method, response: response, startTime: startTime)
+        
         switch response.result {
         case .success:
             return
@@ -58,7 +62,8 @@ final class APIClient {
         method: HTTPMethod = .get,
         parameters: Parameters? = nil
     ) async throws -> T {
-
+        let startTime = DispatchTime.now()
+        
         let dataRequest = session.request(
             urlString,
             method: method,
@@ -72,6 +77,10 @@ final class APIClient {
             .serializingDecodable(T.self, decoder: Self.makeDecoder())
             .response
 
+        // 加上拦截调用：
+        trackNetworkMetrics(urlString: urlString, method: method, response: response, startTime: startTime)
+        
+        
         switch response.result {
         case .success(let value):
             return value
@@ -87,7 +96,8 @@ final class APIClient {
         method: HTTPMethod = .get,
         body: B? = nil
     ) async throws -> T {
-
+        let startTime = DispatchTime.now()
+        
         let dataRequest = session.request(
             urlString,
             method: method,
@@ -110,6 +120,10 @@ final class APIClient {
             )
             .response
 
+        // 加上拦截调用：
+        trackNetworkMetrics(urlString: urlString, method: method, response: response, startTime: startTime)
+        
+        
         switch response.result {
         case .success(let value):
             return value
@@ -125,6 +139,8 @@ final class APIClient {
     //    }
 
     func request<T: Decodable>(_ urlString: String) async throws -> T {
+        let startTime = DispatchTime.now()
+        
         let dataRequest = session.request(urlString, method: .get)
             .validate(statusCode: 200..<300)
 
@@ -137,9 +153,58 @@ final class APIClient {
             )
             .response
 
+        // 加上拦截调用：
+        trackNetworkMetrics(urlString: urlString, method: .get, response: response, startTime: startTime)
+        
         switch response.result {
         case .success(let value): return value
         case .failure(let afError): throw afError
+        }
+    }
+
+    // =================================================================
+    // 全新追加的私有遥测拦截辅助函数
+    // =================================================================
+    private func trackNetworkMetrics<R>(
+        urlString: String,
+        method: HTTPMethod,
+        response: DataResponse<R, AFError>,
+        startTime: DispatchTime
+    ) {
+        guard !urlString.contains("mobile-telemetry") else { return }
+
+        let endTime = DispatchTime.now()
+        let durationMs = Int(
+            (endTime.uptimeNanoseconds - startTime.uptimeNanoseconds)
+                / 1_000_000
+        )
+        let statusCode = response.response?.statusCode ?? -1
+        let parsedEndpoint = URL(string: urlString)?.path ?? urlString
+
+        Task(priority: .background) {
+            _ = try? await TelemetryAPIImpl.globalDispatcher?.recordMetric(
+                request: APIMetricDTO(
+                    endpoint: parsedEndpoint,
+                    method: method.rawValue,
+                    statusCode: statusCode,
+                    latencyMs: durationMs
+                )
+            )
+
+            if case .failure(let error) = response.result {
+                _ = try? await TelemetryAPIImpl.globalDispatcher?.recordEvent(
+                    request: TelemetryEventDTO(
+                        eventType: .error,
+                        eventName: "API_Network_Failure",
+                        errorMessage: error.localizedDescription,
+                        attributes: [
+                            "endpoint": parsedEndpoint,
+                            "method": method.rawValue,
+                            "status_code": String(statusCode),
+                        ]
+                    )
+                )
+            }
         }
     }
 
