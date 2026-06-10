@@ -18,14 +18,11 @@ import Kingfisher
 struct ReviewScreen: View {
     @EnvironmentObject var router: AppRouter
     @StateObject private var viewModel: ReviewViewModel
-
-    private let telemetryUseCase: TelemetryUseCase
     
     init(container: AppContainer) {
         _viewModel = StateObject(
             wrappedValue: container.makeReviewViewModel()
         )
-        self.telemetryUseCase = container.telemetryUseCase
     }
 
     var body: some View {
@@ -45,7 +42,7 @@ struct ReviewScreen: View {
         .onAppear {
             viewModel.loadLocalReviews()
         }
-        .trackScreen(name: TelemetryEvents.Screens.review, with: telemetryUseCase)
+        .trackScreen(name: TelemetryEvents.Screens.review)
     }
 }
 

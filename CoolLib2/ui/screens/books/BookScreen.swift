@@ -13,8 +13,6 @@ struct BookScreen: View {
 
     private let initialQuery: SearchQuery
     
-    private let telemetryUseCase: TelemetryUseCase
-    
     init(
         container: AppContainer,
         initialQuery: SearchQuery
@@ -23,7 +21,6 @@ struct BookScreen: View {
             wrappedValue: container.makeBookViewModel()
         )
         self.initialQuery = initialQuery
-        self.telemetryUseCase = container.telemetryUseCase
     }
 
     var body: some View {
@@ -42,7 +39,7 @@ struct BookScreen: View {
                 bookViewModel.search(query: initialQuery)
             }
         }
-        .trackScreen(name: TelemetryEvents.Screens.book, with: telemetryUseCase)
+        .trackScreen(name: TelemetryEvents.Screens.book)
     }
 }
 

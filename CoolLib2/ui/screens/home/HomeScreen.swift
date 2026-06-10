@@ -12,15 +12,12 @@ struct HomeScreen: View {
 
     @StateObject private var homeViewModel: HomeViewModel
     
-    private let telemetryUseCase: TelemetryUseCase
-    
     init(
         container: AppContainer
     ) {
         _homeViewModel = StateObject(
             wrappedValue: container.makeHomeViewModel()
         )
-        self.telemetryUseCase = container.telemetryUseCase
     }
 
     var body: some View {
@@ -29,7 +26,7 @@ struct HomeScreen: View {
             .onAppear {
                 homeViewModel.loadAllContent()
             }
-            .trackScreen(name: TelemetryEvents.Screens.home, with: telemetryUseCase)
+            .trackScreen(name: TelemetryEvents.Screens.home)
     }
 
     @ViewBuilder

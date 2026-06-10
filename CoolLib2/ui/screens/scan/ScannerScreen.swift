@@ -11,8 +11,6 @@ struct ScannerScreen: View {
     @Bindable var manager: TopBarManager
 
     @StateObject private var viewModel: ScannerViewModel
-
-    private let telemetryUseCase: TelemetryUseCase
     
     init(
         container: AppContainer,
@@ -22,7 +20,6 @@ struct ScannerScreen: View {
             wrappedValue: container.makeScannerViewModel()
         )
         self.manager = manager
-        self.telemetryUseCase = container.telemetryUseCase
     }
 
     var body: some View {
@@ -30,7 +27,7 @@ struct ScannerScreen: View {
             manager: manager,
             viewModel: viewModel
         )
-        .trackScreen(name: TelemetryEvents.Screens.scan, with: telemetryUseCase)
+        .trackScreen(name: TelemetryEvents.Screens.scan)
     }
 }
 

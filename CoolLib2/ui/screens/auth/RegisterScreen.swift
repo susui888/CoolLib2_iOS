@@ -10,13 +10,11 @@ import SwiftUI
 struct RegisterScreen: View {
     @EnvironmentObject var router: AppRouter
     @StateObject private var viewModel: UserViewModel
-    private let telemetryUseCase: TelemetryUseCase
     
     init(container: AppContainer) {
         _viewModel = StateObject(
             wrappedValue: container.makeUserViewModel()
         )
-        self.telemetryUseCase = container.telemetryUseCase
     }
 
     var body: some View {
@@ -33,7 +31,7 @@ struct RegisterScreen: View {
                 viewModel.resetStates()
             }
         }
-        .trackScreen(name: TelemetryEvents.Screens.register, with: telemetryUseCase)
+        .trackScreen(name: TelemetryEvents.Screens.register)
     }
 }
 

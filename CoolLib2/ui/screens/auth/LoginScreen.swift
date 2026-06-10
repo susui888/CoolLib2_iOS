@@ -6,16 +6,12 @@ struct LoginScreen: View {
 
     @StateObject private var viewModel: UserViewModel
 
-    private let telemetryUseCase: TelemetryUseCase
-    
     init(
         container: AppContainer,
     ) {
         _viewModel = StateObject(
             wrappedValue: container.makeUserViewModel()
         )
-        
-        self.telemetryUseCase = container.telemetryUseCase
     }
 
     var body: some View {
@@ -36,7 +32,7 @@ struct LoginScreen: View {
                 router.showLogin(false)
             }
         }
-        .trackScreen(name: TelemetryEvents.Screens.login, with: telemetryUseCase)
+        .trackScreen(name: TelemetryEvents.Screens.login)
     }
 }
 

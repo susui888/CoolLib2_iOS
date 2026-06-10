@@ -3,14 +3,11 @@ import SwiftUI
 struct StatisticsScreen: View {
     @EnvironmentObject var router: AppRouter
     @StateObject private var statisticsViewModel: StatisticsViewModel
-
-    private let telemetryUseCase: TelemetryUseCase
     
     init(container: AppContainer) {
         _statisticsViewModel = StateObject(
             wrappedValue: container.makeStatisticsViewModel()
         )
-        self.telemetryUseCase = container.telemetryUseCase
     }
     
     var body: some View {
@@ -23,7 +20,7 @@ struct StatisticsScreen: View {
         .task {
             await statisticsViewModel.loadStatistics()
         }
-        .trackScreen(name: TelemetryEvents.Screens.statics, with: telemetryUseCase)
+        .trackScreen(name: TelemetryEvents.Screens.statics)
     }
 }
 

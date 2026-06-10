@@ -19,8 +19,6 @@ struct BookDetailScreen: View {
 
     @State private var isInCart: Bool = false
     @State private var isInWishlist: Bool = false
-
-    private let telemetryUseCase: TelemetryUseCase
     
     private let bookId: Int
 
@@ -38,7 +36,6 @@ struct BookDetailScreen: View {
             wrappedValue: container.makeWishlistViewModel()
         )
         self.bookId = bookId
-        self.telemetryUseCase = container.telemetryUseCase
     }
 
     var body: some View {
@@ -102,7 +99,7 @@ struct BookDetailScreen: View {
                 bookId: bookId
             )
         }
-        .trackScreen(name: TelemetryEvents.Screens.bookDetail, with: telemetryUseCase)
+        .trackScreen(name: TelemetryEvents.Screens.bookDetail)
     }
 }
 

@@ -10,21 +10,13 @@ import SwiftUI
 struct SearchScreen:View {
     @EnvironmentObject var router: AppRouter
     
-    private let telemetryUseCase: TelemetryUseCase
-    
-    init(
-        container: AppContainer
-    ) {
-        self.telemetryUseCase = container.telemetryUseCase
-    }
-    
     var body: some View {
         SearchScreenContent(
             onSearchTap: { query in
                 router.push(.books(searchTerm: query))
             }
         )
-        .trackScreen(name: TelemetryEvents.Screens.search, with: telemetryUseCase)
+        .trackScreen(name: TelemetryEvents.Screens.search)
     }
 }
 
