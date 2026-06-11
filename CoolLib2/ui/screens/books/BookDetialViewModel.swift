@@ -31,9 +31,21 @@ class BookDetailViewModel: ObservableObject {
                 let book = try await usecase.getBookById(id: id)
                 state = .success(book)
 
+                TelemetryManager.shared.fire(
+                    "SCREEN_VIEW_BOOK_DETAIL",
+                    bookId: id
+                ) {
+                    ["book_title": book.title]
+                }
+
                 await loadReviews(bookId: id)
             } catch {
                 state = .error(error.localizedDescription)
+
+                TelemetryManager.shared.fireError(
+                    TelemetryEvents.Actions.homeDataLoadFailure,
+                    message: error.localizedDescription
+                )
             }
         }
     }
@@ -46,6 +58,11 @@ class BookDetailViewModel: ObservableObject {
         } catch {
             print("Failed to load reviews: \(error.localizedDescription)")
             self.reviews = []
+
+            TelemetryManager.shared.fireError(
+                TelemetryEvents.Actions.wishlistActionFailure,
+                message: error.localizedDescription
+            )
         }
     }
 
@@ -94,12 +111,28 @@ class BookDetailViewModel: ObservableObject {
                 )
 
                 if result != nil {
+                    TelemetryManager.shared.fire(
+                        "BOOK_POST_REVIEW_SUCCESS",
+                        bookId: bookId
+                    ) {
+                        [
+                            "rating": rating,
+                            "attached_images_count": images.count,
+                            "content_length": content.count,
+                        ]
+                    }
+
                     await loadReviews(bookId: bookId)
                 }
 
             } catch {
 
                 print("Failed to post review: \(error.localizedDescription)")
+
+                TelemetryManager.shared.fireError(
+                    TelemetryEvents.Actions.wishlistActionFailure,
+                    message: error.localizedDescription
+                )
             }
         }
     }

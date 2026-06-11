@@ -8,7 +8,7 @@
 import Combine
 import SwiftUI
 
-enum BookUIState{
+enum BookUIState {
     case idle
     case loading
     case success([Book])
@@ -19,7 +19,7 @@ enum BookUIState{
 class BookViewModel: ObservableObject {
 
     @Published private(set) var state: BookUIState = .idle
-    
+
     private let usecase: BookUseCases
 
     init(usecase: BookUseCases) {
@@ -32,11 +32,22 @@ class BookViewModel: ObservableObject {
             do {
                 let books = try await usecase.searchBooks(query: query)
                 state = .success(books)
+
+                TelemetryManager.shared.fire(TelemetryEvents.Actions.bookSearch)
+                {
+                    [
+                        "search_type": query.searchType.rawValue,
+                        "query_text": query.toLogText(),
+                    ]
+                }
             } catch {
                 state = .error(error.localizedDescription)
+
+                TelemetryManager.shared.fireError(
+                    TelemetryEvents.Actions.homeDataLoadFailure,
+                    message: error.localizedDescription
+                )
             }
         }
     }
 }
-
-

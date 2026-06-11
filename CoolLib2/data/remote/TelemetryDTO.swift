@@ -9,7 +9,7 @@ import Foundation
 
 enum TelemetryEventType: String, Codable {
     case screenView = "SCREEN_VIEW"
-    case customEvent = "CUSTOM_EVENT"
+    case customEvent = "CUSTOM"
     case error = "ERROR"
 }
 

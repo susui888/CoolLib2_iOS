@@ -27,7 +27,7 @@ struct ScannerScreen: View {
             manager: manager,
             viewModel: viewModel
         )
-        .trackScreen(name: TelemetryEvents.Screens.scan)
+        .trackScreen(name: TelemetryEvents.Screens.scanner)
     }
 }
 

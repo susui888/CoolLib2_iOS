@@ -36,7 +36,6 @@ class ScannerViewModel: ObservableObject {
 
         guard !uiState.isLoading else { return }
 
- 
         if isbn == lastScannedIsbn
             && currentTime.timeIntervalSince(lastScanTime) < 5.0
         {
@@ -57,10 +56,27 @@ class ScannerViewModel: ObservableObject {
                 uiState.isLoading = false
                 uiState.detectedBookTitle = book.title
                 uiState.shouldNavigateToCart = true
+
+                TelemetryManager.shared.fire(
+                    TelemetryEvents.Actions.bookAddCart,
+                    bookId: book.id
+                ) {
+                    [
+                        "isbn": isbn,
+                        "trigger_source": "BARCODE_SCANNER",
+                    ]
+                }
             } catch {
                 uiState.isLoading = false
                 uiState.error = "Book not found"
                 uiState.shouldNavigateToCart = false
+
+                TelemetryManager.shared.fireError(
+                    TelemetryEvents.Actions.homeDataLoadFailure,
+                    message: error.localizedDescription.isEmpty
+                        ? "Network error or JSON breakdown when fetching ISBN: \(isbn)"
+                        : error.localizedDescription
+                )
             }
         }
     }

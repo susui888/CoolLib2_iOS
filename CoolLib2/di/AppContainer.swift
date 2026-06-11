@@ -19,6 +19,8 @@ final class AppContainer: ObservableObject {
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
         _ = telemetryAPI
+        
+        TelemetryManager.shared.useCase = self.telemetryUseCase
     }
 
     // MARK: - API

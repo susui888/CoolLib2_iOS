@@ -20,7 +20,7 @@ class ReviewViewModel: ObservableObject {
 
     @Published private(set) var state: ReviewUIState = .idle
     @Published var isDeleting: Bool = false
-    
+
     var isLoggedIn: Bool {
         sessionManager.getToken() != nil
     }
@@ -31,10 +31,9 @@ class ReviewViewModel: ObservableObject {
     init(reviewUseCase: ReviewUseCases, sessionManager: SessionManager) {
         self.reviewUseCase = reviewUseCase
         self.sessionManager = sessionManager
-        
+
         loadLocalReviews()
     }
-
 
     func loadLocalReviews() {
         Task {
@@ -44,19 +43,29 @@ class ReviewViewModel: ObservableObject {
                 state = .success(localReviews)
             } catch {
                 state = .error(error.localizedDescription)
+
+                TelemetryManager.shared.fireError(
+                    TelemetryEvents.Actions.homeDataLoadFailure,
+                    message: error.localizedDescription
+                )
             }
         }
     }
-
 
     func deleteReview(review: Review) {
         Task {
             isDeleting = true
             defer { isDeleting = false }
-            
+
             do {
                 let _ = try await reviewUseCase.deleteReview(review: review)
                 
+                TelemetryManager.shared.fire(TelemetryEvents.Actions.bookDeleteReviewSuccess, bookId: review.bookId) {
+                    [
+                        "review_id": String(review.id)
+                    ]
+                }
+
                 loadLocalReviews()
             } catch {
                 print("Failed to delete review: \(error.localizedDescription)")
