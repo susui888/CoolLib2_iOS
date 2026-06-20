@@ -1,17 +1,7 @@
-# CoolLib iOS Client &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![iOS UI Demo](https://img.shields.io/badge/iOS-UI_Demo-007AFF?style=flat&logo=apple&logoColor=white)](https://ryansu.uk/ios-demo/)
+# CoolLib iOS Client 
 
-<p>
-  <img src="https://img.shields.io/badge/Swift-6.0-FA7343"/>&nbsp;
-  <img src="https://img.shields.io/badge/SwiftUI-iOS_18%2B-0D96F6"/>&nbsp;
-  <img src="https://img.shields.io/badge/SwiftData-Local_DB-F05138"/>&nbsp;
-  <img src="https://img.shields.io/badge/Architecture-Clean_Architecture-4F5B66"/>
-</p>
+[![iOS UI Demo](https://img.shields.io/badge/iOS-UI_Demo-007AFF?style=flat&logo=apple&logoColor=white)](https://ryansu.uk/demo/ios-demo/)
 
-<p>
-  <img src="https://img.shields.io/badge/Cloudflare-R2_Storage-orange"/>&nbsp;
-  <img src="https://img.shields.io/badge/S3-Presigned_URLs-FF9900"/>&nbsp;
-  <img src="https://img.shields.io/badge/Concurrency-Swift_6-5C6BC0"/>
-</p>
 
 iOS client for the CoolLib distributed library system. Built with Swift 6 and SwiftUI, designed around offline-first data persistence and direct-to-cloud asset delivery via Cloudflare R2.
 
