@@ -66,7 +66,7 @@ sequenceDiagram
                 participant UI as ImagePicker (UI)
                 participant Repo as AssetRepository
                 participant Web as Gateway (Spring)
-                participant R2@{ "type": "database" } as Cloudflare R2
+                participant R2 as Cloudflare R2
                 autonumber
 
                 UI->>Repo: uploadImage(UIImage)
