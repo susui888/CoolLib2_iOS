@@ -56,27 +56,38 @@ iOS client for the CoolLib distributed library system. Built with Swift 6 and Sw
 ## Architecture Overview
 
 ```mermaid id="p9k2sa"
-flowchart LR
-    UI(SwiftUI Views) --> VM(ViewModel)
-    VM --> UseCase(Use Cases)
-    UseCase --> Repo(Repository)
-    Repo --> Local[(SwiftData)]
-    Repo --> Remote(Spring API)
-    Repo --> Storage(Cloudflare R2)
+---
+config:
+  theme: redux-color
+  look: neo
+---
+sequenceDiagram
 
-    %% UI layer
-    style UI fill:#22c55e,stroke:#16a34a,color:#fff
+                participant UI as ImagePicker (UI)
+                participant Repo as AssetRepository
+                participant Web as Gateway (Spring)
+                participant R2@{ "type": "database" } as Cloudflare R2
+                autonumber
 
-    %% Domain layer
-    style VM fill:#475569,stroke:#334155,color:#fff
-    style UseCase fill:#475569,stroke:#334155,color:#fff
-    style Repo fill:#475569,stroke:#334155,color:#fff
+                UI->>Repo: uploadImage(UIImage)
 
-    %% Data layer
-    style Local fill:#bfdbfe,stroke:#60a5fa,color:#1f2937
+                rect rgb(240, 247, 255)
+                Note over Repo, Web: Phase 1: Authentication & Ticket Fetch
+                Repo->>Web: GET /assets/presigned-url (fileName)
+                Web-->>Repo: 200 OK (PUT URL + Public URL)
+                end
 
-    %% Cloud layer
-    style Remote fill:#3b82f6,stroke:#2563eb,color:#fff
-    style Storage fill:#f59e0b,stroke:#d97706,color:#fff
+                rect rgb(240, 253, 244)
+                Note over Repo, R2: Phase 2: Direct Binary Pipe to Edge
+                Repo->>R2: HTTP PUT (Binary Data + Presigned URL)
+                R2-->>Repo: 200 OK (Upload Success)
+                end
 
-    linkStyle default stroke:#94a3b8
+                rect rgb(254, 242, 242)
+                Note over Repo, Web: Phase 3: Distributed Metadata Sync
+                Repo->>Web: POST /books/reviews (imageKey)
+                Web-->>Repo: 201 Created
+                end
+
+                Repo-->>UI: Render Remote Image
+    
