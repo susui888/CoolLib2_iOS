@@ -53,7 +53,7 @@ iOS client for the CoolLib distributed library system. Built with Swift 6 and Sw
 
 ---
 
-## Architecture Overview
+## Decentralized Asset Pipeline
 
 ```mermaid id="p9k2sa"
 ---
