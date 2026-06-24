@@ -12,7 +12,8 @@ iOS client for the CoolLib distributed library system. Built with Swift 6 and Sw
 * [CoolLib Server](https://github.com/susui888/CoolLeaf) — Spring Boot API & metadata engine
 * [CoolLib Android](https://github.com/susui888/coollib-android) — Jetpack Compose client
 
----
+## iOS Metrics
+<p><a href="https://ryansu.uk/analytics/mobile/"><img src="https://telemetry-svg.susui888.workers.dev/api/telemetry-ios.svg" alt="iOS Metrics" width="600" /></a></p>
 
 ## Tech Stack
 
